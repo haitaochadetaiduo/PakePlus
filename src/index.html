@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>临床护理记录智能辅助助手</title>
+    <style>
+        :root {
+            --primary: #1890ff;
+            --bg: #f0f2f5;
+            --white: #ffffff;
+            --border: #d9d9d9;
+            --text: #333;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* 顶部标题 */
+        .header {
+            background: var(--white);
+            padding: 15px 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 20px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* 主体布局 */
+        .container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        /* 左侧侧边栏 */
+        .sidebar {
+            width: 280px;
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .sidebar-header {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .btn-add {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .menu-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        .menu-item {
+            padding: 10px 12px;
+            margin-bottom: 5px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .menu-item:hover {
+            background-color: #e6f7ff;
+            color: var(--primary);
+        }
+        .menu-item.active {
+            background-color: #e6f7ff;
+            border: 1px solid #91d5ff;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        .delete-btn {
+            color: #ff4d4f;
+            cursor: pointer;
+            font-size: 12px;
+            padding: 2px 6px;
+            display: none;
+        }
+        .menu-item:hover .delete-btn {
+            display: block;
+        }
+
+        /* 右侧工作区 */
+        .workspace {
+            flex: 1;
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        /* 表单区域 */
+        .form-area {
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+            max-height: 45%;
+            overflow-y: auto;
+        }
+        .form-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 15px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            font-size: 13px;
+            margin-bottom: 5px;
+            color: #666;
+        }
+        .form-control {
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 13px;
+            outline: none;
+            transition: border 0.3s;
+        }
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(24,144,255,0.2);
+        }
+        textarea.form-control {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        /* 结果预览区域 */
+        .preview-area {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            background: #fafafa;
+        }
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .preview-text {
+            flex: 1;
+            width: 100%;
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: none;
+            background: white;
+            font-family: inherit;
+        }
+        .btn-copy {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-copy:hover {
+            background: #40a9ff;
+        }
+
+        /* 常用语标签 */
+        .tags-container {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .tag {
+            padding: 4px 10px;
+            background: #fff;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            color: #555;
+        }
+        .tag:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: #e6f7ff;
+        }
+
+        /* 弹窗 */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        .modal {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 400px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .modal h3 { margin-top: 0; }
+        .modal-input {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .btn-cancel {
+            background: #fff;
+            border: 1px solid #d9d9d9;
+            padding: 6px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn-save {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 6px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>🏥 临床护理记录智能辅助助手</h1>
+    </div>
+
+    <div class="container">
+        <!-- 左侧菜单 -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <span>常用场景模板</span>
+                <button class="btn-add" onclick="openModal()">+ 新建</button>
+            </div>
+            <div class="menu-list" id="menuList">
+                <!-- JS生成菜单 -->
+            </div>
+        </div>
+
+        <!-- 右侧工作区 -->
+        <div class="workspace">
+            <div class="form-area">
+                <div class="form-title" id="currentTplName">请选择模板</div>
+                <div class="form-grid" id="formGrid">
+                    <!-- JS生成表单 -->
+                </div>
+            </div>
+
+            <div class="preview-area">
+                <div class="preview-header">
+                    <span style="font-weight: bold; color: #1890ff;">生成结果预览</span>
+                    <button class="btn-copy" onclick="copyResult()">一键复制文本</button>
+                </div>
+                <textarea class="preview-text" id="resultText" placeholder="在此处显示生成的护理记录..."></textarea>
+                
+                <div style="margin-top: 10px; font-size: 12px; color: #666;">点击插入常用语：</div>
+                <div class="tags-container" id="tagsContainer">
+                    <!-- JS生成标签 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 新建模板弹窗 -->
+    <div class="modal-overlay" id="customModal">
+        <div class="modal">
+            <h3>新建自定义模板</h3>
+            <label>模板名称：</label>
+            <input type="text" class="modal-input" id="newTplName" placeholder="例如：PICC维护">
+            <label>模板内容（用 [变量名] 表示填空处）：</label>
+            <textarea class="modal-input" id="newTplContent" rows="5" placeholder="例如：患者于[时间]进行[操作]，局部皮肤[情况]。"></textarea>
+            <div style="font-size: 12px; color: #999; margin-bottom: 10px;">提示：方括号内的文字会自动变成输入框</div>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeModal()">取消</button>
+                <button class="btn-save" onclick="saveCustomTemplate()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ================= 数据定义 =================
+        const DEFAULT_TEMPLATES = [
+            {
+                id: 'admission',
+                name: '🏥 新患者入院',
+                template: "患者[姓名]，[性别]，[年龄]岁，因“[主诉]”于[时间]步行/轮椅/平车入院。入院查体：T [体温]℃，P [脉搏]次/分，R [呼吸]次/分，BP [血压]mmHg，SpO2 [血氧]%。神志清楚，精神可，对答切题。遵医嘱给予[护理级别]护理，[饮食]，完善相关检查，已进行入院宣教及安全教育。",
+                variables: [
+                    { key: '姓名', label: '患者姓名' },
+                    { key: '性别', label: '性别', type: 'select', options: ['男', '女'] },
+                    { key: '年龄', label: '年龄' },
+                    { key: '主诉', label: '主诉/诊断' },
+                    { key: '时间', label: '入院时间', type: 'time' },
+                    { key: '体温', label: '体温(℃)' },
+                    { key: '脉搏', label: '脉搏(次/分)' },
+                    { key: '呼吸', label: '呼吸(次/分)' },
+                    { key: '血压', label: '血压(mmHg)' },
+                    { key: '血氧', label: '血氧饱和度(%)' },
+                    { key: '护理级别', label: '护理级别', type: 'select', options: ['特级', '一级', '二级', '三级'] },
+                    { key: '饮食', label: '饮食', type: 'select', options: ['普食', '糖尿病饮食', '低盐低脂饮食', '禁食水'] }
+                ]
+            },
+            {
+                id: 'fever',
+                name: '🌡️ 发热处理',
+                template: "[时间]患者体温升高至[体温]℃，伴/不伴有畏寒、寒战。立即通知医生，遵医嘱给予[处理措施]。[复测时间]复测体温[复测体温]℃，患者出汗多/无出汗，嘱其多饮温水，注意保暖，继续观察体温变化。",
+                variables: [
+                    { key: '时间', label: '发现时间', type: 'time' },
+                    { key: '体温', label: '当前体温(℃)' },
+                    { key: '处理措施', label: '处理措施', type: 'select', options: ['物理降温', '口服退热药', '肌肉注射退热针', '冰袋冷敷'] },
+                    { key: '复测时间', label: '复测时间', type: 'time' },
+                    { key: '复测体温', label: '复测体温(℃)' }
+                ]
+            },
+            {
+                id: 'postop',
+                name: '🛌 术后护理',
+                template: "患者于[时间]在[麻醉方式]下行[手术名称]术，手术顺利。于[回房时间]安返病房。查体：神志清楚/嗜睡/昏迷，生命体征平稳。切口敷料干燥/有少量渗出，引流管在位通畅，引流出[颜色]液体约[引流量]ml。遵医嘱给予[术后护理措施]，嘱患者去枕平卧/侧卧，禁食水/流质饮食。",
+                variables: [
+                    { key: '时间', label: '手术时间', type: 'time' },
+                    { key: '麻醉方式', label: '麻醉方式', type: 'select', options: ['全麻', '腰麻', '局麻', '神经阻滞'] },
+                    { key: '手术名称', label: '手术名称' },
+                    { key: '回房时间', label: '返回病房时间', type: 'time' },
+                    { key: '引流量', label: '引流量(ml)' },
+                    { key: '颜色', label: '引流液颜色', type: 'select', options: ['暗红色', '鲜红色', '淡血性', '淡黄色'] },
+                    { key: '术后护理措施', label: '术后医嘱', type: 'select', options: ['心电监护', '吸氧', '抗炎补液', '镇痛'] }
+                ]
+            },
+            {
+                id: 'rescue',
+                name: '🚨 抢救记录',
+                template: "[时间]患者突发意识丧失，大动脉搏动消失，呼吸停止。立即通知医生，即刻给予持续胸外心脏按压，开放气道，简易呼吸器辅助通气。遵医嘱给予肾上腺素[剂量]mg静脉推注，[其他用药]。[结束时间]患者恢复自主心律/未恢复自主心律，心率[心率]次/分，血压[血压]mmHg，SpO2 [血氧]%。继续给予心电监护，密切观察病情变化，抢救过程记录完毕。",
+                variables: [
+                    { key: '时间', label: '抢救开始时间', type: 'time' },
+                    { key: '剂量', label: '肾上腺素剂量(mg)' },
+                    { key: '其他用药', label: '其他用药/措施' },
+                    { key: '结束时间', label: '抢救结束时间', type: 'time' },
+                    { key: '心率', label: '恢复后心率' },
+                    { key: '血压', label: '恢复后血压' },
+                    { key: '血氧', label: '恢复后血氧' }
+                ]
+            },
+            {
+                id: 'change',
+                name: '⚠️ 病情突变',
+                template: "[时间]巡视病房发现患者突发[症状]，立即通知医生。查体：神志[意识状态]，双侧瞳孔[瞳孔状态]，对光反射[反射状态]，T [体温]℃，P [脉搏]次/分，R [呼吸]次/分，BP [血压]mmHg。遵医嘱给予[处理措施]，持续心电监护，密切观察病情变化，安抚患者及家属情绪。",
+                variables: [
+                    { key: '时间', label: '发现时间', type: 'time' },
+                    { key: '症状', label: '突发症状', type: 'select', options: ['意识模糊', '烦躁不安', '呼吸困难', '胸闷胸痛', '肢体抽搐', '大汗淋漓'] },
+                    { key: '意识状态', label: '意识状态', type: 'select', options: ['清楚', '模糊', '嗜睡', '浅昏迷', '深昏迷'] },
+                    { key: '瞳孔状态', label: '瞳孔状态', type: 'select', options: ['等大等圆', '不等大', '针尖样缩小', '散大'] },
+                    { key: '反射状态', label: '对光反射', type: 'select', options: ['灵敏', '迟钝', '消失'] },
+                    { key: '处理措施', label: '处理措施', type: 'textarea' }
+                ]
+            },
+            {
+                id: 'tube',
+                name: '🧪 管路滑脱',
+                template: "[时间]患者不慎自行拔除/翻身时滑脱[管路名称]，立即检查患者情况，局部皮肤[皮肤情况]，有无出血/渗液。立即通知医生，遵医嘱给予[处理措施]。已向患者及家属再次强调管路重要性及注意事项，加强巡视，必要时遵医嘱给予保护性约束。",
+                variables: [
+                    { key: '时间', label: '发生时间', type: 'time' },
+                    { key: '管路名称', label: '管路名称', type: 'select', options: ['胃管', '尿管', '气管插管', '深静脉置管', '胸腔引流管', '腹腔引流管'] },
+                    { key: '皮肤情况', label: '局部皮肤情况', type: 'select', options: ['完好', '破损', '红肿', '有渗血'] },
+                    { key: '处理措施', label: '处理措施', type: 'textarea' }
+                ]
+            },
+            {
+                id: 'transfusion',
+                name: '🩸 输血反应',
+                template: "[时间]在输注[血液制品]过程中，患者突发[反应症状]，立即停止输血，更换输液器，用生理盐水维持静脉通路。立即通知医生，遵医嘱给予[处理措施]。密切观察生命体征及尿色变化，安抚患者情绪，保留血袋及输血器送检。",
+                variables: [
+                    { key: '时间', label: '发生时间', type: 'time' },
+                    { key: '血液制品', label: '血液制品', type: 'select', options: ['悬浮红细胞', '血浆', '血小板', '冷沉淀'] },
+                    { key: '反应症状', label: '反应症状', type: 'select', options: ['发热寒战', '皮疹瘙痒', '腰背剧痛', '呼吸困难', '血红蛋白尿'] },
+                    { key: '处理措施', label: '处理措施', type: 'textarea' }
+                ]
+            },
+            {
+                id: 'fall',
+                name: '🤕 跌倒/坠床',
+                template: "[时间]患者不慎在[地点]发生跌倒/坠床，立即赶到患者身边，检查患者意识及受伤情况。查体：神志清楚，[受伤部位]皮肤[皮肤情况]，有无出血/肿胀/骨折征象。立即通知医生，遵医嘱给予[处理措施]。已向患者及家属进行防跌倒/坠床安全教育，加强巡视。",
+                variables: [
+                    { key: '时间', label: '发生时间', type: 'time' },
+                    { key: '地点', label: '发生地点', type: 'select', options: ['病床旁', '卫生间', '走廊', '病房内'] },
+                    { key: '受伤部位', label: '受伤部位', type: 'select', options: ['头部', '上肢', '下肢', '髋部', '全身多处'] },
+                    { key: '皮肤情况', label: '皮肤情况', type: 'select', options: ['完好', '擦伤', '血肿', '破损出血'] },
+                    { key: '处理措施', label: '处理措施', type: 'textarea' }
+                ]
+            },
+            {
+                id: 'med',
+                name: '💊 特殊用药',
+                template: "[时间]遵医嘱给予[药物名称][剂量][给药方式]。用药前评估患者[评估内容]，用药后密切观察患者反应，[复测时间]复测[观察指标]为[数值]，患者无特殊不适/出现[不良反应]，已告知医生。",
+                variables: [
+                    { key: '时间', label: '用药时间', type: 'time' },
+                    { key: '药物名称', label: '药物名称' },
+                    { key: '剂量', label: '剂量' },
+                    { key: '给药方式', label: '给药方式', type: 'select', options: ['静脉推注', '静脉滴注', '肌肉注射', '皮下注射', '口服'] },
+                    { key: '评估内容', label: '用药前评估', type: 'select', options: ['血压', '心率', '血糖', '瞳孔', '意识'] },
+                    { key: '复测时间', label: '复测时间', type: 'time' },
+                    { key: '观察指标', label: '复测指标', type: 'select', options: ['血压', '心率', '血糖', '瞳孔', '意识'] },
+                    { key: '数值', label: '复测数值' },
+                    { key: '不良反应', label: '不良反应' }
+                ]
+            },
+            {
+                id: 'exam',
+                name: '🔬 特殊检查/治疗',
+                template: "[时间]协助医生行[检查/治疗名称]，术中患者生命体征平稳/出现[术中情况]，配合顺利。术后查体：穿刺点/切口[局部情况]，敷料干燥/有渗出。嘱患者[术后注意事项]，密切观察病情变化。",
+                variables: [
+                    { key: '时间', label: '开始时间', type: 'time' },
+                    { key: '检查/治疗名称', label: '检查/治疗名称', type: 'select', options: ['腰椎穿刺', '胸腔穿刺', '腹腔穿刺', '深静脉置管', '床旁血透', '气管切开'] },
+                    { key: '术中情况', label: '术中情况' },
+                    { key: '局部情况', label: '局部情况', type: 'select', options: ['无渗血', '少量渗血', '红肿', '皮下气肿'] },
+                    { key: '术后注意事项', label: '术后注意事项', type: 'textarea' }
+                ]
+            },
+            {
+                id: 'discharge',
+                name: '👋 出院/转科',
+                template: "[时间]患者病情好转/遵医嘱转科，办理出院/转科手续。向患者及家属进行[宣教内容]，患者及家属表示理解。协助整理用物，护送患者至电梯口/病房。",
+                variables: [
+                    { key: '时间', label: '离开时间', type: 'time' },
+                    { key: '宣教内容', label: '出院/转科宣教', type: 'select', options: ['饮食指导', '用药指导', '康复训练', '复诊时间', '注意事项'] }
+                ]
+            }
+        ];
+
+        const QUICK_PHRASES = ["神志清楚", "精神尚可", "呼吸平稳", "对答切题", "双侧瞳孔等大等圆", "对光反射灵敏", "四肢活动自如", "皮肤完整", "无压疮", "引流管通畅", "固定妥善", "嘱卧床休息", "低盐低脂饮食", "告病危", "告病重", "心电监护中", "吸氧中"];
+
+        // ================= 状态管理 =================
+        let templates = [];
+        let currentTemplateId = '';
+        let formData = {};
+
+        // ================= 初始化 =================
+        function init() {
+            // 尝试从 localStorage 加载，如果没有则使用默认
+            const saved = localStorage.getItem('nurse_templates_v2');
+            if (saved) {
+                try {
+                    templates = JSON.parse(saved);
+                } catch(e) {
+                    templates = JSON.parse(JSON.stringify(DEFAULT_TEMPLATES));
+                }
+            } else {
+                templates = JSON.parse(JSON.stringify(DEFAULT_TEMPLATES));
+                saveTemplates();
+            }
+            
+            // 默认选中第一个
+            if (templates.length > 0) {
+                selectTemplate(templates[0].id);
+            }
+            
+            renderMenu();
+            renderQuickPhrases();
+        }
+
+        function saveTemplates() {
+            localStorage.setItem('nurse_templates_v2', JSON.stringify(templates));
+        }
+
+        // ================= 渲染逻辑 =================
+        function renderMenu() {
+            const list = document.getElementById('menuList');
+            list.innerHTML = '';
+            
+            // 分组渲染：系统模板和自定义模板
+            const systemTpls = templates.filter(t => !t.id.startsWith('custom_'));
+            const customTpls = templates.filter(t => t.id.startsWith('custom_'));
+
+            if(systemTpls.length > 0) {
+                systemTpls.forEach(t => createMenuItem(t, list));
+            }
+            
+            if(customTpls.length > 0) {
+                const divider = document.createElement('div');
+                divider.style.padding = '10px 12px 5px';
+                divider.style.fontSize = '12px';
+                divider.style.color = '#999';
+                divider.innerText = '我的自定义';
+                list.appendChild(divider);
+                customTpls.forEach(t => createMenuItem(t, list));
+            }
+        }
+
+        function createMenuItem(t, container) {
+            const div = document.createElement('div');
+            div.className = `menu-item ${t.id === currentTemplateId ? 'active' : ''}`;
+            div.onclick = () => selectTemplate(t.id);
+            
+            const nameSpan = document.createElement('span');
+            nameSpan.innerText = t.name;
+            div.appendChild(nameSpan);
+
+            if (t.id.startsWith('custom_')) {
+                const delSpan = document.createElement('span');
+                delSpan.className = 'delete-btn';
+                delSpan.innerText = '×';
+                delSpan.onclick = (e) => {
+                    e.stopPropagation();
+                    deleteTemplate(t.id);
+                };
+                div.appendChild(delSpan);
+            }
+            
+            container.appendChild(div);
+        }
+
+        function renderQuickPhrases() {
+            const container = document.getElementById('tagsContainer');
+            container.innerHTML = '';
+            QUICK_PHRASES.forEach(p => {
+                const tag = document.createElement('span');
+                tag.className = 'tag';
+                tag.innerText = p;
+                tag.onclick = () => insertPhrase(p);
+                container.appendChild(tag);
+            });
+        }
+
+        function selectTemplate(id) {
+            currentTemplateId = id;
+            const tpl = templates.find(t => t.id === id);
+            if (!tpl) return;
+
+            document.getElementById('currentTplName').innerText = tpl.name;
+            
+            // 初始化表单数据
+            formData = {};
+            if (tpl.variables) {
+                tpl.variables.forEach(v => {
+                    if (v.type === 'time') {
+                        // 获取当前时间并格式化
+                        const now = new Date();
+                        const year = now.getFullYear();
+                        const month = String(now.getMonth() + 1).padStart(2, '0');
+                        const day = String(now.getDate()).padStart(2, '0');
+                        const hours = String(now.getHours()).padStart(2, '0');
+                        const minutes = String(now.getMinutes()).padStart(2, '0');
+                        formData[v.key] = `${year}-${month}-${day} ${hours}:${minutes}`;
+                    } else {
+                        formData[v.key] = v.options ? v.options[0] : '';
+                    }
+                });
+            }
+
+            renderForm(tpl);
+            updateResult();
+            renderMenu(); // 更新高亮
+        }
+
+        function renderForm(tpl) {
+            const grid = document.getElementById('formGrid');
+            grid.innerHTML = '';
+
+            if (!tpl.variables || tpl.variables.length === 0) {
+                grid.innerHTML = '<div style="color:#999; grid-column: 1/-1;">此模板无需填写变量，可直接复制下方文本。</div>';
+                return;
+            }
+
+            tpl.variables.forEach(v => {
+                const group = document.createElement('div');
+                group.className = 'form-group';
+                
+                const label = document.createElement('label');
+                label.innerText = v.label;
+                group.appendChild(label);
+
+                let input;
+                if (v.type === 'textarea') {
+                    input = document.createElement('textarea');
+                    input.className = 'form-control';
+                    input.rows = 2;
+                } else if (v.type === 'select') {
+                    input = document.createElement('select');
+                    input.className = 'form-control';
+                    v.options.forEach(opt => {
+                        const option = document.createElement('option');
+                        option.value = opt;
+                        option.innerText = opt;
+                        input.appendChild(option);
+                    });
+                } else {
+                    input = document.createElement('input');
+                    input.className = 'form-control';
+                    input.type = 'text'; // 统一使用 text 避免兼容性问题
+                }
+
+                input.value = formData[v.key] || '';
+                
+                // 事件监听
+                const handler = (e) => {
+                    formData[v.key] = e.target.value;
+                    updateResult();
+                };
+                
+                input.addEventListener('input', handler);
+                if (v.type === 'select') {
+                    input.addEventListener('change', handler);
+                }
+
+                group.appendChild(input);
+                grid.appendChild(group);
+            });
+        }
+
+        function updateResult() {
+            const tpl = templates.find(t => t.id === currentTemplateId);
+            if (!tpl) return;
+
+            let text = tpl.template;
+            // 替换所有 [key]
+            Object.keys(formData).forEach(key => {
+                const val = formData[key] || `[${key}]`;
+                // 使用正则全局替换
+                const regex = new RegExp(`\\[${key}\\]`, 'g');
+                text = text.replace(regex, val);
+            });
+
+            document.getElementById('resultText').value = text;
+        }
+
+        // ================= 交互功能 =================
+        function insertPhrase(phrase) {
+            const textarea = document.getElementById('resultText');
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const text = textarea.value;
+            const newText = text.substring(0, start) + phrase + text.substring(end);
+            
+            textarea.value = newText;
+            textarea.focus();
+            textarea.setSelectionRange(start + phrase.length, start + phrase.length);
+        }
+
+        function copyResult() {
+            const textarea = document.getElementById('resultText');
+            textarea.select();
+            
+            // 尝试使用现代 API
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(textarea.value).then(() => {
+                    alert('✅ 已复制到剪贴板！');
+                }).catch(err => {
+                    // 降级处理
+                    document.execCommand('copy');
+                    alert('✅ 已复制到剪贴板！');
+                });
+            } else {
+                document.execCommand('copy');
+                alert('✅ 已复制到剪贴板！');
+            }
+        }
+
+        // ================= 自定义模板逻辑 =================
+        function openModal() {
+            document.getElementById('customModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('customModal').style.display = 'none';
+            document.getElementById('newTplName').value = '';
+            document.getElementById('newTplContent').value = '';
+        }
+
+        function saveCustomTemplate() {
+            const name = document.getElementById('newTplName').value.trim();
+            const content = document.getElementById('newTplContent').value.trim();
+
+            if (!name || !content) {
+                alert('请填写名称和内容');
+                return;
+            }
+
+            // 自动提取变量 [xxx]
+            const vars = [];
+            const regex = /\[(.*?)\]/g;
+            let match;
+            const foundKeys = new Set();
+            
+            while ((match = regex.exec(content)) !== null) {
+                const key = match[1];
+                if (!foundKeys.has(key)) {
+                    foundKeys.add(key);
+                    vars.push({ key: key, label: key });
+                }
+            }
+
+            const newTpl = {
+                id: 'custom_' + Date.now(),
+                name: '⭐ ' + name,
+                template: content,
+                variables: vars
+            };
+
+            templates.push(newTpl);
+            saveTemplates();
+            renderMenu();
+            selectTemplate(newTpl.id);
+            closeModal();
+        }
+
+        function deleteTemplate(id) {
+            if (confirm('确定删除这个自定义模板吗？')) {
+                templates = templates.filter(t => t.id !== id);
+                saveTemplates();
+                renderMenu();
+                if (currentTemplateId === id) {
+                    selectTemplate(templates[0].id);
+                }
+            }
+        }
+
+        // 启动应用
+        init();
+
+    </script>
+</body>
+</html>
