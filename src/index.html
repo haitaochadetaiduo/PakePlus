@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>海柠柠营养师助手</title>
+<style>
+  :root{ --green:#2f7d5b; --green-d:#155038; --green-dd:#0c3a28; --green-l:#7fb89c;
+         --mint:#eef0e4; --green-bg:#e9f0e2; --line:#cfd9c2; --ink:#26302a; --muted:#6f7f72;
+         --gold:#b8923f; --gold-l:#d8b869; --ink-bg:#1c2b24;
+         --ring:rgba(31,110,82,.18);
+         --shadow:0 12px 34px rgba(20,44,30,.16),0 3px 8px rgba(20,44,30,.08);
+         --shadow-sm:0 3px 11px rgba(20,44,30,.10);
+         --grad:linear-gradient(135deg,#3a9468 0%,#155038 55%,#0c3a28 100%); }
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  ::selection{ background:rgba(31,110,82,.24); color:var(--green-dd); }
+  body{ margin:0; font-family:"STKaiti","KaiTi","STSong","Songti SC","SimSun",-apple-system,"PingFang SC",serif;
+        background:radial-gradient(120% 55% at 50% -12%,#f1f5ec 0%,#e8efe2 42%,#e0e9d8 100%);
+        background-attachment:fixed; color:var(--ink); padding-bottom:82px; -webkit-font-smoothing:antialiased; }
+  header{ background:linear-gradient(135deg,#1c2b24 0%,#0c3a28 60%,#155038 100%); color:#eef0e4; padding:20px 16px; text-align:left; display:flex; align-items:center; justify-content:space-between; gap:12px; font-size:24px;
+          font-weight:800; letter-spacing:4px; position:sticky; top:0; z-index:20;
+          box-shadow:0 8px 26px rgba(12,40,28,.42),inset 0 -3px 0 var(--gold); text-shadow:0 1px 4px rgba(0,0,0,.32); }
+  header::after{ content:''; position:absolute; inset:0; pointer-events:none;
+                 background:linear-gradient(180deg,rgba(216,184,105,.28),transparent 46%); }
+  .hdr-title{ white-space:nowrap; }
+  .hdr-clock{ font-size:15px; font-weight:700; letter-spacing:1px; white-space:nowrap; color:#f2ecd6;
+            background:rgba(0,0,0,.24); border:1px solid rgba(216,184,105,.55);
+            border-radius:22px; padding:6px 13px; text-shadow:none; font-variant-numeric:tabular-nums; }
+  .container{ padding:15px; max-width:700px; margin:0 auto; }
+  .card{ background:linear-gradient(180deg,#f6f8f0,#eef2e6); border-radius:12px; padding:17px;
+         margin-bottom:15px; box-shadow:var(--shadow); border:1px solid var(--gold-l);
+         outline:1px solid rgba(184,146,63,.28); outline-offset:-6px; position:relative; }
+  .card h3{ margin:2px 0 13px; font-size:18px; color:var(--green-d); font-weight:800; padding-left:12px;
+            border-left:4px solid var(--green); line-height:1.25; letter-spacing:1px; }
+  label{ display:block; font-size:15px; color:var(--muted); margin:11px 0 6px; font-weight:600; letter-spacing:1px; }
+  input,select,textarea{ width:100%; padding:12px 13px; border:1.5px solid #c4d2b6; border-radius:9px;
+        font-size:17px; outline:none; background:#f7faf2; transition:border-color .2s,box-shadow .2s,background .2s;
+        font-family:inherit; color:var(--ink); }
+  input:focus,select:focus,textarea:focus{ border-color:var(--green); background:#fff; box-shadow:0 0 0 4px var(--ring); }
+  button{ width:100%; padding:13px; border:none; border-radius:9px; background:var(--grad); color:#eef0e4;
+          font-size:17px; font-weight:700; margin-top:13px; cursor:pointer; letter-spacing:2px;
+          font-family:inherit;
+          transition:transform .16s,box-shadow .16s,filter .16s; box-shadow:0 6px 16px rgba(12,58,40,.32),inset 0 0 0 1px rgba(216,184,105,.35); }
+  button:hover{ filter:brightness(1.05); box-shadow:0 9px 22px rgba(12,58,40,.38); }
+  button:active{ transform:translateY(1px) scale(.99); box-shadow:0 3px 8px rgba(12,58,40,.32); }
+  button.secondary{ background:linear-gradient(135deg,#5b665c,#39423a); box-shadow:0 6px 16px rgba(57,66,58,.3); }
+  button.danger{ background:linear-gradient(135deg,#b0492c,#7c1f14); box-shadow:0 6px 16px rgba(124,31,20,.3); }
+  .row{ display:flex; gap:10px; } .row>div{ flex:1; }
+  .result{ background:linear-gradient(150deg,#f6f8f0,#e9f0e2); border-left:4px solid var(--green);
+           border-radius:10px; padding:15px; margin-top:13px; font-size:16px; line-height:1.9;
+           color:#33402f; box-shadow:var(--shadow-sm); }
+  .result b{ color:var(--green-d); }
+  .result .dish-section{ background:#f7faf2; border-radius:10px; padding:13px; margin-top:13px;
+           border:1px solid #cfd9c2; box-shadow:var(--shadow-sm); }
+  .result .dish-section h4{ margin:0 0 7px; font-size:15px; color:var(--green-d); font-weight:800; letter-spacing:1px; }
+  .result .dish-section ul{ margin:0; padding-left:18px; }
+  .result .dish-section li{ margin:4px 0; font-size:15px; }
+  .tag{ display:inline-block; background:var(--green-bg); color:var(--green-d); padding:5px 13px;
+        border-radius:8px; font-size:14px; margin:4px 6px 4px 0; cursor:pointer; transition:.18s;
+        font-weight:600; border:1px solid #c4d2b6; }
+  .tag:hover{ border-color:var(--green); transform:translateY(-1px); }
+  .tag.disease-tag{ background:#e7f0e0; color:#2f6b44; border-color:#bcd4ba; }
+  .tag.disease-tag.active{ background:linear-gradient(135deg,#2f8a5a,#1c5e3a); color:#f7faf2; border-color:#1c5e3a;
+        box-shadow:0 3px 9px rgba(28,94,58,.3); }
+  .nav{ position:fixed; bottom:0; left:0; right:0; height:64px; background:rgba(238,240,228,.92);
+        backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); display:flex;
+        border-top:2px solid var(--gold); z-index:20; box-shadow:0 -4px 20px rgba(20,44,30,.1); }
+  .nav div{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+        font-size:13px; color:#7f8f78; cursor:pointer; transition:.18s; position:relative; }
+  .nav div.active{ color:var(--green-d); font-weight:800; }
+  .nav div.active::before{ content:''; position:absolute; top:0; width:26px; height:3px;
+        border-radius:0 0 4px 4px; background:var(--grad); }
+  .nav div span{ font-size:23px; line-height:1; transition:.18s; }
+  .nav div.active span{ transform:translateY(-3px) scale(1.06); }
+  .page{ display:none; animation:fadeUp .32s ease; } .page.active{ display:block; }
+  .client-item{ display:flex; justify-content:space-between; align-items:center; padding:13px 11px;
+        border-bottom:1px solid #d8e0cc; border-radius:8px; transition:.18s; }
+  .client-item:last-child{ border:none; }
+  .client-item:hover{ background:#eef0e4; transform:translateX(2px); }
+  .client-item .name{ font-weight:700; }
+  .client-item .sub{ font-size:14px; color:var(--muted); }
+  .empty{ text-align:center; color:#a8b69f; padding:40px 0; font-size:16px; }
+  .food-search{ display:flex; gap:8px; } .food-search input{ flex:1; }
+  .food-search button{ width:auto; margin:0; padding:10px 17px; }
+  .log-item{ font-size:15px; padding:9px 0; border-bottom:1px dashed #cfd9c2; }
+  .badge{ font-size:13px; padding:2px 9px; border-radius:8px; margin-left:4px; font-weight:700; }
+  .badge.green{ background:#dcebd4; color:#356b2a; }
+  .badge.orange{ background:#f6e3cf; color:#9e4a12; }
+  .badge.red{ background:#f3ddd2; color:#8a2f1f; }
+  .section-title{ font-size:14px; color:var(--muted); margin:15px 0 7px; border-bottom:1px solid #cfd9c2;
+        padding-bottom:6px; font-weight:700; letter-spacing:1.5px; }
+  .food-cat{ font-size:14px; color:#eef0e4; background:linear-gradient(135deg,#1c2b24,#155038); padding:4px 12px; border-radius:8px;
+        display:inline-block; margin:13px 0 7px; font-weight:700; box-shadow:0 3px 9px rgba(12,58,40,.28); }
+  .food-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(145px,1fr)); gap:9px; }
+  .food-card{ background:linear-gradient(180deg,#f7faf2,#e9f0e2); border-radius:10px; padding:11px; font-size:14px;
+        cursor:pointer; border:1px solid #cfd9c2; transition:.18s; box-shadow:var(--shadow-sm); }
+  .food-card:hover{ transform:translateY(-3px); background:#e3ecd9; box-shadow:var(--shadow); }
+  .food-card .fname{ font-weight:700; font-size:15px; }
+  .disease-warning{ background:linear-gradient(135deg,#eef0d8,#e6ecd0); border-left:4px solid var(--green-d);
+        padding:11px; margin:11px 0; border-radius:10px; font-size:15px; color:#2f4a1c; box-shadow:var(--shadow-sm); }
+  .avoid-section{ border-color:#9bbf9a !important; background:#eef5ec !important; }
+  .avoid-section h4{ color:#155038 !important; }
+  .tag.pref-tag{ background:#e2e6ef; color:#2f3f6b; border-color:#b9c2d8; }
+  .tag.pref-tag.active{ background:linear-gradient(135deg,#4a5a8a,#2f3f6b); color:#eef0e4; border-color:#2f3f6b;
+        box-shadow:0 3px 9px rgba(47,63,107,.3); }
+  @keyframes fadeUp{ from{ opacity:0; transform:translateY(10px);} to{ opacity:1; transform:none;} }
+  ::-webkit-scrollbar{ width:6px; height:6px; }
+  ::-webkit-scrollbar-thumb{ background:linear-gradient(180deg,#7fb89c,#2f7d5b); border-radius:3px; }
+  ::-webkit-scrollbar-track{ background:transparent; }
+  /* ---- 电脑/平板大屏适配：左侧固定侧边导航，内容区加宽居中 ---- */
+  @media (min-width:820px){
+    body{ padding-bottom:0; padding-left:224px; }
+    header{ padding:18px 30px; }
+    .nav{ position:fixed; top:0; left:0; bottom:0; right:auto; width:224px; height:auto;
+          flex-direction:column; align-items:stretch; justify-content:flex-start;
+          padding:18px 0; border-top:none; border-right:2px solid var(--gold);
+          box-shadow:4px 0 22px rgba(20,44,30,.1); }
+    .nav div{ flex:none; flex-direction:row; align-items:center; justify-content:flex-start;
+          gap:13px; height:54px; padding:0 24px; font-size:16px; }
+    .nav div span{ font-size:24px; }
+    .nav div:hover{ background:linear-gradient(90deg,rgba(31,110,82,.08),transparent); color:var(--green-d); }
+    .nav div.active{ background:linear-gradient(90deg,rgba(31,110,82,.13),transparent); }
+    .nav div.active::before{ left:0; top:14px; width:4px; height:26px; border-radius:0 4px 4px 0; }
+    .container{ max-width:1120px; padding:24px 32px 44px; }
+  }
+  @media (min-width:1500px){
+    .container{ max-width:1280px; padding:30px 40px 50px; }
+    header{ font-size:26px; }
+  }
+</style>
+</head>
+<body>
+
+<header><span class="hdr-title">海柠柠营养师助手</span><span class="hdr-clock" id="hdrClock">--:--:--</span></header>
+
+<div class="container">
+  <div class="page active" id="page-create">
+    <div class="card">
+      <h3>新建客户档案</h3>
+      <label>姓名</label>
+      <input id="c-name" placeholder="客户姓名">
+      <div class="row">
+        <div><label>性别</label><select id="c-gender"><option value="男">男</option><option value="女">女</option></select></div>
+        <div><label>出生日期</label><input id="c-birth" type="date"></div>
+      </div>
+      <div class="section-title">体格数据</div>
+      <div class="row">
+        <div><label>身高 (cm)</label><input id="c-height" type="number" inputmode="decimal" placeholder="cm"></div>
+        <div><label>体重 (kg)</label><input id="c-weight" type="number" inputmode="decimal" placeholder="kg"></div>
+      </div>
+      <div class="row">
+        <div><label>头围 (cm) &le;7岁</label><input id="c-head" type="number" inputmode="decimal" placeholder="cm"></div>
+        <div><label>腰围 (cm)</label><input id="c-waist" type="number" inputmode="decimal" placeholder="cm"></div>
+      </div>
+      <label>胸围 (cm)</label>
+      <input id="c-chest" type="number" inputmode="decimal" placeholder="cm（可选）">
+      <div class="section-title">生活与健康</div>
+      <label>活动水平</label>
+      <select id="c-activity">
+        <option value="久坐">久坐（办公室/极少运动）</option>
+        <option value="轻度">轻度（每周1-3次运动）</option>
+        <option value="中度" selected>中度（每周3-5次运动）</option>
+        <option value="高度">高度（每周6-7次运动）</option>
+        <option value="极强">极强（体力劳动/运动员）</option>
+      </select>
+      <div class="section-title">健康目标</div>
+      <select id="c-goal">
+        <option value="维持体重" selected>维持体重</option>
+        <option value="减脂">减脂（温和减重）</option>
+        <option value="增肌">增肌（提高蛋白与能量）</option>
+        <option value="改善三高">改善"三高"（控糖控脂控盐）</option>
+      </select>
+      <div class="section-title">生理状态（女性）</div>
+      <select id="c-physio">
+        <option value="">无特殊生理阶段</option>
+        <option value="备孕期">备孕期</option>
+        <option value="孕早期">孕早期（1-12周）</option>
+        <option value="孕中期">孕中期（13-27周）</option>
+        <option value="孕晚期">孕晚期（28周后）</option>
+        <option value="哺乳期">哺乳期</option>
+        <option value="更年期">更年期</option>
+      </select>
+      <div class="section-title">特殊疾病（可多选）</div>
+      <div id="disease-tags"></div>
+      <div class="section-title">宗教信仰</div>
+      <select id="c-religion">
+        <option value="">无特殊宗教饮食禁忌</option>
+        <option value="伊斯兰教（清真）">伊斯兰教（清真·忌猪肉/血液/酒精）</option>
+        <option value="佛教（素食）">佛教（素食·忌荤腥五辛）</option>
+        <option value="印度教（忌牛肉）">印度教（忌牛肉）</option>
+        <option value="犹太教（Kosher）">犹太教（Kosher·忌猪肉/无鳞水产/肉奶同食）</option>
+      </select>
+      <div class="section-title">饮食偏好（可多选）</div>
+      <div id="pref-tags"></div>
+      <div class="section-title">食物过敏原（可多选·严格规避）</div>
+      <div id="allergen-tags"></div>
+      <label>忌口／过敏／不爱吃（用顿号或逗号分隔）</label>
+      <input id="c-dislike" placeholder="如：香菜、羊肉、内脏、酒精">
+      <label>其他备注</label>
+      <textarea id="c-note" rows="2" placeholder="过敏史、用药情况等其他备注"></textarea>
+      <button id="btn-save">建档并评估</button>
+      <div class="result" id="create-result" style="display:none"></div>
+    </div>
+  </div>
+
+  <div class="page" id="page-clients">
+    <div class="card">
+      <h3>客户档案</h3>
+      <div id="client-list"></div>
+    </div>
+    <div class="card" id="client-detail" style="display:none">
+      <h3>客户详情</h3>
+      <div id="client-detail-content"></div>
+      <button class="secondary" id="btn-close-detail">关闭</button>
+    </div>
+  </div>
+
+  <div class="page" id="page-food">
+    <div class="card">
+      <h3>食物营养查询（每100g）</h3>
+      <div class="food-search">
+        <input id="food-input" placeholder="输入食物名，如：三文鱼">
+        <button id="btn-food-search">查询</button>
+      </div>
+      <div class="result" id="food-result" style="display:none"></div>
+      <div style="margin-top:12px" id="food-tags"></div>
+    </div>
+    <div class="card">
+      <h3>食物库总览</h3>
+      <div style="margin-bottom:8px">
+        <select id="food-cat-filter" style="padding:8px;font-size:15px;">
+          <option value="all">全部分类</option>
+        </select>
+      </div>
+      <div id="food-all" style="font-size:15px"></div>
+    </div>
+  </div>
+
+  <div class="page" id="page-advice">
+    <div class="card">
+      <h3>生成饮食建议</h3>
+      <label>选择客户</label>
+      <select id="advice-client"></select>
+      <button id="btn-advice">生成建议</button>
+      <div class="result" id="advice-result" style="display:none"></div>
+    </div>
+  </div>
+
+  <div class="page" id="page-track">
+    <div class="card">
+      <h3>添加跟踪记录</h3>
+      <label>选择客户</label>
+      <select id="track-client"></select>
+      <label>当前体重 (kg)</label>
+      <input id="track-weight" type="number" inputmode="decimal" placeholder="kg">
+      <div class="row">
+        <div><label>腰围 (cm)</label><input id="track-waist" type="number" inputmode="decimal" placeholder="cm"></div>
+        <div><label>头围 (cm)</label><input id="track-head" type="number" inputmode="decimal" placeholder="cm"></div>
+      </div>
+      <label>备注</label>
+      <textarea id="track-note" rows="2" placeholder="饮食执行、身体状况等"></textarea>
+      <button id="btn-track">保存记录</button>
+    </div>
+    <div class="card">
+      <h3>历史跟踪</h3>
+      <div id="track-history" class="empty">暂无记录</div>
+    </div>
+  </div>
+  <div class="page" id="page-special">
+    <div class="card">
+      <h3>专项营养分析</h3>
+      <div class="section-title">选择分析类型</div>
+      <select id="special-mode" onchange="initSpecial()">
+        <option value="group">群体营养设计（医院科室 / 养老院 / 单位食堂）</option>
+        <option value="infant">婴幼儿特殊营养（按月龄）</option>
+        <option value="pregnan">孕妇特殊营养（按孕期）</option>
+      </select>
+      <div style="color:#999;font-size:14px;margin-top:6px">此页为独立的新增模块，不影响上方建档 / 建议 / 跟踪等既有个人功能。</div>
+    </div>
+
+    <div class="card" id="sec-group">
+      <h3>群体营养设计</h3>
+      <label>机构 / 群体类型</label>
+      <select id="g-type">
+        <option value="医院住院科">医院住院科室（通用治疗/普通膳食）</option>
+        <option value="养老机构">养老机构 / 老年食堂</option>
+        <option value="学校">学校 / 托幼食堂</option>
+        <option value="单位食堂">机关企业食堂（成人）</option>
+        <option value="月子中心">月子中心 / 产后康复</option>
+      </select>
+      <label>群体人数</label>
+      <input id="g-count" type="number" inputmode="numeric" placeholder="如：30">
+      <div class="section-title">群体平均体格（用于估算人均能量）</div>
+      <div class="row">
+        <div><label>平均年龄（岁）</label><input id="g-age" type="number" inputmode="decimal" placeholder="岁"></div>
+        <div><label>平均性别</label><select id="g-gender"><option value="女">女</option><option value="男">男</option></select></div>
+      </div>
+      <div class="row">
+        <div><label>平均身高(cm)</label><input id="g-height" type="number" inputmode="decimal" placeholder="cm"></div>
+        <div><label>平均体重(kg)</label><input id="g-weight" type="number" inputmode="decimal" placeholder="kg"></div>
+      </div>
+      <label>平均活动水平</label>
+      <select id="g-activity">
+        <option value="久坐" selected>久坐（住院 / 高龄 / 多卧床）</option>
+        <option value="轻度">轻度活动</option>
+        <option value="中度">中度活动</option>
+      </select>
+      <div class="section-title">群体常见慢病（可多选，影响配餐原则）</div>
+      <div id="g-disease"></div>
+      <div class="section-title">含特殊人群（可多选）</div>
+      <div id="g-pop"></div>
+      <div class="section-title">宗教 / 饮食偏好 / 忌口（影响推荐菜谱与禁忌规避）</div>
+      <label>宗教信仰（自动规避含禁忌食材的菜谱）</label>
+      <select id="g-religion">
+        <option value="">无特殊宗教饮食禁忌</option>
+        <option value="伊斯兰教（清真）">伊斯兰教（清真）</option>
+        <option value="佛教（素食）">佛教（素食）</option>
+        <option value="印度教（忌牛肉）">印度教（忌牛肉）</option>
+        <option value="犹太教（Kosher）">犹太教（Kosher）</option>
+      </select>
+      <label>饮食偏好／过敏原（可多选，自动规避对应菜品）</label>
+      <div id="g-spref"></div>
+      <label>群体常见忌口／不爱吃（顿号或逗号分隔）</label>
+      <input id="g-dislike" placeholder="如：香菜、内脏、辣">
+      <button id="btn-group">生成群体营养方案</button>
+      <div class="result" id="group-result" style="display:none"></div>
+    </div>
+
+    <div class="card" id="sec-infant" style="display:none">
+      <h3>婴幼儿特殊营养</h3>
+      <div class="row">
+        <div><label>月龄（0-36）</label><input id="i-month" type="number" inputmode="numeric" placeholder="如 8"></div>
+        <div><label>体重(kg)</label><input id="i-weight" type="number" inputmode="decimal" placeholder="kg"></div>
+      </div>
+      <label>主要喂养方式</label>
+      <select id="i-feed"><option value="母乳">母乳喂养</option><option value="配方奶">配方奶喂养</option><option value="混合">母乳＋配方奶混合</option></select>
+      <label>是否早产 / 低出生体重</label>
+      <select id="i-pre"><option value="否">否</option><option value="是">是（需强化营养随访）</option></select>
+      <div class="section-title">宗教 / 饮食偏好 / 忌口（影响辅食菜谱与禁忌规避）</div>
+      <label>宗教信仰（自动规避含禁忌食材的菜谱）</label>
+      <select id="i-religion">
+        <option value="">无特殊宗教饮食禁忌</option>
+        <option value="伊斯兰教（清真）">伊斯兰教（清真）</option>
+        <option value="佛教（素食）">佛教（素食）</option>
+        <option value="印度教（忌牛肉）">印度教（忌牛肉）</option>
+        <option value="犹太教（Kosher）">犹太教（Kosher）</option>
+      </select>
+      <label>饮食偏好／过敏原（可多选，自动规避对应菜品）</label>
+      <div id="i-spref"></div>
+      <label>家庭忌口或宝宝不耐受食物（顿号或逗号分隔）</label>
+      <input id="i-dislike" placeholder="如：鸡蛋、海鲜、辣">
+      <button id="btn-infant">生成婴幼儿喂养方案</button>
+      <div class="result" id="infant-result" style="display:none"></div>
+    </div>
+
+    <div class="card" id="sec-pregnan" style="display:none">
+      <h3>孕妇特殊营养</h3>
+      <div class="section-title">孕前体格（用于评估孕期增重范围）</div>
+      <div class="row">
+        <div><label>身高(cm)</label><input id="p-height" type="number" inputmode="decimal" placeholder="cm"></div>
+        <div><label>孕前体重(kg)</label><input id="p-weight" type="number" inputmode="decimal" placeholder="kg"></div>
+      </div>
+      <label>当前孕周阶段</label>
+      <select id="p-stage"><option value="孕早期">孕早期（1-13周）</option><option value="孕中期">孕中期（14-27周）</option><option value="孕晚期">孕晚期（28周后）</option></select>
+      <label>胎儿数</label>
+      <select id="p-multi"><option value="单胎">单胎</option><option value="多胎">多胎（双胎及以上）</option></select>
+      <div class="section-title">宗教 / 饮食偏好 / 忌口（影响孕期菜谱与禁忌规避）</div>
+      <label>宗教信仰（自动规避含禁忌食材的菜谱）</label>
+      <select id="p-religion">
+        <option value="">无特殊宗教饮食禁忌</option>
+        <option value="伊斯兰教（清真）">伊斯兰教（清真）</option>
+        <option value="佛教（素食）">佛教（素食）</option>
+        <option value="印度教（忌牛肉）">印度教（忌牛肉）</option>
+        <option value="犹太教（Kosher）">犹太教（Kosher）</option>
+      </select>
+      <label>饮食偏好／过敏原（可多选，自动规避对应菜品）</label>
+      <div id="p-spref"></div>
+      <label>个人忌口／不爱吃（顿号或逗号分隔）</label>
+      <input id="p-dislike" placeholder="如：香菜、羊肉、内脏">
+      <button id="btn-pregnan">生成孕期营养方案</button>
+      <div class="result" id="pregnan-result" style="display:none"></div>
+    </div>
+  </div>
+</div>
+
+
+<style>
+  .calc-pad{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:11px}
+  .calc-key{border:1px solid #c4d2b6;border-radius:9px;padding:12px 0;font-size:18px;font-weight:700;background:linear-gradient(180deg,#f7faf2,#e7efdf);color:#26302a;cursor:pointer;font-family:inherit;box-shadow:0 2px 6px rgba(20,44,30,.12);transition:transform .06s,box-shadow .06s,filter .06s}
+  .calc-key:hover{filter:brightness(1.03)}
+  .calc-key:active{transform:scale(.9);box-shadow:0 1px 2px rgba(20,44,30,.16)}
+  .calc-op{background:linear-gradient(135deg,#c87a3a,#9e4a12);color:#f7faf2;border-color:#9e4a12;box-shadow:0 3px 8px rgba(158,74,18,.26)}
+  .calc-fn{background:linear-gradient(180deg,#dfe4d4,#c7d1bd);color:#39423a}
+  .calc-eq{background:var(--grad);color:#eef0e4;border-color:#0c3a28;box-shadow:0 3px 9px rgba(12,58,40,.32)}
+  .calc-disp{width:100%;box-sizing:border-box;font-size:25px;text-align:right;padding:14px;border-radius:9px;border:1.5px solid #c4d2b6;background:linear-gradient(180deg,#f7faf2,#e9f0e2);font-family:ui-monospace,"STKaiti",monospace;margin-bottom:7px;font-weight:600;color:var(--green-dd);box-shadow:inset 0 2px 6px rgba(20,44,30,.1)}
+  .calc-cat{display:inline-block;padding:7px 15px;margin:4px 7px 4px 0;border-radius:8px;background:var(--green-bg);color:var(--green-d);font-size:15px;cursor:pointer;border:1px solid #c4d2b6;font-weight:600;transition:.18s;font-family:inherit}
+  .calc-cat:hover{transform:translateY(-1px);border-color:var(--green)}
+  .calc-caton{background:var(--grad);color:#eef0e4;border-color:#0c3a28;box-shadow:0 4px 11px rgba(12,58,40,.3)}
+  .calc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:11px 0}
+  .calc-card{border:1px solid #cfd9c2;border-radius:10px;padding:10px 12px;font-size:15px;background:#f7faf2;cursor:pointer;transition:.18s;box-shadow:var(--shadow-sm);font-family:inherit}
+  .calc-card:hover{transform:translateY(-2px);border-color:var(--green);box-shadow:var(--shadow)}
+  .calc-cardon{border-color:var(--green);background:linear-gradient(135deg,#f6f8f0,#e3ecd9);color:var(--green-d);font-weight:700;box-shadow:0 4px 11px rgba(31,110,82,.16)}
+  .calc-form{background:linear-gradient(180deg,#f7faf2,#e9f0e2);border-radius:10px;padding:12px 13px;margin-top:9px;border:1px solid #cfd9c2}
+  .calc-form label{display:block;font-size:14px;color:#5f6f5c;margin:8px 0 4px;font-weight:600}
+  .calc-form input,.calc-form select{width:100%;box-sizing:border-box;padding:9px 11px;border:1.5px solid #c4d2b6;border-radius:9px;font-size:16px;background:#fff;transition:border-color .18s,box-shadow .18s;font-family:inherit}
+  .calc-form input:focus,.calc-form select:focus{border-color:var(--green);box-shadow:0 0 0 3px var(--ring);outline:none}
+  .calc-res{margin-top:11px;background:#f7faf2;border-left:4px solid var(--green);border-radius:10px;padding:12px 14px;font-size:15.5px;line-height:1.7;box-shadow:var(--shadow-sm);color:#33402f}
+  .calc-note{color:#7f8f78;font-size:14px;margin-top:7px;line-height:1.55}
+</style>
+<div class="page" id="page-calc">
+  <div class="card">
+    <h3>常规计算器</h3>
+    <input class="calc-disp" id="calc-display" readonly value="0">
+    <div class="calc-pad">
+      <button class="calc-key calc-fn" onclick="calcPress('C')">C</button>
+      <button class="calc-key calc-fn" onclick="calcPress('(')">(</button>
+      <button class="calc-key calc-fn" onclick="calcPress(')')">)</button>
+      <button class="calc-key calc-fn" onclick="calcPress('back')">退格</button>
+      <button class="calc-key" onclick="calcPress('7')">7</button>
+      <button class="calc-key" onclick="calcPress('8')">8</button>
+      <button class="calc-key" onclick="calcPress('9')">9</button>
+      <button class="calc-key calc-op" onclick="calcPress('/')">÷</button>
+      <button class="calc-key" onclick="calcPress('4')">4</button>
+      <button class="calc-key" onclick="calcPress('5')">5</button>
+      <button class="calc-key" onclick="calcPress('6')">6</button>
+      <button class="calc-key calc-op" onclick="calcPress('*')">×</button>
+      <button class="calc-key" onclick="calcPress('1')">1</button>
+      <button class="calc-key" onclick="calcPress('2')">2</button>
+      <button class="calc-key" onclick="calcPress('3')">3</button>
+      <button class="calc-key calc-op" onclick="calcPress('-')">−</button>
+      <button class="calc-key" onclick="calcPress('0')">0</button>
+      <button class="calc-key" onclick="calcPress('.')">.</button>
+      <button class="calc-key calc-eq" onclick="calcPress('=')">=</button>
+      <button class="calc-key calc-op" onclick="calcPress('+')">+</button>
+    </div>
+  </div>
+  <div class="card">
+    <h3>营养师专业计算器</h3>
+    <div id="calc-cat"></div>
+    <div class="calc-grid" id="calc-fnlist"></div>
+    <div class="calc-form" id="calc-form">请在上方选择一项公式</div>
+    <div class="calc-res" id="calc-result" style="display:none"></div>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="active" data-page="0"><span>&#x1F464;</span>建档</div>
+  <div data-page="1"><span>&#x1F4CB;</span>客户</div>
+  <div data-page="2"><span>&#x1F34E;</span>食物</div>
+  <div data-page="3"><span>&#x1F37D;</span>建议</div>
+  <div data-page="4"><span>&#x1F4C8;</span>跟踪</div>
+  <div data-page="5"><span>&#x1F465;</span>专项</div>
+  <div data-page="6"><span>&#x1F9EE;</span>计算器</div>
+</nav>
+
+<script>
+var FOOD_DB = {
+  "大米饭":{energy:116,protein:2.6,fat:0.3,carb:25.9,cat:"谷薯类"},
+  "糙米饭":{energy:117,protein:2.7,fat:0.7,carb:25.0,cat:"谷薯类"},
+  "小米粥":{energy:46,protein:1.4,fat:0.2,carb:9.8,cat:"谷薯类"},
+  "燕麦片":{energy:377,protein:15.0,fat:6.7,carb:61.0,cat:"谷薯类"},
+  "全麦面包":{energy:246,protein:9.0,fat:3.3,carb:49.0,cat:"谷薯类"},
+  "白馒头":{energy:223,protein:7.0,fat:1.1,carb:47.0,cat:"谷薯类"},
+  "荞麦面":{energy:337,protein:11.3,fat:2.2,carb:69.0,cat:"谷薯类"},
+  "玉米(鲜)":{energy:112,protein:4.0,fat:1.2,carb:22.8,cat:"谷薯类"},
+  "红薯":{energy:99,protein:1.1,fat:0.2,carb:24.7,cat:"谷薯类"},
+  "紫薯":{energy:106,protein:1.5,fat:0.2,carb:25.0,cat:"谷薯类"},
+  "土豆":{energy:81,protein:2.7,fat:0.1,carb:17.8,cat:"谷薯类"},
+  "山药":{energy:57,protein:1.9,fat:0.2,carb:12.4,cat:"谷薯类"},
+  "芋头":{energy:79,protein:2.2,fat:0.2,carb:18.1,cat:"谷薯类"},
+  "藜麦(熟)":{energy:120,protein:4.4,fat:1.9,carb:21.3,cat:"谷薯类"},
+  "意面(熟)":{energy:131,protein:5.0,fat:1.1,carb:25.0,cat:"谷薯类"},
+  "糯米饭":{energy:117,protein:2.0,fat:0.2,carb:26.0,cat:"谷薯类"},
+  "西兰花":{energy:36,protein:4.1,fat:0.6,carb:4.3,cat:"蔬菜类"},
+  "菠菜":{energy:28,protein:2.6,fat:0.3,carb:4.5,cat:"蔬菜类"},
+  "芹菜":{energy:22,protein:1.2,fat:0.2,carb:4.5,cat:"蔬菜类"},
+  "番茄":{energy:20,protein:0.9,fat:0.2,carb:4.0,cat:"蔬菜类"},
+  "黄瓜":{energy:16,protein:0.8,fat:0.2,carb:2.9,cat:"蔬菜类"},
+  "冬瓜":{energy:12,protein:0.4,fat:0.2,carb:2.6,cat:"蔬菜类"},
+  "油麦菜":{energy:15,protein:1.4,fat:0.2,carb:2.1,cat:"蔬菜类"},
+  "生菜":{energy:16,protein:1.3,fat:0.3,carb:2.7,cat:"蔬菜类"},
+  "芥蓝":{energy:25,protein:2.9,fat:0.4,carb:3.6,cat:"蔬菜类"},
+  "茼蒿":{energy:24,protein:1.9,fat:0.3,carb:4.3,cat:"蔬菜类"},
+  "娃娃菜":{energy:13,protein:1.4,fat:0.2,carb:2.2,cat:"蔬菜类"},
+  "胡萝卜":{energy:39,protein:1.0,fat:0.2,carb:8.8,cat:"蔬菜类"},
+  "洋葱":{energy:40,protein:1.1,fat:0.2,carb:9.0,cat:"蔬菜类"},
+  "茄子":{energy:23,protein:1.1,fat:0.2,carb:4.9,cat:"蔬菜类"},
+  "青椒":{energy:22,protein:1.4,fat:0.2,carb:4.7,cat:"蔬菜类"},
+  "莲藕":{energy:73,protein:1.9,fat:0.2,carb:16.4,cat:"蔬菜类"},
+  "莴笋":{energy:15,protein:1.0,fat:0.1,carb:2.8,cat:"蔬菜类"},
+  "芦笋":{energy:22,protein:2.6,fat:0.2,carb:3.5,cat:"蔬菜类"},
+  "荷兰豆":{energy:32,protein:2.5,fat:0.3,carb:6.1,cat:"蔬菜类"},
+  "秋葵":{energy:18,protein:1.8,fat:0.3,carb:3.7,cat:"蔬菜类"},
+  "苦菊":{energy:21,protein:1.6,fat:0.4,carb:3.6,cat:"蔬菜类"},
+  "空心菜":{energy:23,protein:2.2,fat:0.3,carb:3.8,cat:"蔬菜类"},
+  "苋菜":{energy:31,protein:2.8,fat:0.4,carb:5.0,cat:"蔬菜类"},
+  "香菇(鲜)":{energy:26,protein:2.2,fat:0.3,carb:5.2,cat:"蔬菜类"},
+  "金针菇":{energy:32,protein:2.4,fat:0.4,carb:6.0,cat:"蔬菜类"},
+  "木耳(水发)":{energy:27,protein:1.5,fat:0.2,carb:6.0,cat:"蔬菜类"},
+  "口蘑":{energy:26,protein:3.1,fat:0.1,carb:4.6,cat:"蔬菜类"},
+  "海带(鲜)":{energy:13,protein:1.2,fat:0.1,carb:2.1,cat:"蔬菜类"},
+  "苹果":{energy:53,protein:0.2,fat:0.2,carb:13.5,cat:"水果类"},
+  "香蕉":{energy:93,protein:1.4,fat:0.2,carb:22.0,cat:"水果类"},
+  "橙子":{energy:48,protein:0.8,fat:0.2,carb:11.1,cat:"水果类"},
+  "柚子":{energy:42,protein:0.8,fat:0.3,carb:9.5,cat:"水果类"},
+  "猕猴桃":{energy:61,protein:0.8,fat:0.6,carb:14.5,cat:"水果类"},
+  "草莓":{energy:32,protein:1.0,fat:0.2,carb:7.1,cat:"水果类"},
+  "蓝莓":{energy:57,protein:0.7,fat:0.3,carb:13.9,cat:"水果类"},
+  "樱桃":{energy:46,protein:1.0,fat:0.2,carb:10.2,cat:"水果类"},
+  "梨":{energy:51,protein:0.4,fat:0.2,carb:12.3,cat:"水果类"},
+  "西瓜":{energy:34,protein:0.5,fat:0.3,carb:7.9,cat:"水果类"},
+  "葡萄":{energy:45,protein:0.4,fat:0.3,carb:10.3,cat:"水果类"},
+  "芒果":{energy:35,protein:0.6,fat:0.2,carb:8.3,cat:"水果类"},
+  "火龙果":{energy:55,protein:0.9,fat:0.2,carb:13.0,cat:"水果类"},
+  "小番茄":{energy:25,protein:1.0,fat:0.2,carb:5.5,cat:"水果类"},
+  "鸡胸肉":{energy:133,protein:19.4,fat:5.0,carb:2.5,cat:"畜禽肉类"},
+  "鸡腿肉(去皮)":{energy:181,protein:16.0,fat:13.0,carb:0.0,cat:"畜禽肉类"},
+  "牛肉(瘦)":{energy:125,protein:19.9,fat:4.2,carb:2.0,cat:"畜禽肉类"},
+  "猪里脊":{energy:155,protein:20.2,fat:7.9,carb:0.7,cat:"畜禽肉类"},
+  "羊肉(瘦)":{energy:118,protein:20.5,fat:3.9,carb:0.2,cat:"畜禽肉类"},
+  "鸭肉(瘦)":{energy:150,protein:15.0,fat:9.0,carb:0.0,cat:"畜禽肉类"},
+  "猪肝":{energy:129,protein:19.3,fat:3.5,carb:5.0,cat:"畜禽肉类"},
+  "猪瘦肉":{energy:143,protein:20.3,fat:6.2,carb:1.2,cat:"畜禽肉类"},
+  "猪排骨":{energy:264,protein:18.3,fat:20.4,carb:0.7,cat:"畜禽肉类"},
+  "牛里脊":{energy:107,protein:22.2,fat:1.4,carb:0.7,cat:"畜禽肉类"},
+  "牛腱子(瘦)":{energy:118,protein:20.4,fat:3.4,carb:0.9,cat:"畜禽肉类"},
+  "牛腩":{energy:332,protein:17.1,fat:29.3,carb:0.0,cat:"畜禽肉类"},
+  "羊排":{energy:261,protein:17.6,fat:20.7,carb:0.0,cat:"畜禽肉类"},
+  "兔肉":{energy:102,protein:20.2,fat:2.2,carb:0.6,cat:"畜禽肉类"},
+  "鸡翅":{energy:194,protein:17.4,fat:11.8,carb:4.6,cat:"畜禽肉类"},
+  "鸡爪":{energy:254,protein:23.9,fat:16.4,carb:2.7,cat:"畜禽肉类"},
+  "火鸡腿":{energy:114,protein:19.8,fat:3.5,carb:0.9,cat:"畜禽肉类"},
+  "鹅肉":{energy:251,protein:17.9,fat:19.9,carb:0.0,cat:"畜禽肉类"},
+  "猪心":{energy:119,protein:16.6,fat:5.3,carb:1.9,cat:"畜禽肉类"},
+  "猪肚":{energy:110,protein:15.2,fat:5.1,carb:2.6,cat:"畜禽肉类"},
+  "牛肚":{energy:72,protein:14.5,fat:1.6,carb:0.0,cat:"畜禽肉类"},
+  "鲈鱼":{energy:105,protein:18.6,fat:3.4,carb:0.0,cat:"水产品"},
+  "三文鱼":{energy:208,protein:17.2,fat:15.4,carb:0.0,cat:"水产品"},
+  "鳕鱼":{energy:88,protein:20.4,fat:0.5,carb:0.5,cat:"水产品"},
+  "草鱼":{energy:113,protein:16.6,fat:5.2,carb:0.0,cat:"水产品"},
+  "鲫鱼":{energy:108,protein:17.1,fat:2.7,carb:3.8,cat:"水产品"},
+  "龙利鱼":{energy:87,protein:17.0,fat:1.3,carb:1.5,cat:"水产品"},
+  "基围虾":{energy:101,protein:18.2,fat:3.9,carb:3.4,cat:"水产品"},
+  "带鱼":{energy:127,protein:17.7,fat:4.9,carb:3.1,cat:"水产品"},
+  "蛤蜊":{energy:44,protein:7.3,fat:1.1,carb:3.3,cat:"水产品"},
+  "大黄鱼":{energy:97,protein:17.7,fat:2.5,carb:0.0,cat:"水产品"},
+  "秋刀鱼":{energy:140,protein:21.2,fat:5.2,carb:0.0,cat:"水产品"},
+  "沙丁鱼":{energy:146,protein:20.8,fat:6.6,carb:0.0,cat:"水产品"},
+  "金枪鱼":{energy:116,protein:24.1,fat:1.6,carb:0.0,cat:"水产品"},
+  "鲳鱼":{energy:141,protein:21.1,fat:5.4,carb:0.0,cat:"水产品"},
+  "比目鱼":{energy:99,protein:19.4,fat:2.2,carb:1.6,cat:"水产品"},
+  "黑鱼":{energy:85,protein:18.5,fat:1.2,carb:0.0,cat:"水产品"},
+  "鲢鱼":{energy:103,protein:17.8,fat:5.2,carb:0.0,cat:"水产品"},
+  "鳙鱼":{energy:100,protein:17.6,fat:3.2,carb:0.0,cat:"水产品"},
+  "罗非鱼":{energy:96,protein:18.6,fat:2.2,carb:0.0,cat:"水产品"},
+  "泥鳅":{energy:96,protein:17.6,fat:2.0,carb:2.7,cat:"水产品"},
+  "黄鳝":{energy:97,protein:18.0,fat:1.2,carb:0.0,cat:"水产品"},
+  "对虾":{energy:93,protein:18.6,fat:0.8,carb:2.8,cat:"水产品"},
+  "小龙虾":{energy:90,protein:17.5,fat:1.4,carb:2.8,cat:"水产品"},
+  "梭子蟹":{energy:105,protein:18.9,fat:1.4,carb:2.5,cat:"水产品"},
+  "大闸蟹":{energy:103,protein:17.5,fat:2.6,carb:2.3,cat:"水产品"},
+  "龙虾":{energy:90,protein:18.9,fat:1.1,carb:0.0,cat:"水产品"},
+  "扇贝":{energy:61,protein:12.4,fat:0.8,carb:3.6,cat:"水产品"},
+  "牡蛎(生蚝)":{energy:66,protein:9.6,fat:2.1,carb:4.3,cat:"水产品"},
+  "鱿鱼":{energy:84,protein:17.4,fat:1.6,carb:0.0,cat:"水产品"},
+  "章鱼":{energy:71,protein:14.4,fat:1.2,carb:2.7,cat:"水产品"},
+  "海参":{energy:63,protein:16.5,fat:0.8,carb:0.8,cat:"水产品"},
+  "海蜇":{energy:13,protein:3.7,fat:0.3,carb:0.0,cat:"水产品"},
+  "甲鱼":{energy:118,protein:17.3,fat:4.0,carb:0.0,cat:"水产品"},
+  "鸡蛋":{energy:144,protein:13.3,fat:8.8,carb:2.8,cat:"蛋奶类"},
+  "鸭蛋":{energy:180,protein:12.6,fat:13.0,carb:3.1,cat:"蛋奶类"},
+  "鹌鹑蛋":{energy:160,protein:12.8,fat:11.1,carb:1.4,cat:"蛋奶类"},
+  "纯牛奶":{energy:54,protein:3.0,fat:3.2,carb:3.4,cat:"蛋奶类"},
+  "脱脂牛奶":{energy:33,protein:3.4,fat:0.1,carb:4.8,cat:"蛋奶类"},
+  "酸奶(无糖)":{energy:62,protein:3.5,fat:2.7,carb:5.0,cat:"蛋奶类"},
+  "奶酪":{energy:328,protein:25.7,fat:23.5,carb:3.5,cat:"蛋奶类"},
+  "鹅蛋":{energy:169,protein:12.2,fat:11.9,carb:7.4,cat:"蛋奶类"},
+  "鸡蛋白":{energy:60,protein:11.6,fat:0.1,carb:3.1,cat:"蛋奶类"},
+  "鸡蛋黄":{energy:328,protein:15.2,fat:28.2,carb:3.4,cat:"蛋奶类"},
+  "咸鸭蛋":{energy:190,protein:12.7,fat:12.7,carb:6.3,cat:"蛋奶类"},
+  "松花蛋(皮蛋)":{energy:171,protein:14.2,fat:10.7,carb:4.5,cat:"蛋奶类"},
+  "鸽子蛋":{energy:117,protein:14.2,fat:6.4,carb:5.4,cat:"蛋奶类"},
+  "羊奶":{energy:64,protein:3.5,fat:4.1,carb:4.8,cat:"蛋奶类"},
+  "全脂奶粉":{energy:478,protein:20.1,fat:21.2,carb:59.7,cat:"蛋奶类"},
+  "炼乳(甜)":{energy:295,protein:6.5,fat:8.7,carb:55.3,cat:"蛋奶类"},
+  "黄油":{energy:717,protein:1.4,fat:79.7,carb:0.2,cat:"蛋奶类"},
+  "豆腐(北)":{energy:82,protein:8.1,fat:3.7,carb:4.2,cat:"大豆坚果"},
+  "豆腐(南)":{energy:57,protein:6.2,fat:2.6,carb:4.4,cat:"大豆坚果"},
+  "豆浆(无糖)":{energy:16,protein:1.8,fat:0.7,carb:1.1,cat:"大豆坚果"},
+  "黄豆(干)":{energy:390,protein:35.0,fat:16.0,carb:34.2,cat:"大豆坚果"},
+  "黑豆":{energy:401,protein:36.0,fat:15.9,carb:33.6,cat:"大豆坚果"},
+  "绿豆(干)":{energy:329,protein:21.6,fat:0.8,carb:62.0,cat:"大豆坚果"},
+  "红豆":{energy:324,protein:20.2,fat:0.6,carb:63.4,cat:"大豆坚果"},
+  "核桃仁":{energy:646,protein:14.9,fat:58.8,carb:19.1,cat:"大豆坚果"},
+  "杏仁":{energy:578,protein:22.5,fat:45.4,carb:23.9,cat:"大豆坚果"},
+  "腰果":{energy:552,protein:17.3,fat:36.7,carb:41.6,cat:"大豆坚果"},
+  "花生仁":{energy:574,protein:24.8,fat:44.3,carb:21.7,cat:"大豆坚果"},
+  "魔芋":{energy:7,protein:0.6,fat:0.1,carb:1.0,cat:"其他"},
+  "紫菜(干)":{energy:250,protein:26.7,fat:1.1,carb:44.1,cat:"其他"},
+  "食用油":{energy:899,protein:0.0,fat:99.9,carb:0.0,cat:"其他"},
+  "橄榄油":{energy:899,protein:0.0,fat:99.9,carb:0.0,cat:"其他"},
+  "花生油":{energy:899,protein:0.0,fat:99.9,carb:0.0,cat:"其他"},
+  "菜籽油":{energy:899,protein:0.0,fat:99.9,carb:0.0,cat:"其他"},
+  "大豆油":{energy:899,protein:0.0,fat:99.9,carb:0.0,cat:"其他"},
+  "玉米油":{energy:899,protein:0.0,fat:99.9,carb:0.0,cat:"其他"},
+  "葵花籽油":{energy:899,protein:0.0,fat:99.9,carb:0.0,cat:"其他"},
+  "亚麻籽油":{energy:899,protein:0.0,fat:99.9,carb:0.0,cat:"其他"},
+  "芝麻油(香油)":{energy:898,protein:0.0,fat:99.7,carb:0.2,cat:"其他"},
+  "椰子油":{energy:899,protein:0.0,fat:99.9,carb:0.0,cat:"其他"},
+  "山茶油":{energy:899,protein:0.0,fat:99.9,carb:0.0,cat:"其他"},
+  "猪油":{energy:897,protein:0.2,fat:99.6,carb:0.0,cat:"其他"},
+  "蜂蜜":{energy:321,protein:0.4,fat:0.0,carb:75.6,cat:"其他"},
+  "果酱(草莓)":{energy:278,protein:0.2,fat:0.1,carb:73.0,cat:"其他"},
+  "大白菜":{energy:20,protein:0.9,fat:0.1,carb:3.2,cat:"蔬菜类"},
+  "油菜(小青菜)":{energy:25,protein:1.8,fat:0.5,carb:3.8,cat:"蔬菜类"},
+  "卷心菜(包菜)":{energy:24,protein:1.5,fat:0.2,carb:4.6,cat:"蔬菜类"},
+  "菜心":{energy:25,protein:1.6,fat:0.3,carb:4.2,cat:"蔬菜类"},
+  "苦瓜":{energy:22,protein:1.0,fat:0.1,carb:4.9,cat:"蔬菜类"},
+  "西葫芦":{energy:19,protein:0.8,fat:0.2,carb:3.8,cat:"蔬菜类"},
+  "丝瓜":{energy:20,protein:1.0,fat:0.2,carb:4.2,cat:"蔬菜类"},
+  "南瓜":{energy:23,protein:0.7,fat:0.1,carb:5.3,cat:"蔬菜类"},
+  "豇豆(长豆角)":{energy:31,protein:2.2,fat:0.2,carb:6.7,cat:"蔬菜类"},
+  "四季豆":{energy:31,protein:2.0,fat:0.4,carb:5.7,cat:"蔬菜类"},
+  "韭菜":{energy:26,protein:2.4,fat:0.4,carb:4.6,cat:"蔬菜类"},
+  "蒜薹":{energy:61,protein:2.5,fat:0.2,carb:15.4,cat:"蔬菜类"},
+  "香菜":{energy:23,protein:1.8,fat:0.5,carb:3.6,cat:"蔬菜类"},
+  "荠菜":{energy:33,protein:2.9,fat:0.6,carb:4.6,cat:"蔬菜类"},
+  "黄豆芽":{energy:18,protein:4.5,fat:1.6,carb:4.5,cat:"蔬菜类"},
+  "绿豆芽":{energy:18,protein:2.1,fat:0.1,carb:3.7,cat:"蔬菜类"},
+  "紫甘蓝":{energy:25,protein:1.5,fat:0.2,carb:5.3,cat:"蔬菜类"},
+  "竹笋":{energy:23,protein:2.6,fat:0.2,carb:3.6,cat:"蔬菜类"},
+  "茭白":{energy:23,protein:1.2,fat:0.3,carb:5.2,cat:"蔬菜类"},
+  "佛手瓜":{energy:16,protein:0.7,fat:0.1,carb:3.6,cat:"蔬菜类"},
+  "马齿苋":{energy:22,protein:2.3,fat:0.5,carb:4.6,cat:"蔬菜类"},
+  "玉米面":{energy:341,protein:8.1,fat:3.3,carb:68.3,cat:"谷薯类"},
+  "挂面(熟)":{energy:110,protein:3.6,fat:0.1,carb:24.0,cat:"谷薯类"},
+  "米线(熟)":{energy:98,protein:1.6,fat:0.2,carb:22.0,cat:"谷薯类"},
+  "河粉(熟)":{energy:97,protein:1.6,fat:0.2,carb:22.0,cat:"谷薯类"},
+  "薏米(熟)":{energy:115,protein:3.0,fat:1.1,carb:24.0,cat:"谷薯类"},
+  "青稞(熟)":{energy:118,protein:3.5,fat:1.0,carb:24.5,cat:"谷薯类"},
+  "高粱米(熟)":{energy:114,protein:2.8,fat:1.0,carb:25.0,cat:"谷薯类"},
+  "莜麦面":{energy:351,protein:12.2,fat:7.2,carb:60.0,cat:"谷薯类"},
+  "小米(干)":{energy:361,protein:9.0,fat:3.0,carb:72.7,cat:"谷薯类"},
+  "玉米糁(粥)":{energy:106,protein:2.4,fat:0.5,carb:23.0,cat:"谷薯类"},
+  "糯米(干)":{energy:348,protein:7.3,fat:1.0,carb:77.2,cat:"谷薯类"},
+  "玉米(罐头)":{energy:106,protein:2.9,fat:1.0,carb:21.3,cat:"谷薯类"}
+};
+
+var DISEASES = {
+  "糖尿病": {
+    icon: "🩸",
+    principles: "控制碳水总量、优选低GI食物、定时定量、增加膳食纤维、限制添加糖",
+    dishes: {
+      "主食替换": ["杂粮饭（糙米+大米）","荞麦面条","燕麦粥（非即溶型）","全麦馒头","蒸山药/芋头替代部分主食","藜麦饭","玉米段"],
+      "蛋白质菜品": ["清蒸鲈鱼","鸡胸肉炒西兰花","番茄炖牛腩（少油）","白灼基围虾","豆腐炖鲫鱼","水煮鸡丝拌黄瓜","香椿魔芋拌鸡丝","少油鲫鱼豆腐汤"],
+      "蔬菜推荐": ["蒜蓉油麦菜","清炒芥蓝","凉拌菠菜","香菇炒油菜","芹菜炒百合","蒜蓉西兰花","清炒荷兰豆","凉拌秋葵"],
+      "汤品": ["冬瓜海带汤","紫菜蛋花汤","番茄豆腐汤","菌菇汤（少盐）"],
+      "加餐": ["原味坚果10g","小番茄5-6颗","无糖酸奶100ml","柚子2瓣","蓝莓50g","猕猴桃1个"]
+    },
+    avoid: ["含糖饮料/甜点","油炸食品","白粥/烂面条（GI高）","蜂蜜/果酱","糯米制品（年糕/粽子）","高GI水果（西瓜/荔枝/榴莲）","糖醋类菜品"]
+  },
+  "高血压": {
+    icon: "💓",
+    principles: "限钠增钾（盐<5g/日）、减加工食品、增加富钾蔬果、严格限酒",
+    dishes: {
+      "主食推荐": ["小米粥","燕麦饭","杂粮馒头","蒸土豆（天然高钾）","荞麦面条","芋头"],
+      "蛋白质菜品": ["清蒸鲈鱼","冬瓜炖乳鸽（低钠）","鸡胸肉炒彩椒","番茄炖豆腐","白灼虾（蘸醋不蘸酱油）","荠菜春笋烩豆腐"],
+      "高钾蔬菜": ["清炒苋菜","蒜蓉空心菜","凉拌芹菜","炒口蘑","清炒菠菜（焯水）","蒜蓉油麦菜","凉拌莴笋"],
+      "汤品": ["冬瓜玉米须汤","番茄土豆汤","芹菜红枣汤","海带豆腐汤（少盐）"],
+      "调味建议": ["用醋/柠檬汁/姜蒜代替部分盐","用花椒/八角/五香粉增香","避免腐乳/豆瓣酱/蚝油过量"]
+    },
+    avoid: ["腌制品（咸菜/腐乳/腊肉）","加工肉制品（香肠/午餐肉）","高钠酱料","浓茶浓咖啡","酒精","味精/鸡精过量"]
+  },
+  "高脂血症": {
+    icon: "🫀",
+    principles: "低饱和脂肪、低胆固醇、增加膳食纤维和不饱和脂肪酸、控制体重",
+    dishes: {
+      "主食推荐": ["燕麦饭（β-葡聚糖降脂）","糙米饭","荞麦面","红薯","全麦意面","玉米"],
+      "蛋白质菜品": ["清蒸深海鱼（三文鱼/鲈鱼）","鸡胸肉沙拉","清炒虾仁","豆腐炖白菜","清炒鸡胸肉","龙利鱼片"],
+      "降脂蔬菜": ["洋葱炒木耳","清炒苦瓜","凉拌海带丝","香菇青菜","芹菜炒豆干","凉拌苦菊","清炒金针菇"],
+      "汤品": ["番茄豆腐汤","冬瓜薏米汤","紫菜蛋花汤","燕麦南瓜粥（无糖）"],
+      "坚果选择": ["杏仁5-6颗/日","核桃1-2个/日","亚麻籽粉（拌酸奶）"]
+    },
+    avoid: ["肥肉/五花肉","动物内脏","黄油/奶油","油炸食品","糕点/奶茶","椰浆/棕榈油","蟹黄/鱼子"]
+  },
+  "痛风/高尿酸": {
+    icon: "🦴",
+    principles: "限高嘌呤食物、禁酒（尤其啤酒/黄酒）、每日饮水2000-3000ml、控果糖摄入",
+    dishes: {
+      "主食推荐": ["白米饭/小米粥（低嘌呤）","面条/馒头","苏打饼干","红薯/土豆","芋头","藕粉"],
+      "蛋白质菜品": ["鸡蛋炒西葫芦","牛奶蒸蛋羹","低脂牛奶/酸奶300ml+/日","鸡胸肉（焯水后炒，每餐≤50g）","清蒸鸡蛋豆腐","面条配蔬菜"],
+      "低嘌呤蔬菜": ["白菜","黄瓜","胡萝卜","冬瓜","莴笋","芹菜","番茄","生菜","丝瓜","茄子"],
+      "汤品": ["冬瓜汤","番茄蛋花汤","土豆浓汤（素汤底）"],
+      "降尿酸推荐": ["樱桃5-6颗/日（辅助降尿酸）","柠檬水","低脂/脱脂牛奶","苏打水（碱化尿液）"]
+    },
+    avoid: ["动物内脏（肝肾心脑）","浓肉汤/火锅汤底","啤酒/黄酒/白酒","贝类/沙丁鱼/凤尾鱼/生蚝","甜饮料/果糖/蜂蜜","菌菇类（急性期限制）","芦笋/菠菜（急性期）"]
+  },
+  "慢性肾病": {
+    icon: "🫘",
+    principles: "优质低蛋白（CKD3-5未透析0.6-0.8g/kg/d）、限钠<5g/日、限磷限钾、充足热量",
+    dishes: {
+      "低蛋白主食": ["白米饭（非全谷）","粉丝/粉皮","藕粉","低蛋白面条","麦淀粉制品","白粥"],
+      "优质蛋白菜品": ["清蒸鳕鱼（低磷）","鸡蛋（控制数量遵医嘱）","鸡胸肉（少量50g/餐）","乳鸽（少量）","虾仁（少量）","冬瓜玉米须炖乳鸽"],
+      "低钾蔬菜": ["冬瓜","黄瓜","丝瓜","白菜","茄子","洋葱","莴笋","西葫芦"],
+      "烹饪要点": ["蔬菜焯水去钾（水煮2-3min弃水）","弃汤食菜","避免高汤/老火汤","少盐少酱油"],
+      "加餐": ["麦淀粉饼干","藕粉羹","无糖酸奶（少量50ml）","苹果（低钾水果）"]
+    },
+    avoid: ["高钾食物（香蕉/橙子/牛油果/土豆/番茄）","高磷食物（坚果/全谷物/奶制品过量）","动物内脏","浓汤/火锅汤底","加工肉制品","含磷添加剂食品","杨桃（肾毒性）"]
+  },
+  "肥胖": {
+    icon: "⚖️",
+    principles: "控制总热量（TDEE-500kcal）、增加蛋白质和膳食纤维、每周减重0.5-1kg、避免极端节食",
+    dishes: {
+      "低热量主食": ["燕麦粥50g","蒸南瓜100g","糙米饭半碗(约75g熟)","全麦面包1片","荞麦面50g(干)","玉米半根"],
+      "高蛋白菜品": ["香煎鸡胸肉（少油）","白灼虾","清蒸鱼100g","番茄炒蛋（少油）","卤牛肉（瘦，少量）","水煮毛豆","清炒虾仁"],
+      "饱腹蔬菜": ["凉拌木耳","蒜蓉西兰花","清炒芦笋","炒黄瓜","冬瓜汤","娃娃菜","生菜沙拉","炒苦瓜"],
+      "汤品": ["番茄蛋花汤","冬瓜汤","紫菜汤","清鸡汤（去油）","萝卜汤"],
+      "加餐选择": ["小番茄","黄瓜条","无糖酸奶100ml","水煮蛋白","苹果半个"]
+    },
+    avoid: ["油炸食品","高糖饮料/奶茶","坚果过量（>15g/日）","肥肉/奶油","酒精","夜宵","快餐/外卖（控油盐）"]
+  }
+};
+
+var GENERAL_DISHES = {
+  "主食推荐": ["杂粮饭（糙米+大米+藜麦）","荞麦面条","全麦馒头","燕麦粥","红薯/紫薯","玉米段","山药红枣粥","芋头蒸排骨（少肉版）"],
+  "家常肉菜": ["番茄炖牛腩","清蒸鲈鱼","宫保鸡丁（少油版）","蒜香排骨（少油）","黑椒牛肉粒","可乐鸡翅（少糖）","红烧鸡块（少油）","糖醋里脊（空气炸锅版）","香煎龙利鱼","孜然羊肉（适量）"],
+  "家常素菜": ["番茄炒蛋","蒜蓉西兰花","地三鲜（少油版）","鱼香茄子（蒸后炒）","干煸四季豆","酸辣土豆丝","麻婆豆腐","手撕包菜","炒合菜","醋溜白菜"],
+  "清淡推荐": ["清炒时蔬","白灼菜心","蒜蓉茼蒿","上汤娃娃菜","清蒸鳕鱼","白灼基围虾","蒸蛋羹","凉拌黄瓜","白灼秋葵","蒜蓉丝瓜"],
+  "汤品": ["番茄牛肉汤","玉米排骨汤","冬瓜排骨汤","紫菜蛋花汤","番茄鱼片汤","菌菇豆腐汤","酸萝卜老鸭汤","鲫鱼豆腐汤","莲藕花生汤","山药乌鸡汤"],
+  "加餐零食": ["苹果/橙子","原味坚果一小把(10g)","无糖酸奶","水煮蛋","小番茄","蒸红薯小块","猕猴桃","梨"]
+};
+
+var RELIGION_RULES = {
+  "伊斯兰教（清真）": { kw:["猪","酒","血","腊肉","火腿","培根","明胶","料酒","排骨","五花","叉烧"], note:"忌猪肉、血液及含酒精食品，肉类需清真（Halal）认证。" },
+  "佛教（素食）": { kw:["猪","牛","羊","鸡","鸭","鹅","鱼","虾","蟹","肉","排骨","翅","爪","乳鸽","内脏","肚","心","火腿","培根","腊肉","血","酒","蛋","奶","乳","蜂","蒜","葱","韭"], note:"建议全素，避免畜禽肉、水产、蛋类及葱蒜韭等五辛。" },
+  "印度教（忌牛肉）": { kw:["牛"], note:"忌食牛肉。" },
+  "犹太教（Kosher）": { kw:["猪","虾","蟹","贝","蛤","牡蛎","扇贝","鱿","章鱼","鳝","鳅","甲鱼","血"], note:"忌猪肉与无鳞无鳍水产（虾蟹贝等），且肉类与奶类不宜同餐。" }
+};
+var PREF_LIST = ["素食","不吃猪肉","不吃牛羊","不吃海鲜","不吃内脏","不吃辣","乳糖不耐","不吃麸质"];
+var DIET_PREFERENCE_RULES = {
+  "素食": ["猪","牛","羊","鸡","鸭","鹅","鱼","虾","蟹","肉","排骨","翅","爪","乳鸽","内脏","肚","心","火腿","培根","腊肉","血","蛋","奶","乳","蜂"],
+  "不吃猪肉": ["猪","培根","火腿","腊肉","五花"],
+  "不吃牛羊": ["牛","羊"],
+  "不吃海鲜": ["鱼","虾","蟹","贝","蛤","牡蛎","扇贝","鱿","章鱼","海参","海蜇","甲鱼","鳝","鳅","带鱼","螺"],
+  "不吃内脏": ["内脏","肝","肚","肠","肾","腰子","血","肺"],
+  "不吃辣": ["辣","咖喱","胡椒","麻"],
+  "乳糖不耐": ["牛奶","奶","乳","酸奶","奶酪","黄油","炼乳"],
+  "不吃麸质": ["小麦","面粉","面包","馒头","面条","挂面","米线","河粉","麸","大麦","黑麦"]
+};
+function renderPrefTags(){
+  var html="";
+  PREF_LIST.forEach(function(n){ html+='<span class="tag pref-tag" data-pref="'+n+'">'+n+'</span>'; });
+  $("pref-tags").innerHTML=html;
+}
+var ALLERGEN_LIST = ["牛奶","鸡蛋","鱼类","虾蟹","花生","坚果","大豆","麸质(小麦)","芝麻"];
+var ALLERGEN_RULES = {
+  "牛奶": ["牛奶","酸奶","奶酪","黄油","炼乳","乳","奶粉"],
+  "鸡蛋": ["鸡蛋","蛋","蛋羹","沙拉酱","沙拉"],
+  "鱼类": ["鱼","三文鱼","带鱼","鲈鱼","黄花鱼","秋刀鱼","金枪鱼","鳕鱼","鳗","鲳","鳝","鳅"],
+  "虾蟹": ["虾","蟹","龙虾","小龙虾","梭子蟹","大闸蟹"],
+  "花生": ["花生","花生酱"],
+  "坚果": ["坚果","核桃","腰果","杏仁","巴旦木","榛子","开心果","松子","夏威夷果"],
+  "大豆": ["大豆","黄豆","豆腐","豆浆","豆干","腐竹","豆","味噌"],
+  "麸质(小麦)": ["小麦","面粉","面包","馒头","面条","挂面","麸","大麦","黑麦","饺子","馄饨","饼"],
+  "芝麻": ["芝麻","香油","麻酱","芝麻酱"]
+};
+function renderAllergenTags(){
+  var html="";
+  ALLERGEN_LIST.forEach(function(n){ html+='<span class="tag pref-tag" data-allergen="'+n+'">'+n+'</span>'; });
+  $("allergen-tags").innerHTML=html;
+}
+var ACTIVITY_FACTORS = { "久坐":1.2, "轻度":1.375, "中度":1.55, "高度":1.725, "极强":1.9 };
+var CHILD_BMI_TABLE = [[6.0,16.4,17.7,16.2,17.5],[6.5,16.7,18.1,16.5,18.0],[7.0,17.0,18.7,16.8,18.5],[7.5,17.4,19.2,17.2,19.0],[8.0,17.8,19.7,17.6,19.4],[8.5,18.1,20.3,18.1,19.9],[9.0,18.5,20.8,18.5,20.4],[9.5,18.9,21.4,19.0,21.0],[10.0,19.2,21.9,19.5,21.5],[10.5,19.6,22.5,20.0,22.1],[11.0,19.9,23.0,20.5,22.7],[11.5,20.3,23.6,21.1,23.3],[12.0,20.7,24.1,21.5,23.9],[12.5,21.0,24.7,21.9,24.5],[13.0,21.4,25.2,22.2,25.0],[13.5,21.9,25.7,22.6,25.6],[14.0,22.3,26.1,22.8,25.9],[14.5,22.6,26.4,23.0,26.3],[15.0,22.9,26.6,23.2,26.6],[15.5,23.1,26.9,23.4,26.9],[16.0,23.3,27.1,23.6,27.1],[16.5,23.5,27.4,23.7,27.4],[17.0,23.7,27.6,23.8,27.6],[17.5,23.8,27.8,23.9,27.8],[18.0,24.0,28.0,24.0,28.0]];
+var ADULT_BMI = { thin:18.5, normal:24.0, overweight:28.0 };
+
+var DB = {};
+try { DB = JSON.parse(localStorage.getItem("nutrition_pro_v2") || "{}"); } catch(e){ DB = {}; }
+function saveDB(){ try { localStorage.setItem("nutrition_pro_v2", JSON.stringify(DB)); } catch(e){ alert("保存失败"); } }
+function $(id){ return document.getElementById(id); }
+
+function getAge(birth){
+  if(!birth) return null;
+  var b = new Date(birth); if(isNaN(b.getTime())) return null;
+  var now = new Date();
+  var totalMonths = now.getMonth() + 12*(now.getFullYear()-b.getFullYear()) - b.getMonth();
+  if(now.getDate() < b.getDate()) totalMonths--;
+  return totalMonths / 12;
+}
+function lookupChildBMI(age, gender){
+  if(age<6||age>18) return null;
+  var row = CHILD_BMI_TABLE[0];
+  for(var i=0;i<CHILD_BMI_TABLE.length;i++){ if(CHILD_BMI_TABLE[i][0]<=age+0.25) row=CHILD_BMI_TABLE[i]; else break; }
+  return gender==="男"?{overweight:row[1],obese:row[2],label:row[0]+"岁男"}:{overweight:row[3],obese:row[4],label:row[0]+"岁女"};
+}
+function calcBMR(g,w,h,age){ return g==="男"?88.362+13.397*w+4.799*h-5.677*age:447.593+9.247*w+3.098*h-4.330*age; }
+function calcTDEE(bmr,level){ return bmr*(ACTIVITY_FACTORS[level]||1.2); }
+
+function renderDiseaseTags(){
+  var html="";
+  Object.keys(DISEASES).forEach(function(n){ html+='<span class="tag disease-tag" data-disease="'+n+'">'+DISEASES[n].icon+' '+n+'</span>'; });
+  $("disease-tags").innerHTML=html;
+}
+
+function evaluateClient(info,bmr,tdee){
+  var lines=[]; var age=info.age;
+  var bmi=info.weight/Math.pow(info.height/100,2);
+  lines.push("BMI：<b>"+bmi.toFixed(1)+"</b> kg/m&#178;");
+  if(age<6){ lines.push("6岁以下请参照WS/T 423-2022百分位曲线"); }
+  else if(age<=18){ var ref=lookupChildBMI(age,info.gender); if(ref){ var s,c; if(bmi<ref.overweight){s="正常";c="green";}else if(bmi<ref.obese){s="超重";c="orange";}else{s="肥胖";c="red";} lines.push("儿童标准("+ref.label+")：超重≥"+ref.overweight+"，肥胖≥"+ref.obese+" → <span class='badge "+c+"'>"+s+"</span>"); } }
+  else { var s2,c2; if(bmi<18.5){s2="偏瘦";c2="orange";}else if(bmi<24){s2="正常";c2="green";}else if(bmi<28){s2="超重";c2="orange";}else{s2="肥胖";c2="red";} lines.push("成人标准(2022版)：偏瘦<18.5|正常18.5-23.9|超重24-27.9|肥胖≥28 → <span class='badge "+c2+"'>"+s2+"</span>"); }
+  if(info.waist){ if(age>=18){ if(info.gender==="男"){ if(info.waist>=90) lines.push("腰围"+info.waist+"cm：<span class='badge red'>中心性肥胖</span>"); else if(info.waist>=85) lines.push("腰围"+info.waist+"cm：<span class='badge orange'>偏高</span>"); else lines.push("腰围正常"); } else { if(info.waist>=85) lines.push("腰围"+info.waist+"cm：<span class='badge red'>中心性肥胖</span>"); else if(info.waist>=80) lines.push("腰围"+info.waist+"cm：<span class='badge orange'>偏高</span>"); else lines.push("腰围正常"); } } }
+  lines.push("<br>BMR：<b>"+bmr.toFixed(0)+"</b> kcal | TDEE：<b>"+tdee.toFixed(0)+"</b> kcal");
+  lines.push("参考：DRIs 2023版 + 膳食指南2022版");
+  return lines.join("<br>");
+}
+
+function saveClient(){
+  var name=$("c-name").value.trim(),birth=$("c-birth").value,gender=$("c-gender").value;
+  var height=parseFloat($("c-height").value),weight=parseFloat($("c-weight").value);
+  var head=parseFloat($("c-head").value)||null,waist=parseFloat($("c-waist").value)||null;
+  var chest=parseFloat($("c-chest").value)||null,activity=$("c-activity").value,note=$("c-note").value.trim();
+  if(!name)return alert("请输入姓名"); if(!birth)return alert("请选择出生日期"); if(!height||!weight)return alert("请填写身高体重");
+  var age=getAge(birth); if(age===null||age<0||age>120)return alert("出生日期异常");
+  var diseases=[]; document.querySelectorAll(".disease-tag.active").forEach(function(el){diseases.push(el.dataset.disease);});
+  var religion=$("c-religion").value;
+  var prefs=[]; document.querySelectorAll(".pref-tag.active").forEach(function(el){prefs.push(el.dataset.pref);});
+  var dislike=$("c-dislike").value.trim();
+  var goal=$("c-goal").value||"维持体重";
+  var physio=(gender==="女")?($("c-physio").value||""):"";
+  var allergens=[]; document.querySelectorAll(".allergen-active,[data-allergen].active").forEach(function(el){allergens.push(el.dataset.allergen);});
+  var bmr=calcBMR(gender,weight,height,age),tdee=calcTDEE(bmr,activity);
+  var targetCal=tdee; var adj=[];
+  if(diseases.indexOf("肥胖")>=0){targetCal-=500;adj.push("肥胖-500");}
+  if(goal==="减脂"){targetCal-=400;adj.push("减脂-400");}
+  else if(goal==="增肌"){targetCal+=300;adj.push("增肌+300");}
+  else if(goal==="改善三高"){adj.push("维持能量·调整结构");}
+  if(physio==="孕中期"){targetCal+=300;adj.push("孕中+300");}
+  else if(physio==="孕晚期"){targetCal+=450;adj.push("孕晚+450");}
+  else if(physio==="哺乳期"){targetCal+=500;adj.push("哺乳+500");}
+  else if(physio==="更年期"){targetCal-=100;adj.push("更年期-100");}
+  targetCal=Math.max(targetCal,1000);
+  DB[name]={info:{gender:gender,birth:birth,age:age,height:height,weight:weight,head:head,waist:waist,chest:chest,activity:activity,note:note,diseases:diseases,religion:religion,prefs:prefs,dislike:dislike,goal:goal,physio:physio,allergens:allergens},bmr:bmr,tdee:tdee,targetCal:targetCal,created:new Date().toLocaleString(),tracks:[]};
+  saveDB();
+  var el=$("create-result"); el.style.display="block";
+  var ds=diseases.length?"<br>特殊疾病：<b>"+diseases.join("、")+"</b>":"";
+  var gadj=adj.length?"<br>目标能量调整（"+adj.join("｜")+"）：<b>"+targetCal.toFixed(0)+"</b> kcal":"";
+  el.innerHTML="<b>✅ "+name+" 建档成功（"+age.toFixed(1)+"岁）</b>"+ds+gadj+"<br><br>"+evaluateClient(DB[name].info,bmr,tdee);
+  ["c-name","c-height","c-weight","c-head","c-waist","c-chest","c-note","c-dislike"].forEach(function(id){$(id).value="";});
+  document.querySelectorAll(".disease-tag.active").forEach(function(el){el.classList.remove("active");});
+  var rs=$("c-religion"); if(rs) rs.value="";
+  var gs=$("c-goal"); if(gs) gs.value="维持体重";
+  var ps=$("c-physio"); if(ps) ps.value="";
+  document.querySelectorAll(".pref-tag.active").forEach(function(el){el.classList.remove("active");});
+  document.querySelectorAll("[data-allergen].active").forEach(function(el){el.classList.remove("active");});
+}
+
+function renderClients(){
+  var box=$("client-list"),names=Object.keys(DB);
+  if(!names.length){box.innerHTML='<div class="empty">暂无客户</div>';return;}
+  var html="";
+  names.forEach(function(n){var c=DB[n],db="";
+    if(c.info.diseases&&c.info.diseases.length) db=' <span class="badge orange">'+c.info.diseases.join("/")+'</span>';
+    html+='<div class="client-item"><div><div class="name">'+n+db+'</div><div class="sub">'+c.info.age.toFixed(0)+'岁·'+c.info.gender+'·TDEE '+c.tdee.toFixed(0)+'kcal</div></div><div><button class="secondary" style="width:auto;padding:6px 10px;margin:0;font-size:14px" data-action="view" data-name="'+encodeURIComponent(n)+'">查看</button><button class="danger" style="width:auto;padding:6px 10px;margin:0 0 0 4px;font-size:14px" data-action="del" data-name="'+encodeURIComponent(n)+'">删</button></div></div>';
+  });
+  box.innerHTML=html;
+}
+
+function showDetail(name){
+  var c=DB[name];if(!c)return;var i=c.info;
+  var html='<div><b>'+name+'</b>（'+i.gender+'，'+i.age.toFixed(1)+'岁）</div><div>身高'+i.height+'cm·体重'+i.weight+'kg'+(i.head?'·头围'+i.head+'cm':'')+(i.waist?'·腰围'+i.waist+'cm':'')+'</div><div>'+i.activity+'｜建档 '+c.created+'</div>';
+  if(i.diseases&&i.diseases.length) html+='<div>特殊疾病：<span class="badge orange">'+i.diseases.join("、")+'</span></div>';
+  if(i.religion) html+='<div>宗教信仰：<span class="badge orange">'+i.religion+'</span></div>';
+  if(i.goal&&i.goal!=="维持体重") html+='<div>健康目标：<span class="badge orange">'+i.goal+'</span></div>';
+  if(i.physio) html+='<div>生理状态：<span class="badge orange">'+i.physio+'</span></div>';
+  if(i.prefs&&i.prefs.length) html+='<div>饮食偏好：'+i.prefs.join("、")+'</div>';
+  if(i.allergens&&i.allergens.length) html+='<div>食物过敏：<span class="badge red">'+i.allergens.join("、")+'</span></div>';
+  if(i.dislike) html+='<div>忌口／过敏：'+i.dislike+'</div>';
+  if(i.note) html+='<div>备注：'+i.note+'</div>';
+  html+='<hr>'+evaluateClient(i,c.bmr,c.tdee);
+  $("client-detail-content").innerHTML=html; $("client-detail").style.display="block";
+}
+function delClient(name){if(!confirm("删除「"+name+"」？"))return;delete DB[name];saveDB();renderClients();$("client-detail").style.display="none";}
+
+function searchFood(){
+  var key=$("food-input").value.trim(),results=[];
+  Object.keys(FOOD_DB).forEach(function(k){if(k.indexOf(key)>=0||key.indexOf(k)>=0) results.push({name:k,data:FOOD_DB[k]});});
+  var el=$("food-result");el.style.display="block";
+  if(!results.length){el.innerHTML="未找到「"+key+"」，请尝试其他关键词";return;}
+  var html="";results.slice(0,10).forEach(function(r){html+="<b>"+r.name+"</b>（每100g）："+r.data.energy+"kcal|蛋白"+r.data.protein+"g|脂肪"+r.data.fat+"g|碳水"+r.data.carb+"g<br>";});
+  el.innerHTML=html;
+}
+function renderFoodAll(catF){
+  var html="",cats={};
+  Object.keys(FOOD_DB).forEach(function(k){var f=FOOD_DB[k],cat=f.cat||"其他";if(catF&&catF!=="all"&&cat!==catF)return;if(!cats[cat])cats[cat]=[];cats[cat].push({name:k,data:f});});
+  Object.keys(cats).forEach(function(cat){html+='<div class="food-cat">'+cat+'</div><div class="food-grid">';cats[cat].forEach(function(item){html+='<div class="food-card" data-food="'+item.name+'"><div class="fname">'+item.name+'</div>'+item.data.energy+'kcal|P'+item.data.protein+'g|F'+item.data.fat+'g</div>';});html+='</div>';});
+  $("food-all").innerHTML=html;
+}
+function renderFoodTags(){
+  var html="";["鸡胸肉","三文鱼","鸡蛋","牛奶","西兰花","苹果","燕麦片","豆腐","鲈鱼","红薯"].forEach(function(n){html+='<span class="tag" data-food="'+n+'">'+n+'</span>';});
+  $("food-tags").innerHTML=html;
+}
+function initFoodCatFilter(){
+  var cats={};Object.keys(FOOD_DB).forEach(function(k){cats[FOOD_DB[k].cat||"其他"]=true;});
+  var sel=$("food-cat-filter");Object.keys(cats).forEach(function(c){sel.innerHTML+='<option value="'+c+'">'+c+'</option>';});
+}
+
+function forbiddenFor(i){
+  var kws=[], lines=[];
+  if(i.religion && RELIGION_RULES[i.religion]){
+    kws=kws.concat(RELIGION_RULES[i.religion].kw);
+    lines.push("宗教信仰：<b>"+i.religion+"</b>（"+RELIGION_RULES[i.religion].note+"）");
+  }
+  if(i.prefs && i.prefs.length){
+    i.prefs.forEach(function(p){ if(DIET_PREFERENCE_RULES[p]) kws=kws.concat(DIET_PREFERENCE_RULES[p]); });
+    lines.push("饮食偏好："+i.prefs.join("、"));
+  }
+  if(i.allergens && i.allergens.length){
+    i.allergens.forEach(function(a){ if(ALLERGEN_RULES[a]) kws=kws.concat(ALLERGEN_RULES[a]); });
+    lines.push("食物过敏（严格规避）：<b>"+i.allergens.join("、")+"</b>");
+  }
+  if(i.dislike){
+    var tokens=i.dislike.split(/[、,，;；\/\s]+/).filter(function(x){return x.length>0;});
+    kws=kws.concat(tokens);
+    lines.push("个人忌口／过敏："+i.dislike);
+  }
+  return {kws:kws, lines:lines};
+}
+function genAdvice(){
+  var name=$("advice-client").value;if(!name||!DB[name])return alert("请先建档");
+  var c=DB[name],i=c.info,el=$("advice-result");el.style.display="block";
+  var isChild=i.age<18,diseases=i.diseases||[],goal=i.goal||"维持体重",physio=i.physio||"";
+  var FB=forbiddenFor(i), fbKws=FB.kws, hiddenN={n:0};
+  function fb(dish){ var hit=false; for(var q=0;q<fbKws.length;q++){ if(fbKws[q]&&dish.indexOf(fbKws[q])>=0){hit=true;break;} } if(hit)hiddenN.n++; return hit; }
+  var targetCal=c.targetCal,weight=i.weight;
+  var cell='style="border:1px solid #d6dee6;padding:4px"';
+  var cellC='style="border:1px solid #d6dee6;padding:4px;text-align:center"';
+
+  var pro_g,fat_g,carb_g,macroNote="";
+  if(diseases.indexOf("慢性肾病")>=0){
+    pro_g=weight*0.7; var fatCal=targetCal*0.30; fat_g=fatCal/9;
+    var carbCal=targetCal-pro_g*4-fatCal; carb_g=Math.max(carbCal,0)/4;
+    macroNote="优质低蛋白（约0.7g/kg体重，约"+pro_g.toFixed(0)+"g/日），同时保证充足热量以防分解自身蛋白";
+  } else {
+    var pp=0.15,fp=0.25,cp=0.60;
+    if(diseases.indexOf("糖尿病")>=0){pp=0.18;fp=0.25;cp=0.57;macroNote="适当提高蛋白、控制碳水总量并优选低GI主食";}
+    else if(diseases.indexOf("肥胖")>=0){pp=0.28;fp=0.24;cp=0.48;macroNote="高蛋白、适度控碳水，增强饱腹感并控制体脂";}
+    else if(diseases.indexOf("高脂血症")>=0){pp=0.18;fp=0.22;cp=0.60;macroNote="降低脂肪（尤其饱和脂肪）供能占比，增加膳食纤维";}
+    else if(diseases.indexOf("痛风/高尿酸")>=0){pp=0.13;fp=0.22;cp=0.65;macroNote="保证充足碳水促进尿酸排泄，蛋白来源限高嘌呤";}
+    else {macroNote="一般人群均衡配比（蛋白质15%／脂肪25%／碳水60%）";}
+    pro_g=targetCal*pp/4; fat_g=targetCal*fp/9; carb_g=targetCal*cp/4;
+  }
+  if(goal==="增肌"){ pro_g=Math.max(pro_g,weight*1.5); macroNote="增肌目标：蛋白质提升至约1.5g/kg（"+pro_g.toFixed(0)+"g/日），训练后注意补充优质蛋白。"; }
+  if(physio==="哺乳期"){ pro_g=Math.max(pro_g,weight*1.2); macroNote="哺乳期：增加优质蛋白与钙、铁、碘，保证每日约500ml液体；能量较孕前+500kcal。"; }
+  else if(/孕/.test(physio)){ pro_g=Math.max(pro_g,weight*1.05); macroNote="孕期：保证叶酸、铁、碘、钙，少量多餐缓解孕吐，能量按孕周递增。"; }
+
+  var hasSnack=isChild||diseases.indexOf("糖尿病")>=0||diseases.indexOf("肥胖")>=0||diseases.indexOf("慢性肾病")>=0||diseases.indexOf("痛风/高尿酸")>=0||(/孕|哺乳/.test(physio));
+  var meals;
+  if(hasSnack) meals=[["早餐",0.25],["午餐",0.30],["晚餐",0.30],["加餐",0.15]];
+  else meals=[["早餐",0.30],["午餐",0.40],["晚餐",0.30]];
+
+  function dishPortion(cat,dish){
+    if(/[0-9]/.test(dish)&&/[g克m毫升个片颗段块瓣根勺碗把粒只条]/.test(dish)) return "";
+    if(/[个片颗段块瓣根勺碗把粒只条]/.test(dish)) return "";
+    if(/烹饪|要点|调味/.test(cat)) return "";
+    if(/主食|谷|薯|粉|粥/.test(cat)) return "约100-150g（熟）";
+    if(/蛋白|肉|虾|鱼|禽|蛋|奶/.test(cat)) return "约50-75g（生）";
+    if(/汤/.test(cat)) return "约200-300ml";
+    if(/清淡/.test(cat)) return "蔬菜150-200g 或 鱼虾50-75g（生）";
+    if(/菜|蔬/.test(cat)) return "约150-200g";
+    if(/加餐|坚果|零食/.test(cat)) return "约10-15g";
+    return "适量";
+  }
+
+  var html="<b>"+name+"（"+i.age.toFixed(1)+"岁"+(diseases.length?"·"+diseases.join("/"):"")+"）个性化饮食建议</b><br>";
+  html+="目标能量：约 <b>"+targetCal.toFixed(0)+"</b> kcal/日<br>";
+  var tagBits=[];
+  if(goal&&goal!=="维持体重") tagBits.push("健康目标："+goal);
+  if(physio) tagBits.push("生理状态："+physio);
+  if(i.allergens&&i.allergens.length) tagBits.push("过敏原："+i.allergens.join("/"));
+  if(i.religion) tagBits.push("宗教："+i.religion);
+  if(tagBits.length) html+='<div style="background:#eef7ee;border-left:3px solid #2e7d32;padding:6px 8px;margin:6px 0;border-radius:4px;font-size:15px">📌 档案要点：'+tagBits.join("　·　")+'</div>';
+  if(diseases.length){diseases.forEach(function(dk){var d=DISEASES[dk];if(!d)return;html+='<div class="disease-warning">'+d.icon+' <b>'+dk+'</b>：'+d.principles+'</div>';});}
+
+  html+='<div class="dish-section"><h4>每日营养素目标（按目标能量换算）</h4>';
+  html+='<table style="width:100%;border-collapse:collapse;font-size:15px;margin:4px 0">';
+  html+='<tr style="background:#f0f4f8"><th '+cell+' align="left">营养素</th><th '+cellC+'>每日总量</th><th '+cellC+'>供能占比</th></tr>';
+  var pPct=(pro_g*4/targetCal*100),fPct=(fat_g*9/targetCal*100),cPct=(carb_g*4/targetCal*100);
+  html+='<tr><td '+cell+'>蛋白质</td><td '+cellC+'><b>'+pro_g.toFixed(0)+' g</b></td><td '+cellC+'>'+pPct.toFixed(0)+'%</td></tr>';
+  html+='<tr><td '+cell+'>脂肪</td><td '+cellC+'><b>'+fat_g.toFixed(0)+' g</b></td><td '+cellC+'>'+fPct.toFixed(0)+'%</td></tr>';
+  html+='<tr><td '+cell+'>碳水化合物</td><td '+cellC+'><b>'+carb_g.toFixed(0)+' g</b></td><td '+cellC+'>'+cPct.toFixed(0)+'%</td></tr>';
+  html+='</table>';
+  html+='<div style="color:#666;font-size:14px">配比说明：'+macroNote+'。</div></div>';
+
+  html+='<div class="dish-section"><h4>三餐能量与营养素分配建议</h4>';
+  html+='<table style="width:100%;border-collapse:collapse;font-size:15px;margin:4px 0">';
+  html+='<tr style="background:#f0f4f8"><th '+cell+' align="left">餐次</th><th '+cellC+'>能量</th><th '+cellC+'>蛋白质</th><th '+cellC+'>脂肪</th><th '+cellC+'>碳水</th></tr>';
+  meals.forEach(function(m){var r=m[1];html+='<tr><td '+cell+'>'+m[0]+'（'+(r*100).toFixed(0)+'%）</td><td '+cellC+'>'+(targetCal*r).toFixed(0)+' kcal</td><td '+cellC+'>'+(pro_g*r).toFixed(0)+'g</td><td '+cellC+'>'+(fat_g*r).toFixed(0)+'g</td><td '+cellC+'>'+(carb_g*r).toFixed(0)+'g</td></tr>';});
+  html+='</table>';
+  html+='<div style="color:#666;font-size:14px">说明：'+(hasSnack?"已按少量多餐／控糖控重的需要安排三餐＋加餐；可按个人作息微调。":"三餐能量约按 3:4:3 分配，可按个人作息微调。")+'</div></div>';
+
+  html+='<div class="dish-section"><h4>膳食宝塔基础（2022版指南 + DRIs 2023）</h4>';
+  if(isChild) html+="谷薯类200-300g，蔬菜300-500g，水果200-350g，肉蛋鱼虾50-75g，奶300-500ml，蛋1个/日，限制含糖饮料";
+  else html+="谷类200-300g（全谷物/杂豆50-150g）|薯类50-100g<br>蔬菜300-500g（深色≥1/2）|水果200-350g<br>动物性食物120-200g（每周≥2次水产）<br>奶300-500g|大豆坚果25-35g<br>油25-30g|盐<5g|添加糖<25g";
+  var milkAlt=(i.prefs&&i.prefs.indexOf("乳糖不耐")>=0)||((i.allergens||[]).indexOf("牛奶")>=0);
+  if(milkAlt) html+='<div style="color:#bf360c;font-size:14px;margin-top:4px">⚠ 该客户存在乳糖不耐／牛奶过敏：建议将牛奶替换为无乳糖奶、低糖酸奶、豆浆或钙强化食品，并通过深绿叶菜、豆制品补足每日钙约800-1000mg。</div>';
+  html+='</div>';
+
+  if(diseases.length){
+    diseases.forEach(function(dk){var d=DISEASES[dk];if(!d)return;
+      html+='<div class="dish-section"><h4>'+d.icon+' '+dk+' 推荐菜品</h4>';
+      Object.keys(d.dishes).forEach(function(cat){var _dl=d.dishes[cat].filter(function(x){return !fb(x);});if(!_dl.length){html+='<b>'+cat+'：</b><div style="color:#999;font-size:14px">（该分类推荐菜品均已规避，请同类替换）</div>';return;}html+='<b>'+cat+'：</b><ul>';_dl.forEach(function(x){var p=dishPortion(cat,x);html+='<li>'+x+(p?'<span style="color:#2e7d32">（建议菜量：'+p+'/人·餐）</span>':'')+'</li>';});html+='</ul>';});
+      html+='</div>';
+    });
+    var allA=[];diseases.forEach(function(dk){var d=DISEASES[dk];if(d&&d.avoid)allA=allA.concat(d.avoid);});
+    if(allA.length){html+='<div class="dish-section avoid-section"><h4>需要避免的食物</h4><ul>';var sn={};allA.forEach(function(a){if(!sn[a]){sn[a]=true;html+='<li>'+a+'</li>';}});html+='</ul></div>';}
+  } else {
+    html+='<div class="dish-section"><h4>推荐家常菜品搭配</h4>';
+    Object.keys(GENERAL_DISHES).forEach(function(cat){var _gl=GENERAL_DISHES[cat].filter(function(x){return !fb(x);});if(!_gl.length){html+='<b>'+cat+'：</b><div style="color:#999;font-size:14px">（该分类菜品均已规避，请同类替换）</div>';return;}html+='<b>'+cat+'：</b><ul>';_gl.forEach(function(x){var p=dishPortion(cat,x);html+='<li>'+x+(p?'<span style="color:#2e7d32">（建议菜量：'+p+'/人·餐）</span>':'')+'</li>';});html+='</ul>';});
+    html+='</div>';
+  }
+  if(FB.lines.length){
+    html+='<div class="dish-section avoid-section"><h4>饮食禁忌（宗教与个人偏好）</h4><ul>';
+    FB.lines.forEach(function(l){html+='<li>'+l+'</li>';});
+    html+='</ul><div style="color:#bf360c;font-size:14px">已自动规避含禁忌食材的推荐菜品约 '+hiddenN.n+' 道；如需精确配餐，请在专业营养师指导下替换为同类合规食材。</div></div>';
+  }
+  html+="<br><span style='color:#888;font-size:14px'>注：以上营养素克数与菜量均为按目标能量的参考换算，需结合过敏史、用药、饮食偏好及医嘱个性化调整。</span>";
+  el.innerHTML=html;
+}
+
+function addTrack(){
+  var name=$("track-client").value;if(!name||!DB[name])return alert("请选择客户");
+  var weight=parseFloat($("track-weight").value);if(!weight)return alert("请输入体重");
+  var waist=parseFloat($("track-waist").value)||null,head=parseFloat($("track-head").value)||null,note=$("track-note").value.trim();
+  var _ts=DB[name].tracks;var _prev=_ts.length?_ts[_ts.length-1]:null;
+  var _ev=evalStatus(DB[name].info,weight,waist,head,_prev);
+  DB[name].tracks.push({date:new Date().toLocaleString(),weight:weight,waist:waist,head:head,note:note,evLevel:_ev.level,evColor:_ev.color,evList:_ev.eval,nextList:_ev.next});
+  saveDB();["track-weight","track-waist","track-head","track-note"].forEach(function(id){$(id).value="";});renderTrackHistory(name);
+}
+function evalStatus(info,w,wc,head,prev){
+  var h=parseFloat(info.height)||0,age=parseFloat(info.age)||0,g=info.gender||'';
+  var dis=info.diseases||[];
+  var bmi=(h>0&&w>0)?w/Math.pow(h/100,2):0;
+  var lv='',color='',ev=[],next=[];
+  if(bmi>0){
+    var tgt='';
+    if(age>0&&age<=18){var ref=lookupChildBMI(age,g);if(ref){if(bmi<ref.overweight){lv='正常';color='#43a047';}else if(bmi<ref.obese){lv='超重';color='#fb8c00';}else{lv='肥胖';color='#e53935';}tgt='（'+ref.label+'儿童标准）';}}
+    else{if(bmi<18.5){lv='偏瘦';color='#fb8c00';}else if(bmi<24){lv='正常';color='#43a047';}else if(bmi<28){lv='超重';color='#fb8c00';}else{lv='肥胖';color='#e53935';}}
+    if(lv)ev.push('BMI '+bmi.toFixed(1)+tgt+'，当前判定为<b style="color:'+color+'">'+lv+'</b>');else ev.push('BMI '+bmi.toFixed(1));
+    if(lv==='偏瘦'){next.push('每日能量在现基础上增加200-300kcal，规律加餐','保证优质蛋白1.2-1.5g/kg（蛋奶鱼瘦肉豆）','配合抗阻运动增肌，定期复测体重');}
+    else if(lv==='正常'){next.push('维持当前能量摄入，保持体重稳定','每周≥150分钟中等强度运动','膳食均衡，蔬果每天400-500g','每2-4周复测体重与腰围');}
+    else if(lv==='超重'){next.push('每日能量缺口300-500kcal，目标每周减0.5kg','主食1/3换成全谷物杂豆，烹调油控25-30g/日','限制含糖饮料与油炸食品','每周300分钟有氧+抗阻运动');}
+    else if(lv==='肥胖'){next.push('建议在专业指导下减重，每周减0.5-1kg','采用限能量膳食（每日减少500-750kcal）','优先高蛋白膳食保肌肉','同步监测血压血糖血脂，必要时转诊');}
+  }else{ev.push('未填写身高，无法计算BMI，仅记录身体数据');next.push('在客户档案补充身高以获取完整评价');}
+  if(wc>0){var cut=(g==='女')?85:90;if(wc>=cut){ev.push('腰围'+wc+'cm 超过'+cut+'cm警戒线，存在中心性肥胖风险');next.push('重点控腹脂：减少精制糖与酒精','膳食纤维增至25-30g/日');}else if(age>=18&&wc>=cut-5){ev.push('腰围'+wc+'cm 接近'+cut+'cm警戒线，需注意');}}
+  if(head>0&&age>0&&age<=18){ev.push('头围'+head+'cm（儿童生长参考，结合百分位曲线判读）');}
+  if(prev){
+    if(prev.weight>0&&w>0){var dw=+(w-prev.weight).toFixed(1);if(Math.abs(dw)>=0.1){var tp=dw>0?('<span style="color:#e53935">较上次('+prev.date+')增加'+dw+'kg</span>'):('<span style="color:#43a047">较上次('+prev.date+')减少'+Math.abs(dw)+'kg</span>');ev.push(tp);if(dw<=-0.1&&(lv==='超重'||lv==='肥胖'))next.unshift('减重节奏良好，继续保持');if(dw>=0.1&&(lv==='超重'||lv==='肥胖'))next.unshift('体重呈上升趋势，需收紧能量摄入');}else{ev.push('体重较上次基本持平');}}
+    if(prev.waist&&wc&&wc<prev.waist){ev.push('<span style="color:#43a047">腰围较上次减小'+(+(prev.waist-wc).toFixed(1))+'cm</span>');}
+  }
+  if(dis.indexOf('糖尿病')>=0){next.push('糖尿病：主食定量低GI，监测空腹与餐后血糖');}
+  if(dis.indexOf('高血压')>=0){next.push('高血压：钠盐<5g/日，增加富钾蔬果，规律测血压');}
+  if(dis.indexOf('高脂血症')>=0){next.push('高血脂：脂肪供能<25%、饱和脂肪<7%，每周2次深海鱼');}
+  if(dis.indexOf('痛风/高尿酸')>=0){next.push('痛风/高尿酸：限嘌呤（内脏/浓汤/海鲜/啤酒），饮水2000ml+');}
+  if(dis.indexOf('慢性肾病')>=0){next.push('慢性肾病：优质低蛋白0.6-0.8g/kg，限磷钾，定期查肾功能');}
+  if(dis.indexOf('肥胖')>=0){next.push('肥胖：坚持记录饮食，循序渐进减重，避免极低热量');}
+  if(!next.length){next.push('各项指标良好，保持现有健康生活方式');}
+  return {level:lv,color:color,eval:ev,next:next};
+}
+function delTrack(idx){
+  var name=$("track-client").value;if(!name||!DB[name])return;
+  var arr=DB[name].tracks;if(!(idx>=0&&idx<arr.length))return;
+  var t=arr[idx];if(!confirm("确定删除这条记录（"+t.date+"，"+t.weight+"kg）吗？"))return;
+  arr.splice(idx,1);saveDB();renderTrackHistory(name);
+}
+function renderTrackHistory(name){
+  var box=$("track-history"),tracks=DB[name]?DB[name].tracks:[];
+  if(!tracks.length){box.className="empty";box.innerHTML="暂无记录";return;}
+  box.className="";var html="",prev=null;
+  tracks.forEach(function(t,i){var tr="";if(prev!==null){var d=+(t.weight-prev).toFixed(1);tr=d>0?' <span style="color:#e53935">↑'+d+'kg</span>':d<0?' <span style="color:#43a047">↓'+Math.abs(d)+'kg</span>':' <span style="color:#999">→</span>';}var _info='<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px"><span style="flex:1;min-width:0;word-break:break-all;line-height:1.5">'+t.date+'|'+'<b>'+t.weight+'kg</b>'+tr+(t.waist?'|腰'+t.waist+'cm':'')+(t.head?'|头'+t.head+'cm':'')+'|'+(t.note||'-')+'</span><button data-action="del-track" data-idx="'+i+'" style="flex:none;width:auto;background:#fff;border:1px solid #e53935;color:#e53935;border-radius:4px;font-size:14px;line-height:1.6;padding:2px 8px;margin:0;cursor:pointer">删除</button></div>';var _ev='';if(t.evList&&t.evList.length){_ev='<div style="margin-top:6px;padding:8px 10px;background:#f6f8fa;border-radius:6px;font-size:14px;line-height:1.7;color:#333"><div style="margin-bottom:3px"><b style="color:'+(t.evColor||'#43a047')+'">当前状态'+(t.evLevel?('｜'+t.evLevel):'')+'</b></div>';_ev+=t.evList.map(function(s){return '<div>· '+s+'</div>';}).join('');if(t.nextList&&t.nextList.length){_ev+='<div style="margin-top:5px;color:#1565c0"><b>下一步建议：</b></div><ol style="margin:3px 0 0 18px;padding:0">';_ev+=t.nextList.map(function(s){return '<li>'+s+'</li>';}).join('');_ev+='</ol>';}_ev+='</div>';}html+='<div class="log-item">'+_info+_ev+'</div>';prev=t.weight;});
+  box.innerHTML=html;
+}
+function switchPage(idx){
+  var pages=["page-create","page-clients","page-food","page-advice","page-track","page-special","page-calc"];
+  document.querySelectorAll(".page").forEach(function(p){p.classList.remove("active");});
+  document.querySelectorAll(".nav div").forEach(function(d){d.classList.remove("active");});
+  $(pages[idx]).classList.add("active");document.querySelectorAll(".nav div")[idx].classList.add("active");
+  if(idx===1)renderClients();if(idx===2)renderFoodAll($("food-cat-filter").value);
+  if(idx===3)fillSelect("advice-client");
+  if(idx===4){fillSelect("track-client");var v=$("track-client").value;if(v)renderTrackHistory(v);}
+  if(idx===5)initSpecial();
+}
+function fillSelect(id){
+  var sel=$(id),names=Object.keys(DB);
+  if(!names.length){sel.innerHTML='<option value="">（暂无客户）</option>';return;}
+  sel.innerHTML=names.map(function(n){var d=DB[n].info.diseases;return'<option value="'+n+'">'+n+(d&&d.length?" ("+d.join(",")+")":"")+'</option>';}).join("");
+}
+
+document.addEventListener("click",function(e){
+  var t=e.target,nav=t.closest(".nav div");
+  if(nav&&nav.dataset.page!==undefined){switchPage(parseInt(nav.dataset.page));return;}
+  if(t.id==="btn-save"){saveClient();return;}
+  if(t.id==="btn-close-detail"){$("client-detail").style.display="none";return;}
+  if(t.id==="btn-food-search"){searchFood();return;}
+  if(t.id==="btn-advice"){genAdvice();return;}
+  if(t.id==="btn-track"){addTrack();return;}
+  if(t.id==="btn-group"){genGroup();return;}
+  if(t.id==="btn-infant"){genInfant();return;}
+  if(t.id==="btn-pregnan"){genPregnan();return;}
+  var dtBtn=t.closest?t.closest('[data-action="del-track"]'):null;if(dtBtn){delTrack(parseInt(dtBtn.dataset.idx));return;}
+  if(t.dataset.action==="view"){showDetail(decodeURIComponent(t.dataset.name));return;}
+  if(t.dataset.action==="del"){delClient(decodeURIComponent(t.dataset.name));return;}
+  if(t.dataset.food){$("food-input").value=t.dataset.food;searchFood();return;}
+  if(t.dataset.disease!==undefined){t.classList.toggle("active");return;}
+  if(t.dataset.pref!==undefined){t.classList.toggle("active");return;}
+  if(t.dataset.allergen!==undefined){t.classList.toggle("active");return;}
+  if(t.dataset.gdisease!==undefined){t.classList.toggle("active");return;}
+  if(t.dataset.gpop!==undefined){t.classList.toggle("active");return;}
+  if(t.dataset.spref!==undefined){t.classList.toggle("active");return;}
+});
+document.addEventListener("change",function(e){
+  if(e.target.id==="track-client")renderTrackHistory(e.target.value);
+  if(e.target.id==="food-cat-filter")renderFoodAll(e.target.value);
+});
+
+/* ===== 专项营养模块（群体 / 婴幼儿 / 孕妇）—— 新增，不影响既有个人功能 ===== */
+var SP_TAG_LIST = PREF_LIST.concat(ALLERGEN_LIST);
+var SPECIAL_RECIPES = {
+  group: [
+    ["早餐（人均每餐）", [
+      ["牛奶燕麦粥","燕麦40g+牛奶250ml/人"],
+      ["水煮蛋","鸡蛋1个约50g/人"],
+      ["全麦馒头","1个约80g/人"],
+      ["小米粥","熟粥约250g/人"],
+      ["凉拌黄瓜","约100g/人"]
+    ]],
+    ["主食（人均每餐）", [
+      ["杂粮饭","生米75-100g/人"],
+      ["红薯饭","大米60g+红薯50g/人"],
+      ["玉米糁粥","熟粥约300g/人"]
+    ]],
+    ["荤菜（人均每餐·生重）", [
+      ["清蒸鲈鱼","鱼肉75g/人"],
+      ["番茄炖牛腩","牛腩75g/人"],
+      ["白灼基围虾","虾75g/人"],
+      ["香煎龙利鱼","鱼肉75g/人"],
+      ["香菇蒸鸡","鸡肉75g/人"],
+      ["清炖羊肉","羊肉75g/人"]
+    ]],
+    ["素菜（人均每餐）", [
+      ["蒜蓉西兰花","菜150-200g/人"],
+      ["番茄炒蛋","番茄150g+蛋1个/人"],
+      ["麻婆豆腐","豆腐100g/人"],
+      ["手撕包菜","菜150-200g/人"],
+      ["醋溜白菜","菜150-200g/人"]
+    ]],
+    ["汤品（人均每餐）", [
+      ["番茄蛋花汤","约200ml/人"],
+      ["冬瓜排骨汤","约250ml/人"],
+      ["菌菇豆腐汤","约250ml/人"]
+    ]],
+    ["加餐（人均）", [
+      ["无糖酸奶","100g/人"],
+      ["苹果","半个约100g/人"],
+      ["原味坚果","10g/人"]
+    ]]
+  ],
+  infant: {
+    "0-6月": [["纯奶期（每日）", [["母乳或配方奶","700-900ml/日·按需喂养"]]]],
+    "6-8月": [["辅食引入（每日1-2餐）", [
+      ["强化铁米粉","干粉15-25g冲调/餐"],
+      ["蛋黄泥","1/4至1/2个/餐"],
+      ["南瓜泥","约30-50g/餐"],
+      ["苹果泥","约30-50g/餐"],
+      ["猪肉泥或肝泥","约15-25g/餐"]
+    ]]],
+    "9-11月": [["辅食渐进（每日2餐+1点心）", [
+      ["烂面条","熟面约50-80g/餐"],
+      ["碎菜肉末粥","熟粥约100-150g/餐"],
+      ["肉末蒸蛋","蛋1个+肉末20g/餐"],
+      ["香蕉条/磨牙饼干","适量作手指食物"]
+    ]]],
+    "12-24月": [["幼儿过渡（三餐+2点心）", [
+      ["软米饭","熟饭约75-100g/餐"],
+      ["番茄鸡蛋面","熟面约80g+蛋1个/餐"],
+      ["肉末豆腐","豆腐50g+肉末20g/餐"],
+      ["清蒸鱼去刺","鱼肉25-50g/餐"],
+      ["配方奶或牛奶","约500ml/日"]
+    ]]],
+    "24-36月": [["幼儿期（规律三餐+1-2点心）", [
+      ["杂粮软饭","熟饭约100-125g/餐"],
+      ["番茄炒蛋","番茄100g+蛋1个/餐"],
+      ["香菇滑鸡","鸡肉50g/餐"],
+      ["清炒菠菜","菜约75-100g/餐"],
+      ["牛奶","350-500ml/日"]
+    ]]]
+  },
+  pregnan: [
+    ["孕早期（缓解孕吐·防酮体）", [
+      ["全麦面包","2片约70g/餐"],
+      ["小米红枣粥","熟粥约250g/餐"],
+      ["清蒸鲈鱼","鱼肉75g/餐"],
+      ["焯拌菠菜","菜150g/餐·补叶酸"],
+      ["番茄蛋花汤","约200ml/餐"],
+      ["苏打饼干","2-3片作加餐"],
+      ["水煮玉米","半根作加餐"]
+    ]],
+    ["孕中期（补钙铁与DHA）", [
+      ["牛奶燕麦粥","燕麦40g+牛奶250ml/早"],
+      ["香菇蒸鸡","鸡肉75g/餐"],
+      ["清炖排骨","排骨100g/餐"],
+      ["韭菜炒鸡蛋","蛋2个+韭菜100g/餐"],
+      ["蒜蓉西兰花","菜150-200g/餐"],
+      ["清蒸深海鱼","鱼肉75g·每周2-3次补DHA"],
+      ["无糖酸奶","150g/加餐·补钙"],
+      ["核桃","2-3个约10g/日"]
+    ]],
+    ["孕晚期（控重·补钙铁防水肿）", [
+      ["杂粮饭","生米75-100g/餐·控GI"],
+      ["豆腐鲫鱼汤","鲫鱼1条+豆腐100g/餐"],
+      ["白灼虾","虾75g/餐·高蛋白低脂"],
+      ["番茄炖牛腩","牛腩75g/餐·补铁"],
+      ["冬瓜排骨汤","约250ml/餐·少盐"],
+      ["芹菜炒香干","香干80g+芹菜100g/餐"],
+      ["低糖酸奶","150g/加餐"]
+    ]]
+  ]
+};
+function collectSpecialFB(pfx){
+  var rel=$(pfx+"-religion"), religion=rel?rel.value:"";
+  var prefs=[],allergens=[];
+  var box=$(pfx+"-spref");
+  if(box){ Array.prototype.forEach.call(box.querySelectorAll(".sp-ref-tag.active"),function(e){ var nm=e.getAttribute("data-spref"); if(DIET_PREFERENCE_RULES[nm])prefs.push(nm); else if(ALLERGEN_RULES[nm])allergens.push(nm); }); }
+  var di=$(pfx+"-dislike"), dislike=di?(di.value||"").replace(/^\s+|\s+$/g,""):"";
+  return {religion:religion,prefs:prefs,allergens:allergens,dislike:dislike};
+}
+function renderRecipeSection(title, buckets, fbKws, hidden){
+  function hit(name){ for(var q=0;q<fbKws.length;q++){ if(fbKws[q]&&name.indexOf(fbKws[q])>=0) return true; } return false; }
+  var cell='style="border:1px solid #d6dee6;padding:4px"', cellC='style="border:1px solid #d6dee6;padding:4px;text-align:center"';
+  var html='<div class="dish-section"><h4>'+title+'</h4>', any=false;
+  buckets.forEach(function(bk){
+    var list=bk[1].filter(function(r){ if(hit(r[0])){hidden.n++;return false;} return true; });
+    if(!list.length) return;
+    any=true;
+    html+='<b>'+bk[0]+'：</b><table style="width:100%;border-collapse:collapse;font-size:15px;margin:4px 0 8px">';
+    html+='<tr style="background:#f0f4f8"><th '+cell+' align="left">菜品</th><th '+cellC+'>建议菜量（每人份）</th></tr>';
+    list.forEach(function(r){ html+='<tr><td '+cell+'>'+r[0]+'</td><td '+cellC+'><span style="color:#2e7d32">'+r[1]+'</span></td></tr>'; });
+    html+='</table>';
+  });
+  if(!any) html+='<div style="color:#999;font-size:14px">所选宗教/偏好/过敏禁忌已规避全部示例菜品，请按同类合规食材替换。</div>';
+  html+='</div>';
+  return html;
+}
+var G_POP = ["老年人","孕产妇","术后康复","学龄前儿童","吞咽障碍"];
+function renderSpecialTags(){
+  var dh=""; Object.keys(DISEASES).forEach(function(n){ dh+='<span class="tag disease-tag g-disease-tag" data-gdisease="'+n+'">'+DISEASES[n].icon+' '+n+'</span>'; });
+  var gd=$("g-disease"); if(gd) gd.innerHTML=dh;
+  var ph=""; G_POP.forEach(function(n){ ph+='<span class="tag pref-tag g-pop-tag" data-gpop="'+n+'">'+n+'</span>'; });
+  var gp=$("g-pop"); if(gp) gp.innerHTML=ph;
+  var sp=""; SP_TAG_LIST.forEach(function(n){ sp+='<span class="tag pref-tag sp-ref-tag" data-spref="'+n+'">'+n+'</span>'; });
+  ["g-spref","i-spref","p-spref"].forEach(function(id){ var s=$(id); if(s) s.innerHTML=sp; });
+}
+function initSpecial(){
+  var m=$("special-mode"); if(!m) return;
+  var map={"group":"sec-group","infant":"sec-infant","pregnan":"sec-pregnan"};
+  ["sec-group","sec-infant","sec-pregnan"].forEach(function(id){ var s=$(id); if(s) s.style.display="none"; });
+  var sec=$(map[m.value]); if(sec) sec.style.display="block";
+}
+
+function genGroup(){
+  var el=$("group-result"); if(!el) return;
+  var type=$("g-type").value;
+  var count=parseInt($("g-count").value); if(!count||count<1) return alert("请输入群体人数");
+  var age=parseFloat($("g-age").value)||70, gender=$("g-gender").value,
+      height=parseFloat($("g-height").value)||165, weight=parseFloat($("g-weight").value)||62, act=$("g-activity").value;
+  var dis=[]; document.querySelectorAll(".g-disease-tag.active").forEach(function(e){dis.push(e.dataset.gdisease);});
+  var pops=[]; document.querySelectorAll(".g-pop-tag.active").forEach(function(e){pops.push(e.dataset.gpop);});
+  var bmr=calcBMR(gender,weight,height,age), tdee=calcTDEE(bmr,act);
+  var per=tdee, adj=[];
+  if(type==="养老机构"){ per*=0.9; adj.push("老年群体基础代谢下调约10%"); }
+  if(type==="医院住院科"){ per*=0.95; adj.push("住院静息能量系数约0.95"); }
+  if(type==="月子中心"){ per+=300; adj.push("产后哺乳能量+300kcal"); }
+  if(pops.indexOf("老年人")>=0 && type!=="养老机构"){ per*=0.92; adj.push("含老年人-8%"); }
+  if(pops.indexOf("孕产妇")>=0 && type!=="月子中心"){ per+=350; adj.push("含孕产妇+350kcal"); }
+  if(dis.indexOf("肥胖")>=0){ per-=400; adj.push("肥胖人群-400kcal"); }
+  if(dis.indexOf("糖尿病")>=0){ adj.push("控碳水总量·定时定量"); }
+  per=Math.max(per,1200);
+  var pp=0.15,fp=0.25,cp=0.60,mnote="一般人群配比（蛋白15%／脂肪25%／碳水60%）";
+  if(dis.indexOf("糖尿病")>=0){ pp=0.18;fp=0.25;cp=0.57; mnote="控糖：蛋白略增、碳水优选低GI并定量"; }
+  if(dis.indexOf("高脂血症")>=0){ pp=0.18;fp=0.22;cp=0.60; mnote="降脂：降低脂肪（尤其饱和脂肪）供能占比"; }
+  if(dis.indexOf("慢性肾病")>=0){ pp=0.09;fp=0.30;cp=0.61; mnote="低蛋白：蛋白约0.6-0.8g/kg，须由专科出具限蛋白食谱"; }
+  if(pops.indexOf("老年人")>=0 || type==="养老机构"){ pp=Math.max(pp,0.18); }
+  var pro=per*pp/4, fat=per*fp/9, carb=per*cp/4;
+  var hasSnack=(type==="养老机构"||dis.indexOf("糖尿病")>=0||dis.indexOf("肥胖")>=0||dis.indexOf("慢性肾病")>=0||pops.indexOf("老年人")>=0);
+  var meals=hasSnack?[["早餐",0.25],["午餐",0.30],["加餐",0.10],["晚餐",0.25],["晚点",0.10]]:[["早餐",0.30],["午餐",0.40],["晚餐",0.30]];
+  var pyr=[["谷类（生）",250,"g"],["薯类",75,"g"],["蔬菜",450,"g"],["水果",275,"g"],["畜禽肉",58,"g"],["水产",58,"g"],["蛋类",45,"g"],["奶及奶制品",400,"g/ml"],["大豆及坚果",30,"g"],["烹调油",28,"g"]];
+  var cell='style="border:1px solid #d6dee6;padding:4px"', cellC='style="border:1px solid #d6dee6;padding:4px;text-align:center"';
+  var html="<b>【"+type+"】群体营养方案</b>（"+count+"人 · 平均"+age+"岁·"+gender+"）<br>";
+  if(adj.length) html+='<div style="background:#eef7ee;border-left:3px solid #2e7d32;padding:6px 8px;margin:6px 0;border-radius:4px;font-size:15px">能量调整：'+adj.join("；")+'</div>';
+  html+="人均目标能量：约 <b>"+per.toFixed(0)+"</b> kcal/人·日<br>";
+  html+='<div class="dish-section"><h4>一、人均每日营养素目标</h4>';
+  html+='<table style="width:100%;border-collapse:collapse;font-size:15px"><tr style="background:#f0f4f8"><th '+cell+' align="left">营养素</th><th '+cellC+'>人均/日</th><th '+cellC+'>供能占比</th></tr>';
+  html+='<tr><td '+cell+'>蛋白质</td><td '+cellC+'><b>'+pro.toFixed(0)+' g</b></td><td '+cellC+'>'+(pp*100).toFixed(0)+'%</td></tr>';
+  html+='<tr><td '+cell+'>脂肪</td><td '+cellC+'><b>'+fat.toFixed(0)+' g</b></td><td '+cellC+'>'+(fp*100).toFixed(0)+'%</td></tr>';
+  html+='<tr><td '+cell+'>碳水化合物</td><td '+cellC+'><b>'+carb.toFixed(0)+' g</b></td><td '+cellC+'>'+(cp*100).toFixed(0)+'%</td></tr>';
+  html+='</table><div style="color:#666;font-size:14px">'+mnote+'。</div></div>';
+  html+='<div class="dish-section"><h4>二、全日餐次能量分配（人均）</h4>';
+  html+='<table style="width:100%;border-collapse:collapse;font-size:15px"><tr style="background:#f0f4f8"><th '+cell+' align="left">餐次</th><th '+cellC+'>能量</th><th '+cellC+'>蛋白质</th><th '+cellC+'>碳水</th></tr>';
+  meals.forEach(function(m){ html+='<tr><td '+cell+'>'+m[0]+'（'+(m[1]*100).toFixed(0)+'%）</td><td '+cellC+'>'+(per*m[1]).toFixed(0)+' kcal</td><td '+cellC+'>'+(pro*m[1]).toFixed(0)+'g</td><td '+cellC+'>'+(carb*m[1]).toFixed(0)+'g</td></tr>'; });
+  html+='</table></div>';
+  html+='<div class="dish-section"><h4>三、群体每日食材采购总量（人均膳食宝塔 × 人数）</h4>';
+  html+='<table style="width:100%;border-collapse:collapse;font-size:15px"><tr style="background:#f0f4f8"><th '+cell+' align="left">食材类别</th><th '+cellC+'>人均/日</th><th '+cellC+'>全群体/日</th></tr>';
+  pyr.forEach(function(p){ html+='<tr><td '+cell+'>'+p[0]+'</td><td '+cellC+'>'+p[1]+p[2]+'</td><td '+cellC+'><b>'+Math.round(p[1]*count)+p[2]+'</b></td></tr>'; });
+  html+='<tr><td '+cell+'>食盐</td><td '+cellC+'>&lt;5g</td><td '+cellC+'><b>&lt;'+(5*count)+'g</b></td></tr>';
+  html+='</table><div style="color:#666;font-size:14px">注：为膳食宝塔推荐量中值的估算总量，供采购备餐参考；实际按当日用餐人数、季节与库存核减。</div></div>';
+  html+='<div class="dish-section"><h4>四、该群体配餐原则与注意</h4><ul>';
+  var tips=[];
+  if(type==="养老机构"){tips.push("食物软烂、易咀嚼消化，优先蒸炖煮；防噎食，必要时做糊状/碎末餐");tips.push("警惕老年肌少症与营养不良：保证优质蛋白，少量多餐");}
+  if(type==="医院住院科"){tips.push("按医嘱分级治疗膳食执行（普食/软食/半流/流食）");tips.push("统一低盐低油，记录进食率，营养风险筛查(NRS2002)阳性者个体化会诊");}
+  if(type==="学校"){tips.push("三餐规律、加餐以奶/水果为主，杜绝高糖饮料与油炸");tips.push("保障早餐质量，注意钙、铁、维生素A");}
+  if(type==="月子中心"){tips.push("产后分阶段调理：排恶露→修复→催乳；充足液体与优质蛋白");}
+  if(type==="单位食堂"){tips.push("少油少盐、荤素搭配，标注热量与过敏原供自选");}
+  if(pops.indexOf("吞咽障碍")>=0){tips.push("吞咽障碍者使用增稠剂与糊餐，防误吸，遵言语治疗师分级");}
+  if(pops.indexOf("术后康复")>=0){tips.push("术后逐步过渡饮食，增加蛋白与维C促愈合");}
+  if(pops.indexOf("学龄前儿童")>=0){tips.push("学龄前儿童份量按年龄折减，单独小份制备，少盐少糖");}
+  if(pops.indexOf("孕产妇")>=0){tips.push("孕产妇单独配餐：补叶酸铁钙，忌生食酒精");}
+  dis.forEach(function(d){ if(DISEASES[d]) tips.push("合并"+d+"：适用对应治疗膳食原则，集中供餐时设专窗/标记餐"); });
+  tips.forEach(function(t){ html+='<li>'+t+'</li>'; });
+  html+='</ul><div style="color:#888;font-size:14px">群体方案为均值估算，个体（尤其治疗膳食、肾病、孕产）应在临床营养师指导下二次个体化调整。</div></div>';
+  var FBg=forbiddenFor(collectSpecialFB("g")), hiddenG={n:0};
+  html+=renderRecipeSection("五、推荐菜谱（供选择·标注人均每餐菜量，乘以人数即备餐量）", SPECIAL_RECIPES.group, FBg.kws, hiddenG);
+  if(hiddenG.n) html+='<div class="dish-section avoid-section"><h4>饮食禁忌</h4><ul>'+FBg.lines.map(function(l){return '<li>'+l+'</li>';}).join('')+'</ul><div style="color:#bf360c;font-size:14px">已按宗教/偏好/过敏自动规避含禁忌食材的菜品约 '+hiddenG.n+' 道；如需精确配餐请在营养师指导下作同类合规替换。</div></div>';
+  el.innerHTML=html; el.style.display="block";
+}
+
+function genInfant(){
+  var el=$("infant-result"); if(!el) return;
+  var mo=parseInt($("i-month").value); if(isNaN(mo)||mo<0||mo>36) return alert("请输入月龄（0-36）");
+  var w=parseFloat($("i-weight").value), feed=$("i-feed").value, pre=$("i-pre").value;
+  var stage,feedtxt,milk,solids,eNote,ecal=0;
+  if(mo<6){ stage="纯奶期（0-6月）"; feedtxt="坚持"+(feed==="配方奶"?"配方奶":"母乳")+"喂养，6个月内一般无需额外喂水或添加辅食，按需哺乳。"; milk="约700-900 ml/日（按需）"; solids="暂不加辅食"; eNote="约90-100 kcal/kg/日"; ecal=95; }
+  else if(mo<9){ stage="辅食引入期（6-8月）"; feedtxt="继续母乳/配方奶为主，由少到多、由稀到稠引入泥糊状辅食。"; milk="600-800 ml/日"; solids="每日1-2餐辅食：强化铁米粉→菜泥/果泥→蛋黄/肉泥/肝泥"; eNote="辅食后约600-700 kcal/日"; ecal=700; }
+  else if(mo<12){ stage="辅食渐进期（9-11月）"; feedtxt="奶为主、辅食2次＋1次点心，食物由末状过渡到碎状，引入手指食物锻炼自主进食。"; milk="约600 ml/日"; solids="碎菜/碎肉/软饭/面条/蛋，可给切条水果、饼干"; eNote="约700-750 kcal/日"; ecal=725; }
+  else if(mo<24){ stage="幼儿过渡期（12-24月）"; feedtxt="逐步以三餐＋2次点心为主，奶为辅，食物接近家庭餐但清淡。"; milk="约500 ml/日"; solids="三餐＋2点心，保证肉蛋奶豆与蔬果，食物细软"; eNote="约900-1000 kcal/日"; ecal=950; }
+  else { stage="幼儿期（24-36月）"; feedtxt="规律三餐＋1-2次点心，与家庭同桌，独立进食。"; milk="350-500 ml/日"; solids="荤素搭配、粗细搭配，控制零食与含糖饮料"; eNote="约1100-1250 kcal/日"; ecal=1180; }
+  var html="<b>【婴幼儿】"+mo+"月龄 · "+feed+"喂养</b>　阶段："+stage+"<br>";
+  html+='<div class="dish-section"><h4>喂养要点</h4><ul>';
+  html+='<li>'+feedtxt+'</li>';
+  html+='<li>奶量：'+milk+'</li>';
+  html+='<li>辅食/膳食：'+solids+'</li>';
+  if(w) html+='<li>能量参考：'+eNote+'，按'+w+'kg约<b>'+Math.round(ecal)+' kcal/日</b></li>';
+  else html+='<li>能量参考：'+eNote+'</li>';
+  html+='</ul></div>';
+  html+='<div class="dish-section"><h4>关键营养素</h4><ul>';
+  html+='<li>维生素D：出生后数日起 400 IU/日（早产/双胎遵医嘱增至800 IU），促进钙吸收、防佝偻病。</li>';
+  if(mo>=6) html+='<li>铁：6月后母体铁储备耗竭，优先富铁辅食（强化铁米粉、红肉/肝泥），必要时筛查缺铁性贫血。</li>';
+  if(mo>=6) html+='<li>锌：6月后随辅食添加注意贝类、瘦肉、蛋黄等富锌食物。</li>';
+  html+='<li>DHA：孕期/哺乳期母体补充或选强化DHA配方，有助视觉与神经发育。</li>';
+  html+='<li>钙：保证奶量即基本满足；1岁内不喝鲜牛奶、不食用蜂蜜。</li>';
+  html+='</ul></div>';
+  if(pre==="是") html+='<div class="disease-warning">早产/低出生体重儿：出院后按矫正月龄评估生长，遵医嘱使用早产儿配方或母乳强化剂，重点监测铁、维生素D、体重与头围追赶生长。</div>';
+  var ib = mo<6?"0-6月":mo<9?"6-8月":mo<12?"9-11月":mo<24?"12-24月":"24-36月";
+  var FBi=forbiddenFor(collectSpecialFB("i")), hiddenI={n:0};
+  html+=renderRecipeSection("适龄辅食／膳食菜谱（供选择·标注每餐用量）", SPECIAL_RECIPES.infant[ib], FBi.kws, hiddenI);
+  if(hiddenI.n) html+='<div class="dish-section avoid-section"><h4>饮食禁忌</h4><ul>'+FBi.lines.map(function(l){return '<li>'+l+'</li>';}).join('')+'</ul><div style="color:#bf360c;font-size:14px">已按过敏/宗教/忌口自动规避含禁忌食材的辅食菜品约 '+hiddenI.n+' 道；首次添加新食材仍需单一引入、观察3天。</div></div>';
+  html+='<div style="color:#888;font-size:14px;margin-top:6px">注：以上按月龄的通用参考，须结合生长曲线（WHO/中国标准）、过敏史与儿保医生意见个体化调整。</div>';
+  el.innerHTML=html; el.style.display="block";
+}
+
+function genPregnan(){
+  var el=$("pregnan-result"); if(!el) return;
+  var h=parseFloat($("p-height").value), pw=parseFloat($("p-weight").value);
+  if(!h||!pw) return alert("请填写身高与孕前体重");
+  var stage=$("p-stage").value, multi=$("p-multi").value;
+  var bmi=pw/Math.pow(h/100,2);
+  var gain,gnote;
+  if(bmi<18.5){ gain=[12.5,18]; gnote="孕前偏瘦（BMI&lt;18.5）"; }
+  else if(bmi<24){ gain=[11.5,16]; gnote="孕前体重正常（BMI18.5-23.9）"; }
+  else if(bmi<28){ gain=[7,11.5]; gnote="孕前超重（BMI24-27.9）"; }
+  else { gain=[5,9]; gnote="孕前肥胖（BMI≥28）"; }
+  if(multi==="多胎"){ gain=[16,24]; gnote=gnote+"；双胎按双胎增重参考"; }
+  var dE=0,dP=0,calcium=800,iron=20,folate=550,dha=200,iodine=230,stageTip;
+  if(stage==="孕早期"){ dE=0; dP=0; calcium=800; iron=20; folate=600; stageTip="补充叶酸预防神经管缺陷；清淡少油缓解孕吐、少食多餐；保证每日碳水≥130g（约2两主食）以防酮体；戒烟酒、远离生食。"; }
+  else if(stage==="孕中期"){ dE=300; dP=15; calcium=1000; iron=24; folate=550; iodine=240; stageTip="食欲好转期：增加奶、鱼、禽瘦肉与豆制品，补钙补铁；每周2-3次深海鱼补DHA；适度运动、控制体重增速。"; }
+  else { dE=450; dP=30; calcium=1000; iron=29; folate=550; iodine=240; stageTip="控制体重过快增长，少盐（&lt;5g）防水肿；补铁补钙与DHA；适量优质蛋白，为分娩与哺乳做准备。"; }
+  if(multi==="多胎"){ dE+=150; dP+=15; }
+  var baseE=calcBMR("女",pw,h,28)*1.4; var totalE=baseE+dE; var protein=55+dP;
+  var weekly=(stage==="孕中期"||stage==="孕晚期")?((gain[0]/22).toFixed(1)+"~"+(gain[1]/22).toFixed(1)):"—";
+  var cell='style="border:1px solid #d6dee6;padding:4px"', cellC='style="border:1px solid #d6dee6;padding:4px;text-align:center"';
+  var html="<b>【孕妇】"+stage+"·"+multi+"</b>　"+gnote+"，孕前BMI "+bmi.toFixed(1)+"<br>";
+  html+='<div class="dish-section"><h4>一、每日能量与蛋白质</h4><ul>';
+  html+='<li>能量：约 <b>'+totalE.toFixed(0)+' kcal/日</b>（孕前基础约'+baseE.toFixed(0)+' '+(dE>0?('+'+dE):('±0'))+' kcal）</li>';
+  html+='<li>蛋白质：约 <b>'+protein.toFixed(0)+' g/日</b>'+(dP>0?('（'+stage+'较孕前+'+dP+'g）'):'（较孕前不额外增加）')+'</li>';
+  html+='</ul></div>';
+  html+='<div class="dish-section"><h4>二、关键微量营养素（中国DRIs孕期推荐）</h4>';
+  html+='<table style="width:100%;border-collapse:collapse;font-size:15px"><tr style="background:#f0f4f8"><th '+cell+' align="left">营养素</th><th '+cellC+'>每日推荐量</th></tr>';
+  html+='<tr><td '+cell+'>叶酸</td><td '+cellC+'>'+folate+' μg DFE（备孕起即补）</td></tr>';
+  html+='<tr><td '+cell+'>钙</td><td '+cellC+'>'+calcium+' mg</td></tr>';
+  html+='<tr><td '+cell+'>铁</td><td '+cellC+'>'+iron+' mg</td></tr>';
+  html+='<tr><td '+cell+'>碘</td><td '+cellC+'>'+iodine+' μg（碘盐+海产）</td></tr>';
+  html+='<tr><td '+cell+'>DHA</td><td '+cellC+'>'+dha+' mg（深海鱼/补充剂）</td></tr>';
+  html+='</table></div>';
+  html+='<div class="dish-section"><h4>三、孕期体重管理</h4><ul>';
+  html+='<li>整个孕期总增重目标：<b>'+gain[0]+'~'+gain[1]+' kg</b></li>';
+  html+='<li>孕中/晚期每周增重参考：<b>'+weekly+' kg/周</b>；孕早期一般+1~2kg。</li>';
+  html+='<li>结合产检、体重与胎儿生长监测动态调整。</li>';
+  html+='</ul></div>';
+  html+='<div class="dish-section"><h4>四、'+stage+'膳食要点</h4><div>'+stageTip+'</div></div>';
+  html+='<div class="dish-section avoid-section"><h4>孕期应避免</h4><ul><li>酒精、烟草；生鱼生肉/半熟蛋/未杀菌奶酪（李斯特菌、弓形虫风险）</li><li>高汞鱼（鲨鱼/旗鱼/方头鱼/大眼金枪鱼等）</li><li>浓茶/浓咖啡（咖啡因控制在200mg/日内）</li><li>过量动物肝脏（维A过量风险）；乱用补品与药物</li></ul></div>';
+  var FBp=forbiddenFor(collectSpecialFB("p")), hiddenP={n:0};
+  html+=renderRecipeSection("五、孕期推荐菜谱（供选择·标注每人每餐用量）", SPECIAL_RECIPES.pregnan.filter(function(b){return b[0].indexOf(stage)>=0;}), FBp.kws, hiddenP);
+  if(hiddenP.n) html+='<div class="dish-section avoid-section"><h4>饮食禁忌</h4><ul>'+FBp.lines.map(function(l){return '<li>'+l+'</li>';}).join('')+'</ul><div style="color:#bf360c;font-size:14px">已按宗教/偏好/过敏自动规避含禁忌食材的菜品约 '+hiddenP.n+' 道；如需精确配餐请在营养师指导下作同类合规替换。</div></div>';
+  html+='<div style="color:#888;font-size:14px;margin-top:6px">注：能量增量为按孕前BMR的参考估算，合并糖尿病/甲功异常/多胎等请在产科与临床营养师指导下个体化调整。</div>';
+  el.innerHTML=html; el.style.display="block";
+}
+
+renderDiseaseTags();renderPrefTags();renderAllergenTags();initFoodCatFilter();renderFoodAll("all");renderFoodTags();
+renderSpecialTags();
+
+function stdEval(expr){try{var v=Function('"use strict";return('+expr+')')();if(typeof v!=='number'||!isFinite(v))return '错误';return String(Math.round(v*1e6)/1e6);}catch(e){return '错误';}}
+function calcPress(k){var d=document.getElementById('calc-display');var t=d.value;if(k==='C'){d.value='0';return;}if(k==='back'){d.value=t.length<=1?'0':t.slice(0,-1);return;}if(k==='='){var e=t.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-');d.value=stdEval(e);return;}if(t==='0'||t==='错误')t='';d.value=t+k;}
+
+var CALC_CATS=['体格','能量','配方','专科'];
+var CALC_FNS=[
+ {id:'bmi',cat:'体格',name:'BMI 联合判定',inputs:[{k:'h',label:'身高(cm)',type:'number'},{k:'w',label:'体重(kg)',type:'number'},{k:'wc',label:'腰围(cm)',type:'number'},{k:'sex',label:'性别',type:'select',opts:[['m','男'],['f','女']]}],
+  run:function(v){var h=+v.h,w=+v.w,wc=+v.wc;var b=w/Math.pow(h/100,2);var g=b<18.5?'偏瘦':b<24?'正常':b<28?'超重':'肥胖';var col=b<18.5||b>=24?'#e65100':'#2e7d32';var r='<b style="color:'+col+'">BMI '+b.toFixed(1)+'（'+g+'）</b>';if(wc>0){r+='<br>腰围：'+(v.sex==='m'?(wc>=85?'<span style="color:#c62828">≥85cm 为中心性肥胖</span>':'未达85cm警戒线'):(wc>=80?'<span style="color:#c62828">≥80cm 为中心性肥胖</span>':'未达80cm警戒线'));r+='<br>腰高比 WHtR：'+(wc/h).toFixed(3)+'（'+(wc/h>=0.5?'<span style="color:#c62828">≥0.5 提示腹型肥胖</span>':'&lt;0.5 正常')+'）';if(b<24&&(wc>=(v.sex==='m'?85:80)||wc/h>=0.5))r+='<br><span style="color:#ef6c00">BMI正常但腰围/WHtR超标，属隐性肥胖，需干预。</span>';}else{r+='<br><span style="color:#888">填写腰围可同时判定中心性肥胖与腰高比。</span>';}r+='<div class="calc-note">依据《体重管理指导原则(2024年版)》：BMI按中国成人标准；中心性肥胖男≥85cm/女≥80cm；WHtR≥0.5为腹型肥胖。</div>';return r;}},
+ {id:'idealw',cat:'体格',name:'标准/理想体重',inputs:[{k:'h',label:'身高(cm)',type:'number'},{k:'sex',label:'性别',type:'select',opts:[['m','男'],['f','女']]}],
+  run:function(v){var h=+v.h;var ideal=h-105;var lo=ideal*0.9,hi=ideal*1.1;var b22=22*Math.pow(h/100,2);return '理想体重(身高−105)：<b>'+ideal+' kg</b>，正常范围 '+lo.toFixed(1)+'~'+hi.toFixed(1)+' kg<br>BMI-22理想体重法：<b>'+b22.toFixed(1)+' kg</b><div class="calc-note">偏离理想体重±10%为正常，±10%~20%为超重/偏瘦倾向。</div>';}},
+ {id:'bf',cat:'体格',name:'体脂率(海军法)',inputs:[{k:'sex',label:'性别',type:'select',opts:[['m','男'],['f','女']]},{k:'wc',label:'腰围(cm)',type:'number'},{k:'nc',label:'颈围(cm)',type:'number'},{k:'h',label:'身高(cm)',type:'number'}],
+  run:function(v){var wc=+v.wc,nc=+v.nc,h=+v.h,bf;if(v.sex==='m'){bf=495/(1.0324-0.19077*Math.log10(wc-nc)+0.15456*Math.log10(h))-450;}else{bf=495/(1.29579-0.35004*Math.log10(wc+nc-h)+0.22100*Math.log10(h))-450;}var g;if(v.sex==='m')g=bf<10?'偏低':bf<=18?'正常':bf<=25?'偏高':'肥胖';else g=bf<18?'偏低':bf<=28?'正常':bf<=35?'偏高':'肥胖';return '体脂率：<b>'+bf.toFixed(1)+'%</b>（'+g+'）<div class="calc-note">参考界值：男性正常约15~18%、≥25%为肥胖；女性正常约25~28%、≥35%为肥胖（美国海军法）。</div>';}},
+ {id:'bsa',cat:'体格',name:'体表面积BSA',inputs:[{k:'h',label:'身高(cm)',type:'number'},{k:'w',label:'体重(kg)',type:'number'}],
+  run:function(v){var b=0.007184*Math.pow(+v.h,0.725)*Math.pow(+v.w,0.425);return '体表面积(Du Bois)：<b>'+b.toFixed(3)+' m²</b><div class="calc-note">常用于化疗药物、体表面积给药与部分能量估算。</div>';}},
+ {id:'whtr',cat:'体格',name:'腰高比 WHtR',inputs:[{k:'h',label:'身高(cm)',type:'number'},{k:'wc',label:'腰围(cm)',type:'number'}],
+  run:function(v){var r=(+v.wc)/(+v.h);return '腰高比 WHtR：<b>'+r.toFixed(3)+'</b> '+(r>=0.5?'<span style="color:#c62828">≥0.5 提示腹型肥胖/代谢风险升高</span>':'<span style="color:#2e7d32">&lt;0.5 正常</span>')+'<div class="calc-note">《体重管理指导原则(2024年版)》推荐的核心腹型肥胖筛查指标，建议控制在0.5以下。</div>';}},
+ {id:'bmrhb',cat:'能量',name:'基础代谢 BMR(修正HB)',inputs:[{k:'sex',label:'性别',type:'select',opts:[['m','男'],['f','女']]},{k:'age',label:'年龄(岁)',type:'number'},{k:'h',label:'身高(cm)',type:'number'},{k:'w',label:'体重(kg)',type:'number'}],
+  run:function(v){var b=v.sex==='m'?(88.362+13.397*(+v.w)+4.799*(+v.h)-5.677*(+v.age)):(447.593+9.247*(+v.w)+3.098*(+v.h)-4.330*(+v.age));return '基础代谢(Harris-Benedict修订)：<b>'+Math.round(b)+' kcal/日</b>（'+Math.round(b*4.184)+' kJ）';}},
+ {id:'mifflin',cat:'能量',name:'基础代谢 BMR(Mifflin)',inputs:[{k:'sex',label:'性别',type:'select',opts:[['m','男'],['f','女']]},{k:'age',label:'年龄(岁)',type:'number'},{k:'h',label:'身高(cm)',type:'number'},{k:'w',label:'体重(kg)',type:'number'}],
+  run:function(v){var b=10*(+v.w)+6.25*(+v.h)-5*(+v.age)+(v.sex==='m'?5:-161);return '基础代谢(Mifflin-St Jeor)：<b>'+Math.round(b)+' kcal/日</b>（'+Math.round(b*4.184)+' kJ）';}},
+ {id:'cnbmr',cat:'能量',name:'基础代谢 BMR(中国·毛德倩)',inputs:[{k:'sex',label:'性别',type:'select',opts:[['m','男'],['f','女']]},{k:'age',label:'年龄(岁)',type:'number'},{k:'h',label:'身高(cm)',type:'number'},{k:'w',label:'体重(kg)',type:'number'}],
+  run:function(v){var kj=v.sex==='m'?(48.042*(+v.w)+21.194*(+v.h)-17.532*(+v.age)+637.7):(38.750*(+v.w)+23.800*(+v.h)-17.750*(+v.age)+468.9);return '基础代谢(毛德倩公式)：<b>'+Math.round(kj/4.184)+' kcal/日</b>（'+Math.round(kj)+' kJ）<div class="calc-note">针对中国人群建立，较Harris-Benedict更贴合国人。</div>';}},
+ {id:'tdee',cat:'能量',name:'每日总消耗 TDEE',inputs:[{k:'sex',label:'性别',type:'select',opts:[['m','男'],['f','女']]},{k:'age',label:'年龄(岁)',type:'number'},{k:'h',label:'身高(cm)',type:'number'},{k:'w',label:'体重(kg)',type:'number'},{k:'act',label:'活动水平',type:'select',opts:[['1.4','久坐(几乎无运动)'],['1.55','轻度(每周1-3天)'],['1.7','中度(每周3-5天)'],['1.9','高强度(每周6-7天)']] }],
+  run:function(v){var b=10*(+v.w)+6.25*(+v.h)-5*(+v.age)+(v.sex==='m'?5:-161);var t=b*(+v.act);return '基础代谢(Mifflin) '+Math.round(b)+' kcal ×活动系数'+v.act+'<br>每日总消耗 TDEE ≈ <b>'+Math.round(t)+' kcal/日</b>';}},
+ {id:'energy',cat:'能量',name:'能量需要量(系数法)',inputs:[{k:'w',label:'体重(kg)',type:'number'},{k:'k',label:'能量系数(kcal/kg)',type:'number'}],
+  run:function(v){var w=+v.w,k=+v.k;return '每日能量需要量 ≈ <b>'+Math.round(w*k)+' kcal/日</b><div class="calc-note">常用参考：卧床20~25、轻体力30~35、中体力35~40、重体力40~45 kcal/kg理想体重。</div>';}},
+ {id:'macro',cat:'配方',name:'三大营养素换算',inputs:[{k:'kcal',label:'目标能量(kcal)',type:'number'},{k:'p',label:'蛋白质供能比(%)',type:'number'},{k:'f',label:'脂肪供能比(%)',type:'number'},{k:'c',label:'碳水供能比(%)',type:'number'}],
+  run:function(v){var kcal=+v.kcal,p=+v.p,f=+v.f,c=+v.c;var sum=p+f+c;var warn=Math.abs(sum-100)>0.5?' <span style="color:#c62828">(占比合计'+sum+'%，应为100%)</span>':'';return '蛋白质 <b>'+(p*kcal/4/100).toFixed(1)+' g</b>　脂肪 <b>'+(f*kcal/9/100).toFixed(1)+' g</b>　碳水 <b>'+(c*kcal/4/100).toFixed(1)+' g</b>'+warn+'<div class="calc-note">换算系数：蛋白/碳水 4kcal/g、脂肪 9kcal/g。DRIs参考：蛋白10~20%、脂肪20~30%、碳水50~65%。</div>';}},
+ {id:'protein',cat:'配方',name:'每日蛋白质需要量',inputs:[{k:'w',label:'体重(kg)',type:'number'},{k:'g',label:'蛋白质系数(g/kg)',type:'number'}],
+  run:function(v){return '每日蛋白质需要量 ≈ <b>'+((+v.w)*(+v.g)).toFixed(1)+' g</b><div class="calc-note">成人参考0.8~1.0、增肌1.2~1.6、孕早1.0、孕中/晚1.05~1.2 g/kg。</div>';}},
+ {id:'foodkcal',cat:'配方',name:'食物能量换算',inputs:[{k:'per',label:'每100g能量(kcal)',type:'number'},{k:'g',label:'实际重量(g)',type:'number'}],
+  run:function(v){var x=((+v.per)*(+v.g)/100);return (+v.g)+' g 食物的实际能量 ≈ <b>'+x.toFixed(1)+' kcal</b>';}},
+ {id:'unit',cat:'配方',name:'kcal ↔ kJ 换算',inputs:[{k:'num',label:'数值',type:'number'},{k:'dir',label:'方向',type:'select',opts:[['2k','kcal → kJ'],['2j','kJ → kcal']]}],
+  run:function(v){var n=+v.num;return v.dir==='2k'?(n+' kcal = <b>'+(n*4.184).toFixed(1)+' kJ</b>'):(n+' kJ = <b>'+(n/4.184).toFixed(1)+' kcal</b>')+'<div class="calc-note">换算系数 1 kcal = 4.184 kJ。</div>';}},
+ {id:'preg',cat:'专科',name:'孕前BMI与孕期增重',inputs:[{k:'h',label:'孕前身高(cm)',type:'number'},{k:'w',label:'孕前体重(kg)',type:'number'},{k:'tw',label:'是否双胎',type:'select',opts:[['0','单胎'],['1','双胎']]}],
+  run:function(v){var b=(+v.w)/Math.pow((+v.h)/100,2);var lo,hi,g;if(b<18.5){g='孕前偏瘦';lo=12.5;hi=18;}else if(b<24){g='孕前体重正常';lo=11.5;hi=16;}else if(b<28){g='孕前超重';lo=7;hi=11.5;}else{g='孕前肥胖';lo=5;hi=9;}var r='孕前BMI <b>'+b.toFixed(1)+'</b>（'+g+'）<br>单胎全孕期建议增重：<b>'+lo+'~'+hi+' kg</b>';if(v.tw==='1')r+='<br>双胎参考增重：<b>17~25 kg</b>（按孕前正常体重IOM区间）';r+='<div class="calc-note">采用中国BMI切点(正常18.5~23.9/超重24~27.9/肥胖≥28)；孕中晚期每周理想增重：正常约0.4kg、超重约0.3kg、肥胖约0.2kg。</div>';return r;}},
+];
+
+function calcCats(){return CALC_CATS;}
+var CALC_STATE={cat:'体格',fid:null};
+function calcRenderCat(){var h='';for(var i=0;i<CALC_CATS.length;i++){var c=CALC_CATS[i];h+='<span class="calc-cat '+(c===CALC_STATE.cat?'calc-caton':'')+'" onclick="calcPickCat(\''+c+'\')">'+c+'</span>';}document.getElementById('calc-cat').innerHTML=h;var list='';for(var j=0;j<CALC_FNS.length;j++){var f=CALC_FNS[j];if(f.cat!==CALC_STATE.cat)continue;list+='<div class="calc-card '+(f.id===CALC_STATE.fid?'calc-cardon':'')+'" onclick="calcPickFn(\''+f.id+'\')">'+f.name+'</div>';}document.getElementById('calc-fnlist').innerHTML=list;}
+function calcPickCat(c){CALC_STATE.cat=c;CALC_STATE.fid=null;document.getElementById('calc-form').innerHTML='请在上方选择一项公式';document.getElementById('calc-result').style.display='none';calcRenderCat();}
+function calcGetFn(id){for(var i=0;i<CALC_FNS.length;i++){if(CALC_FNS[i].id===id)return CALC_FNS[i];}return null;}
+function calcPickFn(id){CALC_STATE.fid=id;calcRenderCat();var f=calcGetFn(id);if(!f)return;var h='';for(var i=0;i<f.inputs.length;i++){var x=f.inputs[i];h+='<label>'+x.label+'</label>';if(x.type==='select'){h+='<select id="cf_'+x.k+'">';for(var o=0;o<x.opts.length;o++){h+='<option value="'+x.opts[o][0]+'">'+x.opts[o][1]+'</option>';}h+='</select>';}else{h+='<input id="cf_'+x.k+'" type="'+x.type+'">';}}h+='<button class="calc-eq" style="margin-top:12px;padding:10px 24px;border:none;border-radius:8px;color:#fff;font-size:17px;cursor:pointer" onclick="calcRun()">计算</button>';document.getElementById('calc-form').innerHTML=h;document.getElementById('calc-result').style.display='none';}
+function calcRun(){var f=calcGetFn(CALC_STATE.fid);if(!f)return;var vals={};for(var i=0;i<f.inputs.length;i++){var k=f.inputs[i].k;var e=document.getElementById('cf_'+k);vals[k]=e?e.value:'';}var out=f.run(vals);var el=document.getElementById('calc-result');el.innerHTML=out;el.style.display='block';}
+function initCalc(){calcRenderCat();}
+
+initCalc();
+function updateHdrClock(){var el=document.getElementById('hdrClock');if(!el)return;var d=new Date(),p=function(n){return(n<10?'0':'')+n;};
+el.textContent=p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());}
+updateHdrClock();setInterval(updateHdrClock,1000);
+</script>
+</body>
+</html>
