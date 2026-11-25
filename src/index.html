@@ -718,16 +718,136 @@ var DISEASES = {
       "加餐选择": ["小番茄","黄瓜条","无糖酸奶100ml","水煮蛋白","苹果半个"]
     },
     avoid: ["油炸食品","高糖饮料/奶茶","坚果过量（>15g/日）","肥肉/奶油","酒精","夜宵","快餐/外卖（控油盐）"]
+  },
+  "冠心病/动脉硬化": {
+    icon: "❤️",
+    principles: "低饱和脂肪低胆固醇低钠、增加omega-3与可溶性纤维、控制体重、戒烟限酒、少量多餐避免暴饮暴食",
+    dishes: {
+      "主食推荐": ["燕麦饭（β-葡聚糖）","糙米饭","荞麦面","红薯/紫薯","玉米","全麦馒头"],
+      "护心蛋白": ["清蒸三文鱼","清蒸鲈鱼","水煮鸡胸","炖豆腐","白灼虾（少蘸盐）","鹰嘴豆/扁豆"],
+      "降脂蔬菜": ["洋葱炒木耳","凉拌海带丝","清炒苦瓜","蒜蓉西兰花","芹菜炒豆干","香菇青菜"],
+      "汤品": ["番茄豆腐汤","冬瓜薏米汤","菌菇汤（少盐）","燕麦南瓜粥（无糖）"],
+      "加餐": ["核桃1-2个/日","杏仁5-6颗","原味酸奶","蓝莓/草莓"]
+    },
+    avoid: ["肥肉/五花肉/猪油","动物内脏","油炸食品","奶油/黄油","腌制品","过咸酱料","反式脂肪（起酥/奶茶）","烈酒"]
+  },
+  "缺铁性贫血": {
+    icon: "🩹",
+    principles: "补铁（红肉/动物血/肝脏）+维C促吸收、搭配优质蛋白、避免与浓茶咖啡同餐、规律进食",
+    dishes: {
+      "补铁荤菜": ["青椒炒猪肝","番茄炖牛腩","黑椒瘦牛肉","鸭血豆腐","洋葱炒羊肉","鸡肝（每周1-2次少量）"],
+      "维C蔬果": ["鲜橙","猕猴桃","彩椒炒蛋","凉拌菠菜（焯水）","西红柿炒土豆","草莓"],
+      "主食推荐": ["三红粥（红米红枣花生）","黑米红枣饭","瘦肉末菜粥","全麦面包","杂粮馒头"],
+      "汤品": ["当归生姜羊肉汤（少量）","番茄猪肝汤","乌鸡汤","菠菜瘦肉汤"],
+      "加餐": ["维生素C水果","红枣几颗","黑木耳拌菜"]
+    },
+    avoid: ["浓茶/浓咖啡（进餐时）","过量草酸蔬菜不焯水","钙片与铁剂同服","偏食素食不补铁","过量植酸（未发酵全谷物）"]
+  },
+  "骨质疏松": {
+    icon: "🦴",
+    principles: "充足钙（1000-1200mg/日）与维生素D、适量优质蛋白、补镁补钾、限盐限咖啡因、配合负重运动",
+    dishes: {
+      "高钙菜品": ["牛奶/无糖酸奶","豆腐（卤水/石膏）","虾皮紫菜汤","芝麻酱拌菜","酥小鱼/沙丁鱼","奶酪少量"],
+      "维D与蛋白": ["清蒸三文鱼","鸡蛋","水煮鸡胸","香菇蒸鸡","蛋黄（遵医嘱）"],
+      "富镁钾蔬菜": ["深绿叶菜（芥蓝/油菜）","坚果","香蕉（适量）","豆类","牛油果适量"],
+      "汤品": ["排骨海带汤","虾皮冬瓜汤","牛奶南瓜羹","豆腐鲫鱼汤"],
+      "加餐": ["无糖酸奶","芝麻糊","核桃几颗","牛奶"]
+    },
+    avoid: ["过量咖啡因（>300mg/日）","高盐饮食（促钙流失）","过量磷酸（可乐/加工肉）","酗酒","长期浓茶"]
+  },
+  "脂肪肝": {
+    icon: "🫁",
+    principles: "控制总热量与精制糖、减饱和脂肪、增加膳食纤维与优质蛋白、戒酒、减重5-10%、规律作息",
+    dishes: {
+      "低脂主食": ["燕麦饭","杂粮饭","荞麦面","玉米","红薯（替代部分主食）"],
+      "护肝蛋白": ["清蒸鱼","水煮鸡胸","炖豆腐","白灼虾","脱脂/低脂奶"],
+      "降脂蔬菜": ["清炒苦瓜","洋葱木耳","凉拌海带","蒜蓉西兰花","芹菜","香菇青菜"],
+      "汤品": ["冬瓜汤","番茄豆腐汤","菌菇汤","决明子菊花茶（代茶饮）"],
+      "加餐": ["原味坚果10g","小番茄","苹果","无糖酸奶"]
+    },
+    avoid: ["酒精（必须戒）","含糖饮料/果糖","油炸食品","肥肉/动物油","夜宵过量","精制碳水过量"]
+  },
+  "慢性胃炎/消化性溃疡": {
+    icon: "🍚",
+    principles: "定时定量、细嚼慢咽、少食多餐、清淡软烂易消化、避免辛辣过酸过烫、急性期流质半流质",
+    dishes: {
+      "温和主食": ["小米粥","软面条","烂米饭","馒头/花卷（发面）","山药泥","南瓜粥"],
+      "易消化蛋白": ["蒸蛋羹","清蒸鱼（少刺）","肉末豆腐","鸡茸","清炖瘦肉","酸奶（耐受时）"],
+      "软烂蔬菜": ["冬瓜","南瓜","胡萝卜（煮软）","嫩叶菜（煮软）","土豆泥","丝瓜"],
+      "汤品": ["山药小米粥","南瓜羹","鸡蛋花汤","藕粉羹","土豆浓汤（少油）"],
+      "加餐": ["苏打饼干","温牛奶","蒸苹果","米糊"]
+    },
+    avoid: ["辛辣（辣椒/芥末）","过酸（醋/柠檬过量）","浓茶/咖啡","烈酒","油炸/粗硬","过烫食物","空腹过久"]
+  },
+  "胃食管反流": {
+    icon: "🔻",
+    principles: "少量多餐、餐后勿立即卧床、睡前3小时不进食、减少腹压、避免降低食管下段张力的食物",
+    dishes: {
+      "低脂主食": ["软米饭","馒头","燕麦粥","面条","苏打饼干"],
+      "清淡蛋白": ["鸡胸","鱼肉","豆腐","蛋白（蛋清）","脱脂奶"],
+      "低酸蔬菜": ["冬瓜","丝瓜","胡萝卜","西兰花","嫩叶菜","南瓜"],
+      "汤品": ["小米山药粥","南瓜羹","土豆汤（少油）"],
+      "加餐": ["香蕉","苏打饼干","温燕麦糊"]
+    },
+    avoid: ["高脂/油炸（延缓排空）","巧克力","薄荷","咖啡/浓茶","碳酸饮料","柑橘/番茄（过量）","洋葱/大蒜（刺激）","睡前夜宵"]
+  },
+  "便秘": {
+    icon: "🌿",
+    principles: "增加膳食纤维（25-30g/日）、足量饮水（1500-2000ml）、适量油脂与益生菌、养成定时排便、增加活动",
+    dishes: {
+      "高纤主食": ["燕麦","糙米","全麦面包","玉米","红薯","杂豆（红豆/绿豆）"],
+      "润肠果蔬": ["火龙果","猕猴桃","梨","西梅","菠菜","芹菜","木耳","秋葵"],
+      "优质蛋白": ["豆制品","酸奶（活性菌）","鱼","鸡胸","鸡蛋"],
+      "汤品": ["银耳羹","萝卜汤","蔬菜豆腐汤","蜂蜜温水（晨起）"],
+      "加餐": ["原味坚果（少量油脂）","西梅干","无糖酸奶","水果"]
+    },
+    avoid: ["过量精白主食","未熟香蕉（鞣酸）","辛辣燥热","饮水不足","久坐不活动"]
+  },
+  "胆囊炎/胆结石": {
+    icon: "🟡",
+    principles: "低脂低胆固醇、规律进餐尤其勿漏早餐、控制体重但避免快速减重、多选蒸煮炖少油烹饪",
+    dishes: {
+      "低脂主食": ["软米饭","粥","馒头","面条","燕麦","玉米"],
+      "低脂蛋白": ["脱脂/低脂奶","鸡胸（去皮）","鱼肉（清蒸）","豆腐","蛋白","虾（少量）"],
+      "低脂蔬菜": ["冬瓜","丝瓜","胡萝卜","嫩叶菜","番茄","黄瓜"],
+      "汤品": ["冬瓜汤","番茄蛋花汤（少油）","菜汤","小米粥"],
+      "加餐": ["水果","脱脂酸奶","蒸南瓜"]
+    },
+    avoid: ["油炸/肥肉/动物油","蛋黄（过量）","动物内脏","奶油/蛋糕","辛辣","暴饮暴食","不吃早餐"]
+  },
+  "甲状腺功能异常": {
+    icon: "🔵",
+    principles: "甲亢高代谢需补足能量蛋白、忌碘（紫菜海带海鲜加碘盐）；甲减适量补碘、控制体重、限制致甲状腺肿食物（十字花科熟食）；具体遵医嘱",
+    dishes: {
+      "甲亢宜": ["充足主食与蛋白：米饭、鸡蛋、瘦肉、豆制品","高热量加餐：牛奶、坚果（适量）","新鲜蔬果补足维生素"],
+      "甲减宜": ["适量海产补碘（遵医嘱）","优质蛋白：鱼/蛋/瘦肉/奶","杂粮控重","富铁食物"],
+      "共同推荐": ["清蒸鱼（按碘医嘱）","鸡胸","豆腐","粥与软饭","清炒时蔬"],
+      "汤品": ["番茄蛋花汤","瘦肉蔬菜汤","小米南瓜粥"],
+      "加餐": ["牛奶","水果","苏打饼干"]
+    },
+    avoid: ["甲亢：紫菜/海带/海鱼海鲜过量、加碘盐、浓茶咖啡刺激","甲减：十字花科（西兰花/卷心菜）大量生食、过量大豆","共同：过度劳累、情绪波动、自行补碘或忌碘"]
+  },
+  "炎症性肠病": {
+    icon: "🌀",
+    principles: "活动期低渣低脂流质半流质、少量多餐、补充能量蛋白与微量营养素、缓解期逐步扩展、回避个人不耐受食物、必要时营养制剂",
+    dishes: {
+      "活动期主食": ["白米粥","烂面条","白面包","米糊","藕粉","土豆泥（少油）"],
+      "易吸收蛋白": ["蒸蛋羹","清蒸鱼肉","鸡茸/鱼茸","嫩豆腐","无乳糖奶（不耐时）"],
+      "低渣蔬菜": ["去皮冬瓜","胡萝卜（煮软）","嫩叶菜煮软","南瓜","西葫芦（去皮）"],
+      "汤品": ["米汤","蔬菜清汤（过滤）","蛋花汤","稀藕粉"],
+      "缓解期": ["逐步添加软烂蔬果","酸奶（耐受）","软米饭","香蕉/蒸苹果"]
+    },
+    avoid: ["活动期：粗纤维（粗粮/坚果/带皮果蔬）","辛辣","油炸","乳糖不耐时乳制品","酒精","个人已知触发食物（记饮食日记）"]
   }
 };
 
 var GENERAL_DISHES = {
-  "主食推荐": ["杂粮饭（糙米+大米+藜麦）","荞麦面条","全麦馒头","燕麦粥","红薯/紫薯","玉米段","山药红枣粥","芋头蒸排骨（少肉版）"],
-  "家常肉菜": ["番茄炖牛腩","清蒸鲈鱼","宫保鸡丁（少油版）","蒜香排骨（少油）","黑椒牛肉粒","可乐鸡翅（少糖）","红烧鸡块（少油）","糖醋里脊（空气炸锅版）","香煎龙利鱼","孜然羊肉（适量）"],
-  "家常素菜": ["番茄炒蛋","蒜蓉西兰花","地三鲜（少油版）","鱼香茄子（蒸后炒）","干煸四季豆","酸辣土豆丝","麻婆豆腐","手撕包菜","炒合菜","醋溜白菜"],
-  "清淡推荐": ["清炒时蔬","白灼菜心","蒜蓉茼蒿","上汤娃娃菜","清蒸鳕鱼","白灼基围虾","蒸蛋羹","凉拌黄瓜","白灼秋葵","蒜蓉丝瓜"],
-  "汤品": ["番茄牛肉汤","玉米排骨汤","冬瓜排骨汤","紫菜蛋花汤","番茄鱼片汤","菌菇豆腐汤","酸萝卜老鸭汤","鲫鱼豆腐汤","莲藕花生汤","山药乌鸡汤"],
-  "加餐零食": ["苹果/橙子","原味坚果一小把(10g)","无糖酸奶","水煮蛋","小番茄","蒸红薯小块","猕猴桃","梨"]
+  "主食推荐": ["杂粮饭（糙米+大米+藜麦）","荞麦面条","全麦馒头","燕麦粥","红薯/紫薯","玉米段","山药红枣粥","芋头蒸排骨（少肉版）","玉米山药粥","藜麦红薯饭","黑米饭","荞麦蒸饺","蒸山药","玉米面发糕"],
+  "家常肉菜": ["番茄炖牛腩","清蒸鲈鱼","宫保鸡丁（少油版）","蒜香排骨（少油）","黑椒牛肉粒","可乐鸡翅（少糖）","红烧鸡块（少油）","糖醋里脊（空气炸锅版）","香煎龙利鱼","孜然羊肉（适量）","芹菜炒瘦肉","清蒸桂鱼","洋葱炒猪里脊","香菇滑鸡","蒜香烤鸡腿","胡萝卜炖羊肉","清炒虾仁","滑溜里脊"],
+  "家常素菜": ["番茄炒蛋","蒜蓉西兰花","地三鲜（少油版）","鱼香茄子（蒸后炒）","干煸四季豆","酸辣土豆丝","麻婆豆腐","手撕包菜","炒合菜","醋溜白菜","香菇油菜","蒜蓉油麦菜","韭菜炒豆芽","清炒藕片","蒜苔炒香干","家常炒三鲜","烧茄子（少油）","清炒荷兰豆"],
+  "清淡推荐": ["清炒时蔬","白灼菜心","蒜蓉茼蒿","上汤娃娃菜","清蒸鳕鱼","白灼基围虾","蒸蛋羹","凉拌黄瓜","白灼秋葵","蒜蓉丝瓜","清蒸鲈鱼柳","白灼芥蓝","蒜蓉娃娃菜","清炒芦笋","清炒荷兰豆","白灼菜薹","蒜蓉空心菜","蒸山药段"],
+  "汤品": ["番茄牛肉汤","玉米排骨汤","冬瓜排骨汤","紫菜蛋花汤","番茄鱼片汤","菌菇豆腐汤","酸萝卜老鸭汤","鲫鱼豆腐汤","莲藕花生汤","山药乌鸡汤","冬瓜虾皮汤","丝瓜蛋汤","萝卜排骨汤","海带豆腐汤","丝瓜瘦肉汤","黄花菜排骨汤"],
+  "加餐零食": ["苹果/橙子","原味坚果一小把(10g)","无糖酸奶","水煮蛋","小番茄","蒸红薯小块","猕猴桃","梨","柚子","火龙果","无糖豆浆","低脂牛奶","蒸南瓜块","原味海苔"]
 };
 
 var RELIGION_RULES = {
@@ -775,6 +895,7 @@ var ADULT_BMI = { thin:18.5, normal:24.0, overweight:28.0 };
 
 var DB = {};
 try { DB = JSON.parse(localStorage.getItem("nutrition_pro_v2") || "{}"); } catch(e){ DB = {}; }
+var EDITING = null;
 function saveDB(){ try { localStorage.setItem("nutrition_pro_v2", JSON.stringify(DB)); } catch(e){ alert("保存失败"); } }
 function $(id){ return document.getElementById(id); }
 
@@ -792,7 +913,7 @@ function lookupChildBMI(age, gender){
   for(var i=0;i<CHILD_BMI_TABLE.length;i++){ if(CHILD_BMI_TABLE[i][0]<=age+0.25) row=CHILD_BMI_TABLE[i]; else break; }
   return gender==="男"?{overweight:row[1],obese:row[2],label:row[0]+"岁男"}:{overweight:row[3],obese:row[4],label:row[0]+"岁女"};
 }
-function calcBMR(g,w,h,age){ return g==="男"?88.362+13.397*w+4.799*h-5.677*age:447.593+9.247*w+3.098*h-4.330*age; }
+function calcBMR(g,w,h,age){ return 10*w+6.25*h-5*age+(g==="男"?5:-161); }
 function calcTDEE(bmr,level){ return bmr*(ACTIVITY_FACTORS[level]||1.2); }
 
 function renderDiseaseTags(){
@@ -839,7 +960,11 @@ function saveClient(){
   else if(physio==="哺乳期"){targetCal+=500;adj.push("哺乳+500");}
   else if(physio==="更年期"){targetCal-=100;adj.push("更年期-100");}
   targetCal=Math.max(targetCal,1000);
-  DB[name]={info:{gender:gender,birth:birth,age:age,height:height,weight:weight,head:head,waist:waist,chest:chest,activity:activity,note:note,diseases:diseases,religion:religion,prefs:prefs,dislike:dislike,goal:goal,physio:physio,allergens:allergens},bmr:bmr,tdee:tdee,targetCal:targetCal,created:new Date().toLocaleString(),tracks:[]};
+  var _keepTracks=[], _keepCreated=new Date().toLocaleString();
+  var _srcKey = EDITING ? EDITING : name;
+  if(DB[_srcKey]){ if(DB[_srcKey].tracks) _keepTracks=DB[_srcKey].tracks; if(DB[_srcKey].created) _keepCreated=DB[_srcKey].created; }
+  if(EDITING && EDITING!==name && DB[EDITING]) delete DB[EDITING];
+  DB[name]={info:{gender:gender,birth:birth,age:age,height:height,weight:weight,head:head,waist:waist,chest:chest,activity:activity,note:note,diseases:diseases,religion:religion,prefs:prefs,dislike:dislike,goal:goal,physio:physio,allergens:allergens},bmr:bmr,tdee:tdee,targetCal:targetCal,created:_keepCreated,tracks:_keepTracks};
   saveDB();
   var el=$("create-result"); el.style.display="block";
   var ds=diseases.length?"<br>特殊疾病：<b>"+diseases.join("、")+"</b>":"";
@@ -852,6 +977,8 @@ function saveClient(){
   var ps=$("c-physio"); if(ps) ps.value="";
   document.querySelectorAll(".pref-tag.active").forEach(function(el){el.classList.remove("active");});
   document.querySelectorAll("[data-allergen].active").forEach(function(el){el.classList.remove("active");});
+  EDITING = null;
+  var _bs=$("btn-save"); if(_bs)_bs.textContent="建档并评估";
 }
 
 function renderClients(){
@@ -860,7 +987,7 @@ function renderClients(){
   var html="";
   names.forEach(function(n){var c=DB[n],db="";
     if(c.info.diseases&&c.info.diseases.length) db=' <span class="badge orange">'+c.info.diseases.join("/")+'</span>';
-    html+='<div class="client-item"><div><div class="name">'+n+db+'</div><div class="sub">'+c.info.age.toFixed(0)+'岁·'+c.info.gender+'·TDEE '+c.tdee.toFixed(0)+'kcal</div></div><div><button class="secondary" style="width:auto;padding:6px 10px;margin:0;font-size:14px" data-action="view" data-name="'+encodeURIComponent(n)+'">查看</button><button class="danger" style="width:auto;padding:6px 10px;margin:0 0 0 4px;font-size:14px" data-action="del" data-name="'+encodeURIComponent(n)+'">删</button></div></div>';
+    html+='<div class="client-item"><div><div class="name">'+n+db+'</div><div class="sub">'+c.info.age.toFixed(0)+'岁·'+c.info.gender+'·TDEE '+c.tdee.toFixed(0)+'kcal</div></div><div><button class="secondary" style="width:auto;padding:6px 10px;margin:0;font-size:14px" data-action="view" data-name="'+encodeURIComponent(n)+'">查看</button><button class="secondary" style="width:auto;padding:6px 10px;margin:0 0 0 4px;font-size:14px" data-action="edit" data-name="'+encodeURIComponent(n)+'">编辑</button><button class="danger" style="width:auto;padding:6px 10px;margin:0 0 0 4px;font-size:14px" data-action="del" data-name="'+encodeURIComponent(n)+'">删</button></div></div>';
   });
   box.innerHTML=html;
 }
@@ -880,6 +1007,27 @@ function showDetail(name){
   $("client-detail-content").innerHTML=html; $("client-detail").style.display="block";
 }
 function delClient(name){if(!confirm("删除「"+name+"」？"))return;delete DB[name];saveDB();renderClients();$("client-detail").style.display="none";}
+function editClient(name){
+  var c=DB[name]; if(!c) return; var i=c.info;
+  EDITING = name;
+  switchPage(0);
+  $("c-name").value=name; $("c-birth").value=i.birth||""; $("c-gender").value=i.gender||"男";
+  $("c-height").value=i.height||""; $("c-weight").value=i.weight||"";
+  $("c-head").value=i.head||""; $("c-waist").value=i.waist||""; $("c-chest").value=i.chest||"";
+  $("c-activity").value=i.activity||"中度";
+  if($("c-goal")) $("c-goal").value=i.goal||"维持体重";
+  if($("c-physio")) $("c-physio").value=i.physio||"";
+  if($("c-religion")) $("c-religion").value=i.religion||"";
+  $("c-dislike").value=i.dislike||""; $("c-note").value=i.note||"";
+  var ds=i.diseases||[], ps=i.prefs||[], al=i.allergens||[];
+  document.querySelectorAll(".disease-tag").forEach(function(el){ el.classList.toggle("active", ds.indexOf(el.dataset.disease)>=0); });
+  document.querySelectorAll(".pref-tag[data-pref]").forEach(function(el){ el.classList.toggle("active", ps.indexOf(el.dataset.pref)>=0); });
+  document.querySelectorAll("[data-allergen]").forEach(function(el){ el.classList.toggle("active", al.indexOf(el.dataset.allergen)>=0); });
+  var bs=$("btn-save"); if(bs) bs.textContent="更新档案";
+  var el=$("create-result"); if(el){ el.style.display="block";
+    el.innerHTML="<b>✏️ 正在编辑「"+name+"」的档案</b><br>可修改身体情况、体重、疾病、目标、偏好、过敏等，改完点「更新档案」即可覆盖保存；<b>已有的跟踪记录与建档时间会完整保留</b>（改名也保留）。"; }
+  var pg=$("page-create"); if(pg) pg.scrollTop=0;
+}
 
 function searchFood(){
   var key=$("food-input").value.trim(),results=[];
@@ -1011,6 +1159,7 @@ function genAdvice(){
       Object.keys(d.dishes).forEach(function(cat){var _dl=d.dishes[cat].filter(function(x){return !fb(x);});if(!_dl.length){html+='<b>'+cat+'：</b><div style="color:#999;font-size:14px">（该分类推荐菜品均已规避，请同类替换）</div>';return;}html+='<b>'+cat+'：</b><ul>';_dl.forEach(function(x){var p=dishPortion(cat,x);html+='<li>'+x+(p?'<span style="color:#2e7d32">（建议菜量：'+p+'/人·餐）</span>':'')+'</li>';});html+='</ul>';});
       html+='</div>';
     });
+    /*COMBOBEGIN*/html+=comboDishTable(diseases, function(n){return fb(n);}, dishPortion);/*COMBOEND*/
     var allA=[];diseases.forEach(function(dk){var d=DISEASES[dk];if(d&&d.avoid)allA=allA.concat(d.avoid);});
     if(allA.length){html+='<div class="dish-section avoid-section"><h4>需要避免的食物</h4><ul>';var sn={};allA.forEach(function(a){if(!sn[a]){sn[a]=true;html+='<li>'+a+'</li>';}});html+='</ul></div>';}
   } else {
@@ -1018,6 +1167,7 @@ function genAdvice(){
     Object.keys(GENERAL_DISHES).forEach(function(cat){var _gl=GENERAL_DISHES[cat].filter(function(x){return !fb(x);});if(!_gl.length){html+='<b>'+cat+'：</b><div style="color:#999;font-size:14px">（该分类菜品均已规避，请同类替换）</div>';return;}html+='<b>'+cat+'：</b><ul>';_gl.forEach(function(x){var p=dishPortion(cat,x);html+='<li>'+x+(p?'<span style="color:#2e7d32">（建议菜量：'+p+'/人·餐）</span>':'')+'</li>';});html+='</ul>';});
     html+='</div>';
   }
+
   if(FB.lines.length){
     html+='<div class="dish-section avoid-section"><h4>饮食禁忌（宗教与个人偏好）</h4><ul>';
     FB.lines.forEach(function(l){html+='<li>'+l+'</li>';});
@@ -1109,6 +1259,7 @@ document.addEventListener("click",function(e){
   var dtBtn=t.closest?t.closest('[data-action="del-track"]'):null;if(dtBtn){delTrack(parseInt(dtBtn.dataset.idx));return;}
   if(t.dataset.action==="view"){showDetail(decodeURIComponent(t.dataset.name));return;}
   if(t.dataset.action==="del"){delClient(decodeURIComponent(t.dataset.name));return;}
+  if(t.dataset.action==="edit"){editClient(decodeURIComponent(t.dataset.name));return;}
   if(t.dataset.food){$("food-input").value=t.dataset.food;searchFood();return;}
   if(t.dataset.disease!==undefined){t.classList.toggle("active");return;}
   if(t.dataset.pref!==undefined){t.classList.toggle("active");return;}
@@ -1131,12 +1282,27 @@ var SPECIAL_RECIPES = {
       ["水煮蛋","鸡蛋1个约50g/人"],
       ["全麦馒头","1个约80g/人"],
       ["小米粥","熟粥约250g/人"],
-      ["凉拌黄瓜","约100g/人"]
+      ["凉拌黄瓜","约100g/人"],
+      ["豆浆","约250ml/人"],
+      ["肉末菜粥","熟粥约250g/人"],
+      ["葱花鸡蛋饼","蛋1个+面糊/人"],
+      ["南瓜小米粥","熟粥约250g/人"],
+      ["菜肉包","1-2个约100g/人"],
+      ["蒸紫薯","约100g/人"],
+      ["豆腐脑","约200g/人"],
+      ["鸡蛋三明治","蛋1个+面包2片/人"],
+      ["蒸玉米","半根约100g/人"],
+      ["黑芝麻糊","约200g/人"]
     ]],
     ["主食（人均每餐）", [
       ["杂粮饭","生米75-100g/人"],
       ["红薯饭","大米60g+红薯50g/人"],
-      ["玉米糁粥","熟粥约300g/人"]
+      ["玉米糁粥","熟粥约300g/人"],
+      ["二米饭（大米+小米）","生米75-100g/人"],
+      ["芋头饭","大米60g+芋头50g/人"],
+      ["荞麦米饭","生米75g/人"],
+      ["紫米饭","生米75-100g/人"],
+      ["土豆焖饭","大米60g+土豆80g/人"]
     ]],
     ["荤菜（人均每餐·生重）", [
       ["清蒸鲈鱼","鱼肉75g/人"],
@@ -1144,24 +1310,61 @@ var SPECIAL_RECIPES = {
       ["白灼基围虾","虾75g/人"],
       ["香煎龙利鱼","鱼肉75g/人"],
       ["香菇蒸鸡","鸡肉75g/人"],
-      ["清炖羊肉","羊肉75g/人"]
+      ["清炖羊肉","羊肉75g/人"],
+      ["红烧鸡块（少油）","鸡肉75g/人"],
+      ["洋葱炒牛肉","牛肉75g/人"],
+      ["木耳炒鸡肉","鸡肉75g/人"],
+      ["红烧带鱼（少油）","带鱼75g/人"],
+      ["土豆炖鸡块","鸡肉75g/人"],
+      ["胡萝卜焖羊肉","羊肉75g/人"],
+      ["酱香萝卜炖牛腩","牛腩75g/人"],
+      ["青椒炒猪肝","猪肝50g/人·补铁每周1次"],
+      ["宫保鸡丁（少油）","鸡肉75g/人"],
+      ["清蒸多宝鱼","鱼肉75g/人"],
+      ["萝卜炖羊肉","羊肉75g/人"],
+      ["滑溜牛肉片","牛肉75g/人"],
+      ["香菇肉末豆腐","豆腐100g+肉末20g/人"]
     ]],
     ["素菜（人均每餐）", [
       ["蒜蓉西兰花","菜150-200g/人"],
       ["番茄炒蛋","番茄150g+蛋1个/人"],
       ["麻婆豆腐","豆腐100g/人"],
       ["手撕包菜","菜150-200g/人"],
-      ["醋溜白菜","菜150-200g/人"]
+      ["醋溜白菜","菜150-200g/人"],
+      ["香菇炒青菜","菜150-200g/人"],
+      ["芹菜炒香干","香干80g+芹菜100g/人"],
+      ["蒜蓉茼蒿","菜150-200g/人"],
+      ["醋溜土豆丝","菜150-200g/人"],
+      ["蚝油生菜","菜150-200g/人"],
+      ["家常豆腐（少油）","豆腐100g/人"],
+      ["蒜苔炒香干","香干80g+蒜苔100g/人"],
+      ["清炒芦笋","菜150g/人"],
+      ["上汤苋菜","菜150g/人"],
+      ["香菇扒菜胆","菜150g/人"],
+      ["醋焖冬瓜","冬瓜200g/人"]
     ]],
     ["汤品（人均每餐）", [
       ["番茄蛋花汤","约200ml/人"],
       ["冬瓜排骨汤","约250ml/人"],
-      ["菌菇豆腐汤","约250ml/人"]
+      ["菌菇豆腐汤","约250ml/人"],
+      ["紫菜蛋花汤","约200ml/人"],
+      ["山药排骨汤","约250ml/人"],
+      ["萝卜丝鲫鱼汤","约250ml/人"],
+      ["玉米胡萝卜排骨汤","约250ml/人"],
+      ["番茄土豆牛腩汤","约250ml/人"],
+      ["丝瓜瘦肉汤","约250ml/人"],
+      ["海带豆腐汤","约250ml/人"],
+      ["萝卜老鸭汤","约250ml/人"],
+      ["番茄冬瓜汤","约250ml/人"]
     ]],
     ["加餐（人均）", [
       ["无糖酸奶","100g/人"],
       ["苹果","半个约100g/人"],
-      ["原味坚果","10g/人"]
+      ["原味坚果","10g/人"],
+      ["橙子","1个约150g/人"],
+      ["香蕉","1根约100g/人"],
+      ["蓝莓","约50g/人"],
+      ["核桃","1-2个约10g/人"]
     ]]
   ],
   infant: {
@@ -1184,14 +1387,21 @@ var SPECIAL_RECIPES = {
       ["番茄鸡蛋面","熟面约80g+蛋1个/餐"],
       ["肉末豆腐","豆腐50g+肉末20g/餐"],
       ["清蒸鱼去刺","鱼肉25-50g/餐"],
-      ["配方奶或牛奶","约500ml/日"]
+      ["配方奶或牛奶","约500ml/日"],
+      ["蒸南瓜块","约30-50g/餐"],
+      ["鱼泥豆腐羹","豆腐50g+鱼泥20g/餐"],
+      ["时蔬肉末软饭","熟饭75g+肉末20g/餐"]
     ]]],
     "24-36月": [["幼儿期（规律三餐+1-2点心）", [
       ["杂粮软饭","熟饭约100-125g/餐"],
       ["番茄炒蛋","番茄100g+蛋1个/餐"],
       ["香菇滑鸡","鸡肉50g/餐"],
       ["清炒菠菜","菜约75-100g/餐"],
-      ["牛奶","350-500ml/日"]
+      ["牛奶","350-500ml/日"],
+      ["肉末蒸蛋","蛋1个+肉末20g/餐"],
+      ["清蒸鳕鱼去刺","鱼肉25-50g/餐"],
+      ["豆腐烩时蔬","豆腐50g+菜75g/餐"],
+      ["蛋花蔬菜面","熟面80g+蛋1个/餐"]
     ]]]
   },
   pregnan: [
@@ -1202,7 +1412,14 @@ var SPECIAL_RECIPES = {
       ["焯拌菠菜","菜150g/餐·补叶酸"],
       ["番茄蛋花汤","约200ml/餐"],
       ["苏打饼干","2-3片作加餐"],
-      ["水煮玉米","半根作加餐"]
+      ["水煮玉米","半根作加餐"],
+      ["馒头片","1-2片/餐"],
+      ["鸡蛋羹","蛋1个/餐"],
+      ["清炒莴笋","菜150g/餐"],
+      ["豆浆","约250ml/餐"],
+      ["清炒荷兰豆","菜150g/餐"],
+      ["蒸紫薯","约100g/餐"],
+      ["瘦肉末粥","熟粥约250g/餐"]
     ]],
     ["孕中期（补钙铁与DHA）", [
       ["牛奶燕麦粥","燕麦40g+牛奶250ml/早"],
@@ -1212,7 +1429,16 @@ var SPECIAL_RECIPES = {
       ["蒜蓉西兰花","菜150-200g/餐"],
       ["清蒸深海鱼","鱼肉75g·每周2-3次补DHA"],
       ["无糖酸奶","150g/加餐·补钙"],
-      ["核桃","2-3个约10g/日"]
+      ["核桃","2-3个约10g/日"],
+      ["米饭","生米75-100g/餐"],
+      ["红烧牛肉（少油）","牛肉75g/餐·补铁"],
+      ["清炒油麦菜","菜150-200g/餐"],
+      ["鲫鱼豆腐汤","鲫鱼+豆腐100g/餐·补钙"],
+      ["牛奶","250ml/晚"],
+      ["清蒸虾","虾75g/餐"],
+      ["木耳炒山药","山药100g+木耳50g/餐"],
+      ["紫菜蛋花汤","约200ml/餐"],
+      ["豆腐蒸蛋","豆腐100g+蛋1个/餐"]
     ]],
     ["孕晚期（控重·补钙铁防水肿）", [
       ["杂粮饭","生米75-100g/餐·控GI"],
@@ -1221,10 +1447,43 @@ var SPECIAL_RECIPES = {
       ["番茄炖牛腩","牛腩75g/餐·补铁"],
       ["冬瓜排骨汤","约250ml/餐·少盐"],
       ["芹菜炒香干","香干80g+芹菜100g/餐"],
-      ["低糖酸奶","150g/加餐"]
+      ["低糖酸奶","150g/加餐"],
+      ["香菇滑鸡","鸡肉75g/餐"],
+      ["蒜蓉菠菜","菜150g/餐·补铁"],
+      ["番茄土豆汤","约250ml/餐·少盐"],
+      ["水煮玉米","半根作加餐"],
+      ["牛奶燕麦粥","燕麦40g+牛奶250ml/早·补钙"],
+      ["水煮蛋","蛋1个/早·补优质蛋白"],
+      ["小米南瓜粥","熟粥250g/早·少盐利水"],
+      ["无糖豆浆","约250ml/早·补钙补蛋白"],
+      ["清炒芥蓝","菜150g/餐"],
+      ["番茄蒸豆腐","豆腐100g/餐·补钙"],
+      ["冬瓜鲫鱼汤","鲫鱼+冬瓜·利水少盐"],
+      ["蒜蓉生菜","菜150g/餐"]
     ]]
   ]
 };
+/*GEXTRA*/
+var GROUP_RECIPE_EXTRA = {
+  "医院住院科": {"早餐":[["蒸蛋羹","蛋1个/人"],["烂面条(清汤)","熟面80g/人"],["山药小米粥","熟粥250g/人"],["软馒头","1个约60g/人"],["牛奶麦片糊","约250ml/人"],["蒸南瓜","约100g/人"],["蒸蛋花","蛋1个/人"],["大米粥","熟粥300g/人"],["小软饼","1个约40g/人"]],"主食":[["软米饭","生米75g/人"],["烂白粥","熟粥300g/人"],["山药粥","熟粥300g/人"],["南瓜饭","大米60g+南瓜50g/人"],["龙须面","熟面80g/人"]],"荤菜":[["清蒸鳕鱼","鱼肉75g/人"],["香菇鸡肉丸","鸡肉丸75g/人"],["肉末蒸豆腐","豆腐100g+肉末20g/人"],["清蒸龙利鱼","鱼肉75g/人"],["肉末冬瓜盅","冬瓜150g+肉末20g/人"],["清蒸鳊鱼","鱼肉75g/人"],["鸡茸豆腐","豆腐100g+鸡茸20g/人"],["白灼鱼片","鱼肉75g/人"]],"素菜":[["清炒丝瓜","菜150g/人"],["蒸茄子","菜150g/人"],["上汤菠菜(焯)","菜150g/人"],["清炒冬瓜","菜150g/人"],["蒸山药","约100g/人"],["冬瓜炒丝瓜","丝瓜150g/人"],["上汤苋菜","菜150g/人"],["蒸胡萝卜","约100g/人"]],"汤品":[["番茄瘦肉汤","约250ml/人"],["蔬菜豆腐汤","约250ml/人"],["冬瓜蛤蜊汤","约250ml/人"],["山药胡萝卜汤","约250ml/人"],["南瓜浓汤","约250ml/人"],["丝瓜瘦肉汤","约250ml/人"],["蛋花米汤","约200ml/人"]],"加餐":[["低脂牛奶","约200ml/人"],["无糖藕粉","1小碗/人"],["蒸苹果","半个/人"],["苏打饼干","2-3片/人"]]},
+  "养老机构": {"早餐":[["牛奶燕麦糊","约250ml/人"],["蒸蛋羹","蛋1个/人"],["肉末烂面片","熟面片80g/人"],["小米南瓜粥","熟粥250g/人"],["软花卷","1个约60g/人"],["温豆浆","约250ml/人"],["蛋奶糊","约250ml/人"],["南瓜粥","熟粥250g/人"],["软蛋糕","1小块/人"]],"主食":[["二米饭(软)","生米75g/人"],["山药粥","熟粥300g/人"],["烂面条","熟面80g/人"],["蒸紫薯","约100g/人"],["玉米糊","约250g/人"],["芋头饭(软)","大米60g+芋头50g/人"]],"荤菜":[["清蒸鲈鱼(去刺)","鱼肉75g/人"],["香菇炖鸡(烂)","鸡肉75g/人"],["肉末蒸蛋","蛋1个+肉末20g/人"],["豆腐烧鱼丸","豆腐100g+鱼丸50g/人"],["土豆炖牛肉(烂)","牛肉75g/人"],["虾仁豆腐","虾仁50g+豆腐100g/人"],["清蒸鱼丸","鱼丸75g/人"],["肉末烩豆腐","豆腐100g+肉末20g/人"],["鸡茸蒸蛋","蛋1个+鸡茸20g/人"]],"素菜":[["蒜蓉蒸南瓜","南瓜150g/人"],["烂糊白菜","菜150g/人"],["香菇烧豆腐","豆腐100g/人"],["蒸茄子","菜150g/人"],["清炒嫩菠菜","菜100g/人"],["萝卜丝烩","萝卜150g/人"],["南瓜泥","南瓜150g/人"],["软烧冬瓜","冬瓜150g/人"],["烂糊菠菜","菜100g/人"]],"汤品":[["萝卜排骨汤(烂)","约250ml/人"],["番茄豆腐汤","约250ml/人"],["山药鸡肉汤","约250ml/人"],["冬瓜肉末汤","约250ml/人"],["豆腐羹","约250ml/人"],["胡萝卜瘦肉汤","约250ml/人"],["山药糊","约200g/人"]],"加餐":[["核桃粉糊","1小碗/人"],["无糖酸奶","100g/人"],["蒸香蕉","1根/人"],["黑芝麻糊","约200g/人"],["蓝莓","约50g/人"]]},
+  "学校": {"早餐":[["鸡蛋三明治","1份/人"],["鲜肉包","2个约120g/人"],["番茄鸡蛋面","熟面80g+蛋1个/人"],["玉米发糕","1块约80g/人"],["豆浆+鸡蛋","豆浆250ml+蛋1个/人"],["牛奶面包","1份/人"],["菜肉馄饨","1碗/人"],["玉米饼","1块/人"]],"主食":[["三色糙米饭","生米75-100g/人"],["番茄鸡蛋炒饭","米饭150g+蛋1个/人"],["肉末豆角焖面","熟面100g/人"],["紫米饭团","1个约120g/人"],["土豆牛肉盖饭","米饭150g+牛肉50g/人"]],"荤菜":[["土豆炖牛肉","牛肉75g/人"],["红烧鸡翅","鸡翅2个约75g/人"],["宫保鸡丁","鸡肉75g/人"],["可乐鸡腿","鸡腿1个约80g/人"],["木耳炒肉","猪肉50g/人"],["香菇肉片","猪肉75g/人"],["红烧狮子头","肉丸2个约80g/人"],["糖醋鱼块","鱼肉75g/人"],["香煎鸡排","鸡肉75g/人"],["洋葱炒牛肉","牛肉75g/人"]],"素菜":[["手撕包菜","菜150g/人"],["蒜蓉西兰花","菜150g/人"],["干煸豆角","豆角150g/人"],["醋溜白菜","菜150g/人"],["素炒胡萝卜木耳","胡萝卜100g+木耳50g/人"],["炒三丝","时蔬150g/人"],["番茄菜花","菜花150g/人"],["蒜蓉生菜","菜150g/人"]],"汤品":[["紫菜虾皮汤","约200ml/人"],["玉米排骨汤","约250ml/人"],["豆腐鲫鱼汤","约250ml/人"],["酸辣汤","约200ml/人"],["冬瓜虾皮汤","约200ml/人"],["番茄蛋汤","约200ml/人"],["萝卜排骨汤","约250ml/人"]],"加餐":[["苹果","1个约150g/人"],["纯牛奶","约200ml/人"],["水煮蛋","1个/人"],["全麦面包","1-2片/人"]]},
+  "单位食堂": {"早餐":[["豆腐脑","约250g/人"],["茶叶蛋","1个/人"],["小笼包","6个约150g/人"],["皮蛋瘦肉粥","熟粥250g/人"],["烧麦","2个约100g/人"],["现磨豆浆","约250ml/人"],["小米南瓜粥","熟粥250g/人"],["鲜肉锅贴","6个/人"],["蒸红薯","约100g/人"]],"主食":[["蛋炒饭","米饭200g+蛋1个/人"],["牛肉拌面","熟面120g/人"],["香菇肉酱拌饭","米饭200g/人"],["三鲜饺子","10个约180g/人"],["葱油拌面","熟面120g/人"]],"荤菜":[["糖醋里脊","猪里脊75g/人"],["青椒炒牛肉","牛肉75g/人"],["水煮鱼","鱼肉100g/人"],["回锅肉","五花肉75g/人"],["木须肉","猪肉50g+蛋1个/人"],["干锅花菜","花菜150g+肉片30g/人"],["孜然羊肉","羊肉75g/人"],["红烧带鱼","带鱼75g/人"],["宫保鸡丁","鸡肉75g/人"],["芹菜炒肉","猪肉75g/人"]],"素菜":[["麻婆豆腐","豆腐150g/人"],["蒜苗炒豆干","蒜苗150g+豆干80g/人"],["地三鲜","时蔬200g/人"],["干煸四季豆","四季豆150g/人"],["清炒菜心","菜心150g/人"],["素炒三丝","时蔬150g/人"],["手撕杏鲍菇","杏鲍菇150g/人"],["清炒时蔬","菜150g/人"],["香菇青菜","菜150g/人"]],"汤品":[["酸辣汤","约200ml/人"],["玉米羹","约200ml/人"],["冬瓜汤","约250ml/人"],["罗宋汤","约250ml/人"],["紫菜蛋花汤","约200ml/人"],["萝卜丝汤","约250ml/人"],["番茄豆腐汤","约250ml/人"]],"加餐":[["酸奶","100g/人"],["橙子","1个/人"],["坚果","10g/人"],["水果拼盘","约100g/人"]]},
+  "月子中心": {"早餐":[["小米红糖粥","熟粥250g/人"],["酒酿蛋花","蛋1个+酒酿适量/人"],["山药排骨粥","熟粥250g/人"],["蒸蛋羹","蛋1个/人"],["豆浆芝麻糊","约250ml/人"],["红枣桂圆粥","熟粥250g/人"],["牛乳蒸蛋","蛋1个/人"],["紫米粥","熟粥250g/人"]],"主食":[["红糖小米饭","生米75g/人"],["杂粮粥","熟粥300g/人"],["软米饭","生米75g/人"],["红薯粥","大米50g+红薯50g/人"],["山药面线","熟面80g/人"]],"荤菜":[["麻油鸡","鸡肉75g/人"],["黄豆炖猪蹄","猪蹄80g+黄豆30g/人"],["猪肝菠菜","猪肝50g+菠菜100g/人"],["虾皮炒蛋","蛋2个+虾皮10g/人"],["清蒸鲈鱼","鱼肉75g/人"],["清炖乌鸡","鸡肉75g/人"],["酒酿蒸鱼","鱼肉75g/人"],["当归生姜羊肉汤","羊肉75g/人"]],"素菜":[["清炒苋菜","菜150g/人"],["蒸丝瓜","丝瓜150g/人"],["香菇油菜","菜150g/人"],["黄花菜炒蛋","黄花菜50g+蛋1个/人"],["番茄炒蛋","番茄100g+蛋1个/人"],["清炒芦笋","菜150g/人"],["芝麻拌菠菜","菠菜150g/人"],["蒸南瓜","约150g/人"]],"汤品":[["鲫鱼豆腐汤","鲫鱼+豆腐100g/人"],["猪蹄通草汤","猪蹄80g/人"],["花生鸡脚汤","鸡脚80g+花生30g/人"],["木瓜排骨汤","木瓜100g+排骨50g/人"],["五红汤","红枣红豆花生红糖/人"],["乌鸡汤","约250ml/人"],["丝瓜鲫鱼汤","约250ml/人"],["黄豆猪蹄汤","约250ml/人"]],"加餐":[["红豆汤","约200g/人"],["酒酿圆子","1小碗/人"],["蒸苹果","半个/人"],["牛奶","约250ml/人"],["核桃芝麻糊","1小碗/人"]]}
+};
+function groupRecipeBuckets(type){
+  var base=JSON.parse(JSON.stringify(SPECIAL_RECIPES.group));
+  var extra=JSON.parse(JSON.stringify(GROUP_RECIPE_EXTRA[type]||{}));
+  function keyOf(n){ return n.split("（")[0]; }
+  base.forEach(function(bk){
+    var k=keyOf(bk[0]);
+    if(extra[k]){ extra[k].forEach(function(d){ var has=bk[1].some(function(r){return r[0]===d[0];}); if(!has) bk[1].push(d); }); delete extra[k]; }
+  });
+  Object.keys(extra).forEach(function(k){ base.push([k+"（人均每餐·该群体专属）", extra[k]]); });
+  return base;
+}
+/*ENDGEXTRA*/
+
 function collectSpecialFB(pfx){
   var rel=$(pfx+"-religion"), religion=rel?rel.value:"";
   var prefs=[],allergens=[];
@@ -1233,7 +1492,21 @@ function collectSpecialFB(pfx){
   var di=$(pfx+"-dislike"), dislike=di?(di.value||"").replace(/^\s+|\s+$/g,""):"";
   return {religion:religion,prefs:prefs,allergens:allergens,dislike:dislike};
 }
-function renderRecipeSection(title, buckets, fbKws, hidden){
+function mealEnergyTable(dailyKcal,hasSnack){
+  if(!dailyKcal||dailyKcal<300) return '';
+  var cell='style="border:1px solid #d6dee6;padding:4px"', cellC='style="border:1px solid #d6dee6;padding:4px;text-align:center"';
+  var pro_g=dailyKcal*0.15/4, fat_g=dailyKcal*0.25/9, carb_g=dailyKcal*0.60/4;
+  var meals;
+  if(hasSnack) meals=[["早餐",0.25],["午餐",0.30],["晚餐",0.30],["加餐",0.15]];
+  else meals=[["早餐",0.30],["午餐",0.40],["晚餐",0.30]];
+  var h='<div class="dish-section"><h4>早／中／晚 能量与营养素目标（按每日总能量约'+dailyKcal.toFixed(0)+' kcal 换算）</h4>';
+  h+='<table style="width:100%;border-collapse:collapse;font-size:15px;margin:4px 0">';
+  h+='<tr style="background:#f0f4f8"><th '+cell+' align="left">餐次</th><th '+cellC+'>能量</th><th '+cellC+'>蛋白质</th><th '+cellC+'>脂肪</th><th '+cellC+'>碳水</th></tr>';
+  meals.forEach(function(m){var r=m[1];h+='<tr><td '+cell+'>'+m[0]+'（'+(r*100).toFixed(0)+'%）</td><td '+cellC+'>'+(dailyKcal*r).toFixed(0)+' kcal</td><td '+cellC+'>'+(pro_g*r).toFixed(0)+'g</td><td '+cellC+'>'+(fat_g*r).toFixed(0)+'g</td><td '+cellC+'>'+(carb_g*r).toFixed(0)+'g</td></tr>';});
+  h+='</table><div style="color:#666;font-size:14px">说明：能量按'+(hasSnack?'25%／30%／30%／15%（少量多餐）':'30%／40%／30%')+'分配到各餐，营养素按蛋白质15%／脂肪25%／碳水60%估算，可按作息与个体需要微调；下方菜谱供自由挑选搭配。</div></div>';
+  return h;
+}
+function renderRecipeSection(title, buckets, fbKws, hidden, dailyKcal, hasSnack){
   function hit(name){ for(var q=0;q<fbKws.length;q++){ if(fbKws[q]&&name.indexOf(fbKws[q])>=0) return true; } return false; }
   var cell='style="border:1px solid #d6dee6;padding:4px"', cellC='style="border:1px solid #d6dee6;padding:4px;text-align:center"';
   var html='<div class="dish-section"><h4>'+title+'</h4>', any=false;
@@ -1247,9 +1520,43 @@ function renderRecipeSection(title, buckets, fbKws, hidden){
     html+='</table>';
   });
   if(!any) html+='<div style="color:#999;font-size:14px">所选宗教/偏好/过敏禁忌已规避全部示例菜品，请按同类合规食材替换。</div>';
+  
+
   html+='</div>';
-  return html;
+  return mealEnergyTable(dailyKcal,hasSnack)+html;
 }
+/*COMBOBEGIN*/
+function comboDishTable(diseases, isForbidden, portionFn){
+  if(!diseases || diseases.length<2) return '';
+  var cc={};
+  diseases.forEach(function(dk){ var d=DISEASES[dk]; if(!d||!d.dishes)return;
+    Object.keys(d.dishes).forEach(function(cat){ d.dishes[cat].forEach(function(x){
+      if(!cc[x]) cc[x]={n:0,cat:cat,seen:{}};
+      if(!cc[x].seen[dk]){ cc[x].n++; cc[x].seen[dk]=1; }
+    }); });
+  });
+  var cav=[]; diseases.forEach(function(dk){ var d=DISEASES[dk]; if(d&&d.avoid) cav=cav.concat(d.avoid); });
+  var toks=[]; cav.forEach(function(a){ String(a).replace(/（[^）]*）/g,'').split(/[\/、，,]/).forEach(function(t){ t=String(t).replace(/^\s+|\s+$/g,''); if(t.length>=2) toks.push(t); }); });
+  function hitAvoid(name){ for(var i=0;i<toks.length;i++){ if(String(name).indexOf(toks[i])>=0) return true; } return false; }
+  var list=[]; Object.keys(cc).forEach(function(name){ if(isForbidden&&isForbidden(name))return; if(hitAvoid(name))return; list.push([name,cc[name].n,cc[name].cat]); });
+  list.sort(function(a,b){ return b[1]-a[1]||String(a[0]).localeCompare(String(b[0])); });
+  var best=list.filter(function(r){return r[1]>=2;});
+  var show=best.length>=3?best:list.slice(0,12);
+  var cell='style="border:1px solid #c5d6ea;padding:4px"', cellC='style="border:1px solid #c5d6ea;padding:4px;text-align:center"';
+  var h='<div class="dish-section" style="background:#f3f8ff;border:1px solid #b3cde8;border-radius:6px;padding:8px"><h4>综合最优推荐菜谱（同时兼顾所选 '+diseases.length+' 种疾病）</h4>';
+  var pr=[]; diseases.forEach(function(dk){ var d=DISEASES[dk]; if(d&&d.principles) pr.push(dk+'：'+d.principles); });
+  h+='<div style="color:#1565c0;font-size:14px;margin:2px 0 6px">下表为所选全部疾病的交集推荐：已剔除被任一疾病列为"应避免"、或触犯宗教/偏好/过敏禁忌的菜品，并优先排在前面能同时满足更多疾病的菜（标注"兼顾疾病数"）。综合饮食原则：'+pr.join('；')+'。</div>';
+  if(show.length){
+    h+='<table style="width:100%;border-collapse:collapse;font-size:15px;margin:4px 0"><tr style="background:#eaf2fb"><th '+cell+' align="left">推荐菜品</th><th '+cellC+'>兼顾疾病数</th><th '+cellC+'>建议菜量</th></tr>';
+    show.forEach(function(r){ var p=portionFn?portionFn(r[2],r[0]):''; h+='<tr><td '+cell+'>'+r[0]+'</td><td '+cellC+'>'+r[1]+'</td><td '+cellC+'><span style="color:#2e7d32">'+(p||'')+'</span></td></tr>'; });
+    h+='</table>';
+  } else {
+    h+='<div style="color:#999;font-size:14px">所选疾病限制冲突较大，暂无完全兼容菜品，请由临床营养师按同类合规食材个体化搭配。</div>';
+  }
+  h+='</div>';
+  return h;
+}
+/*COMBOEND*/
 var G_POP = ["老年人","孕产妇","术后康复","学龄前儿童","吞咽障碍"];
 function renderSpecialTags(){
   var dh=""; Object.keys(DISEASES).forEach(function(n){ dh+='<span class="tag disease-tag g-disease-tag" data-gdisease="'+n+'">'+DISEASES[n].icon+' '+n+'</span>'; });
@@ -1327,7 +1634,8 @@ function genGroup(){
   tips.forEach(function(t){ html+='<li>'+t+'</li>'; });
   html+='</ul><div style="color:#888;font-size:14px">群体方案为均值估算，个体（尤其治疗膳食、肾病、孕产）应在临床营养师指导下二次个体化调整。</div></div>';
   var FBg=forbiddenFor(collectSpecialFB("g")), hiddenG={n:0};
-  html+=renderRecipeSection("五、推荐菜谱（供选择·标注人均每餐菜量，乘以人数即备餐量）", SPECIAL_RECIPES.group, FBg.kws, hiddenG);
+  html+=renderRecipeSection("五、推荐菜谱（供选择·标注人均每餐菜量，乘以人数即备餐量）", groupRecipeBuckets(type), FBg.kws, hiddenG, per, false);
+  /*COMBOBEGIN*/html+=comboDishTable(dis, function(n){var kk=FBg.kws;for(var q=0;q<kk.length;q++){if(kk[q]&&n.indexOf(kk[q])>=0)return true;}return false;}, function(){return '按人均宝塔估算';});/*COMBOEND*/
   if(hiddenG.n) html+='<div class="dish-section avoid-section"><h4>饮食禁忌</h4><ul>'+FBg.lines.map(function(l){return '<li>'+l+'</li>';}).join('')+'</ul><div style="color:#bf360c;font-size:14px">已按宗教/偏好/过敏自动规避含禁忌食材的菜品约 '+hiddenG.n+' 道；如需精确配餐请在营养师指导下作同类合规替换。</div></div>';
   el.innerHTML=html; el.style.display="block";
 }
@@ -1360,7 +1668,7 @@ function genInfant(){
   if(pre==="是") html+='<div class="disease-warning">早产/低出生体重儿：出院后按矫正月龄评估生长，遵医嘱使用早产儿配方或母乳强化剂，重点监测铁、维生素D、体重与头围追赶生长。</div>';
   var ib = mo<6?"0-6月":mo<9?"6-8月":mo<12?"9-11月":mo<24?"12-24月":"24-36月";
   var FBi=forbiddenFor(collectSpecialFB("i")), hiddenI={n:0};
-  html+=renderRecipeSection("适龄辅食／膳食菜谱（供选择·标注每餐用量）", SPECIAL_RECIPES.infant[ib], FBi.kws, hiddenI);
+  html+=renderRecipeSection("适龄辅食／膳食菜谱（供选择·标注每餐用量）", SPECIAL_RECIPES.infant[ib], FBi.kws, hiddenI, (mo>=12?ecal:0), true);
   if(hiddenI.n) html+='<div class="dish-section avoid-section"><h4>饮食禁忌</h4><ul>'+FBi.lines.map(function(l){return '<li>'+l+'</li>';}).join('')+'</ul><div style="color:#bf360c;font-size:14px">已按过敏/宗教/忌口自动规避含禁忌食材的辅食菜品约 '+hiddenI.n+' 道；首次添加新食材仍需单一引入、观察3天。</div></div>';
   html+='<div style="color:#888;font-size:14px;margin-top:6px">注：以上按月龄的通用参考，须结合生长曲线（WHO/中国标准）、过敏史与儿保医生意见个体化调整。</div>';
   el.innerHTML=html; el.style.display="block";
@@ -1407,7 +1715,7 @@ function genPregnan(){
   html+='<div class="dish-section"><h4>四、'+stage+'膳食要点</h4><div>'+stageTip+'</div></div>';
   html+='<div class="dish-section avoid-section"><h4>孕期应避免</h4><ul><li>酒精、烟草；生鱼生肉/半熟蛋/未杀菌奶酪（李斯特菌、弓形虫风险）</li><li>高汞鱼（鲨鱼/旗鱼/方头鱼/大眼金枪鱼等）</li><li>浓茶/浓咖啡（咖啡因控制在200mg/日内）</li><li>过量动物肝脏（维A过量风险）；乱用补品与药物</li></ul></div>';
   var FBp=forbiddenFor(collectSpecialFB("p")), hiddenP={n:0};
-  html+=renderRecipeSection("五、孕期推荐菜谱（供选择·标注每人每餐用量）", SPECIAL_RECIPES.pregnan.filter(function(b){return b[0].indexOf(stage)>=0;}), FBp.kws, hiddenP);
+  html+=renderRecipeSection("五、孕期推荐菜谱（供选择·标注每人每餐用量）", SPECIAL_RECIPES.pregnan.filter(function(b){return b[0].indexOf(stage)>=0;}), FBp.kws, hiddenP, totalE, true);
   if(hiddenP.n) html+='<div class="dish-section avoid-section"><h4>饮食禁忌</h4><ul>'+FBp.lines.map(function(l){return '<li>'+l+'</li>';}).join('')+'</ul><div style="color:#bf360c;font-size:14px">已按宗教/偏好/过敏自动规避含禁忌食材的菜品约 '+hiddenP.n+' 道；如需精确配餐请在营养师指导下作同类合规替换。</div></div>';
   html+='<div style="color:#888;font-size:14px;margin-top:6px">注：能量增量为按孕前BMR的参考估算，合并糖尿病/甲功异常/多胎等请在产科与临床营养师指导下个体化调整。</div>';
   el.innerHTML=html; el.style.display="block";
