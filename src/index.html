@@ -1006,7 +1006,31 @@ function showDetail(name){
   html+='<hr>'+evaluateClient(i,c.bmr,c.tdee);
   $("client-detail-content").innerHTML=html; $("client-detail").style.display="block";
 }
-function delClient(name){if(!confirm("删除「"+name+"」？"))return;delete DB[name];saveDB();renderClients();$("client-detail").style.display="none";}
+/*APPCONFIRM-START*/
+function appConfirm(msg,onYes){
+  var old=document.getElementById("app-confirm-mask");if(old&&old.parentNode)old.parentNode.removeChild(old);
+  var mask=document.createElement("div");mask.id="app-confirm-mask";
+  mask.style.cssText="position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:20px;";
+  var box=document.createElement("div");
+  box.style.cssText="max-width:360px;width:100%;background:#fff;border-radius:14px;padding:22px 20px 18px;box-shadow:0 10px 40px rgba(0,0,0,.3);text-align:center;font-size:15px;color:#333;line-height:1.6;";
+  box.innerHTML='<div style="font-size:17px;font-weight:bold;margin-bottom:10px;color:#c0392b;">\u8bf7\u786e\u8ba4</div><div style="margin-bottom:20px;">'+msg+'</div>';
+  var wrap=document.createElement("div");wrap.style.cssText="display:flex;gap:12px;";
+  var btnCancel=document.createElement("button");btnCancel.textContent="\u53d6\u6d88";
+  btnCancel.style.cssText="flex:1;padding:11px 0;border:none;border-radius:9px;background:#eef0f3;color:#555;font-size:15px;cursor:pointer;";
+  var btnOk=document.createElement("button");btnOk.textContent="\u786e\u5b9a\u5220\u9664";
+  btnOk.style.cssText="flex:1;padding:11px 0;border:none;border-radius:9px;background:#c0392b;color:#fff;font-size:15px;cursor:pointer;";
+  function close(){if(mask.parentNode)mask.parentNode.removeChild(mask);document.removeEventListener("keydown",onKey);}
+  function onKey(e){if(e.key==="Escape")close();}
+  btnCancel.onclick=function(e){e.stopPropagation();close();};
+  btnOk.onclick=function(e){e.stopPropagation();close();if(typeof onYes==="function")onYes();};
+  mask.onclick=function(e){if(e.target===mask)close();};
+  wrap.appendChild(btnCancel);wrap.appendChild(btnOk);
+  box.appendChild(wrap);mask.appendChild(box);document.body.appendChild(mask);
+  document.addEventListener("keydown",onKey);
+  btnCancel.focus();
+}
+/*APPCONFIRM-END*/
+function delClient(name){appConfirm("\u786e\u5b9a\u8981\u5220\u9664\u5ba2\u6237\u300c"+name+"\u300d\u7684\u6863\u6848\u5417\uff1f\u8be5\u64cd\u4f5c\u4f1a\u6c38\u4e45\u5220\u9664\u8be5\u6863\u6848\u53ca\u5176\u5168\u90e8\u8ddf\u8e2a\u8bb0\u5f55\uff0c\u5220\u9664\u540e\u65e0\u6cd5\u6062\u590d\u3002",function(){delete DB[name];saveDB();renderClients();$("client-detail").style.display="none";});}
 function editClient(name){
   var c=DB[name]; if(!c) return; var i=c.info;
   EDITING = name;
@@ -1219,8 +1243,8 @@ function evalStatus(info,w,wc,head,prev){
 function delTrack(idx){
   var name=$("track-client").value;if(!name||!DB[name])return;
   var arr=DB[name].tracks;if(!(idx>=0&&idx<arr.length))return;
-  var t=arr[idx];if(!confirm("确定删除这条记录（"+t.date+"，"+t.weight+"kg）吗？"))return;
-  arr.splice(idx,1);saveDB();renderTrackHistory(name);
+  var t=arr[idx];
+  appConfirm("\u786e\u5b9a\u5220\u9664\u8fd9\u6761\u8bb0\u5f55\uff08"+t.date+"\uff0c"+t.weight+"kg\uff09\u5417\uff1f\u5220\u9664\u540e\u65e0\u6cd5\u6062\u590d\u3002",function(){arr.splice(idx,1);saveDB();renderTrackHistory(name);});
 }
 function renderTrackHistory(name){
   var box=$("track-history"),tracks=DB[name]?DB[name].tracks:[];
